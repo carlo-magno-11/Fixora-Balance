@@ -134,8 +134,12 @@ export default function HomeScreen() {
 
   useEffect(() => {
     if (!storageReady || !session) return;
-    saveFocusSession(session).catch(() => setStorageError(true));
-  }, [session, storageReady]);
+    saveFocusSession(session)
+      .then(() => {
+        if (session.status === "completed") void refreshHomeSummary();
+      })
+      .catch(() => setStorageError(true));
+  }, [session, storageReady, refreshHomeSummary]);
 
   useEffect(() => {
     if (!session || session.status !== "running") return;
@@ -146,17 +150,14 @@ export default function HomeScreen() {
 
       if (remaining === 0) {
         const result = completeFocusSession(session, Date.now());
-        if (result.ok) {
-          setSession(result.value);
-          void refreshHomeSummary();
-        }
+        if (result.ok) setSession(result.value);
       }
     };
 
     update();
     const interval = setInterval(update, 500);
     return () => clearInterval(interval);
-  }, [session, refreshHomeSummary]);
+  }, [session]);
 
   const isRunning = session?.status === "running";
   const isPaused = session?.status === "paused";
