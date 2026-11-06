@@ -10,6 +10,9 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 ## Documento rector
 - [Plan maestro del producto](docs/PLAN-MAESTRO.md)
 - [Modelo comercial, paquetes, pruebas y pagos](docs/MONETIZACION-Y-LICENCIAS.md)
+- [Propuesta comercial y precios piloto](docs/PROPUESTA-COMERCIAL-Y-PRECIOS.md)
+- [Seguridad del repositorio público](docs/SEGURIDAD-REPOSITORIO-PUBLICO.md)
+- [Estado y bitácora del proyecto](docs/ESTADO-Y-BITACORA.md)
 - [Registro de decisiones](docs/REGISTRO-DE-DECISIONES.md)
 
 ## Principios
@@ -22,9 +25,9 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 7. Separar decisiones aprobadas, hipótesis y asuntos pendientes de validación.
 
 ## Estado actual
-- Repositorio: carlo-magno-11/Fixora-Balance
+- Repositorio: carlo-magno-11/Fixora-Balance (público; decisión documentada y sujeta a revisión de seguridad/IP).
 - Rama principal confirmada: main
-- Fase: definición de producto, arquitectura y modelo comercial.
+- Fase: definición de producto, arquitectura, precios piloto y modelo comercial.
 - No se ha iniciado la implementación de la aplicación.
 - No se han creado productos de pago, cuentas de proveedores, suscripciones ni migraciones de base de datos.
 
