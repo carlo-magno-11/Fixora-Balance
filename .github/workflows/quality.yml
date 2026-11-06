@@ -66,7 +66,7 @@ jobs:
           PY
 
       - name: Simulate hosted platform RLS event trigger
-        run: supabase db query --file supabase/tests/fixtures/hosted_rls_event_trigger.sql
+        run: supabase db query --file supabase/fixtures/hosted_rls_event_trigger.sql
 
       - name: Apply project migrations to the clean local database
         run: supabase migration up
