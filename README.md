@@ -5,7 +5,9 @@
 
 Fixora Balance busca ayudar a las personas a recuperar atención, construir hábitos digitales saludables, proteger su privacidad y acompañar a las familias con controles transparentes.
 
-> Estado: planificación y validación de producto. La documentación no implica que las funciones, integraciones, compras o permisos nativos estén implementados.
+<badge color="warning">Prototipo técnico inicial</badge>
+
+La primera experiencia de enfoque ya está escrita y pasa TypeScript, pruebas de dominio y exportación JavaScript para Android/iOS en GitHub Actions. No está lista para usuarios: faltan pruebas locales de migraciones, dispositivos físicos, autenticación, sincronización, hábitos, recompensas, notificaciones y compras.
 
 ## Documento rector
 - [Plan maestro del producto](docs/PLAN-MAESTRO.md)
@@ -25,7 +27,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 
 ## Implementación actual
 
-Consulta [Implementación etapa 1](docs/IMPLEMENTACION-ETAPA-1.md) para conocer los archivos creados, el comportamiento ya escrito y las pruebas que faltan. No considerar el scaffold validado hasta obtener instalación reproducible, CI verde y pruebas físicas.
+Consulta [Implementación etapa 1](docs/IMPLEMENTACION-ETAPA-1.md) para conocer los archivos creados, el comportamiento ya escrito y las pruebas que faltan. El lockfile ya está versionado. TypeScript, Vitest y bundles Android/iOS pasaron en CI. La validación local de Supabase/pgTAP sigue en ajuste; no hay builds nativos ni pruebas físicas.
 
 ## Principios
 1. Bienestar antes que tiempo de pantalla: distinguir uso útil de uso problemático.
@@ -42,7 +44,9 @@ Consulta [Implementación etapa 1](docs/IMPLEMENTACION-ETAPA-1.md) para conocer 
 - Fase: primera vertical slice de implementación; validación técnica todavía pendiente.
 - Existe scaffold Expo SDK 58 / React Native 0.88 / React 19.3 / TypeScript 6 / Expo Router 58.
 - La pantalla inicial contiene un temporizador de enfoque funcional con pausa/reanudación y persistencia local SQLite.
-- Hay pruebas de dominio y workflow inicial de CI, todavía sin ejecución verificada.
+- `pnpm-lock.yaml` está versionado y CI usa instalación frozen.
+- TypeScript, Vitest y exportación JS Android/iOS han pasado en GitHub Actions.
+- El workflow de Supabase local/pgTAP se está ajustando para simular un event trigger que existe en hosted, pero no en el contenedor local por defecto.
 - Proyecto Supabase dedicado: `emacfszktufyqtfgzunl`, organización Free `Fixora-Balance`, región `us-east-1`, PostgreSQL 17.11, estado `ACTIVE_HEALTHY`.
 - Primera migración remota aplicada y alineada con el historial: `20261106221629_harden_rls_event_trigger_permissions`.
 - No hay todavía tablas de negocio, perfiles ni usuarios; Auth, sincronización y compras no están implementados.
