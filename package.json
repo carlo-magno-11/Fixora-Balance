@@ -31,7 +31,8 @@
   "devDependencies": {
     "@types/react": "~19.3.0",
     "typescript": "~6.0.3",
-    "vitest": "^4.0.5"
+    "vitest": "^4.0.5",
+    "@react-native/metro-config": "0.88.1"
   },
   "pnpm": {
     "overrides": {
