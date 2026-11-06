@@ -411,4 +411,10 @@ Se añade [IMPLEMENTACION-ETAPA-3-OBJETIVOS.md](IMPLEMENTACION-ETAPA-3-OBJETIVOS
 La primera versión permite medir sesiones completadas o check-ins de hábitos. El progreso se calcula desde registros SQLite y no se puede editar manualmente. Se añadió dominio, pruebas, migración local 003, repositorio, pantalla `/goals` y accesos desde Inicio y Hábitos. Las sesiones completadas se conservan en SQLite al iniciar otra sesión; las sesiones terminadas antes de tiempo se eliminan. La base local pasa a versión 3 sin borrar sesiones ni hábitos.
 
 No se implementan XP, rachas, insignias ni sincronización remota. El run `42308655770` pasó los dos trabajos de CI. La siguiente puerta es Expo Doctor, development builds y prueba física de actualización SQLite v1→v3; después se diseña historial/eventos antes de gamificación.
-\n\n## 20. Verificación CI de etapas 2 y 3 — 6 de noviembre de 2026\n\nEl run de GitHub Actions `42308655770` finalizó con éxito en sus dos trabajos: `TypeScript and domain tests` y `Local Supabase migrations and pgTAP`. El primero completó TypeScript, Vitest y bundles JavaScript Android/iOS; el segundo inició Supabase local, aplicó migraciones a una base limpia y ejecutó pgTAP. Esto valida CI, no builds nativos ni funcionamiento en dispositivos.\n\n**Siguiente puerta técnica:** Expo Doctor, development builds, migración SQLite v1→v3 en Expo, pruebas de persistencia/background/reinicio en Android e iOS. Luego historial/eventos verificables y diseño de XP opcional; sincronización remota seguirá bloqueada hasta completar modelo, RLS y pgTAP revisados.\n
+
+
+## 20. Verificación CI de etapas 2 y 3 — 6 de noviembre de 2026
+
+El run de GitHub Actions `42308655770` finalizó con éxito en sus dos trabajos: `TypeScript and domain tests` y `Local Supabase migrations and pgTAP`. El primero completó TypeScript, Vitest y bundles JavaScript Android/iOS; el segundo inició Supabase local, aplicó migraciones a una base limpia y ejecutó pgTAP. Esto valida CI, no builds nativos ni funcionamiento en dispositivos.
+
+**Siguiente puerta técnica:** Expo Doctor, development builds, migración SQLite v1→v3 en Expo, pruebas de persistencia/background/reinicio en Android e iOS. Luego historial/eventos verificables y diseño de XP opcional; sincronización remota seguirá bloqueada hasta completar modelo, RLS y pgTAP revisados.
