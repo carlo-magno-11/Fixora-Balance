@@ -2,7 +2,7 @@
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** `main`  
-**Estado:** implementación local añadida; CI posterior y prueba física pendientes.
+**Estado:** implementación local añadida y CI GitHub Actions aprobado; prueba física y migración SQLite v1→v3 pendientes.
 
 ## 1. Definición de producto
 
@@ -49,12 +49,12 @@ La primera versión ofrece dos métricas verificables: sesiones de enfoque compl
 
 - Pruebas de dominio añadidas a Vitest.
 - Prueba aislada de consulta agregada en SQLite 3.46.1: métricas de sesiones y hábitos devuelven los conteos esperados y conservan los registros fuente. Esta prueba no sustituye CI ni ejecución de la migración dentro de Expo SQLite.
-- CI debe confirmar TypeScript, Vitest, bundles Android/iOS y pgTAP en el commit final.
+- CI GitHub Actions run `42308655770`: `TypeScript and domain tests` y `Local Supabase migrations and pgTAP` finalizaron `success`. Se completaron TypeScript, Vitest, bundles JavaScript Android/iOS, reconstrucción Supabase local y pgTAP. No equivale a build nativo ni a prueba física.
 - Pendiente prueba física de migración desde versión 2 y desde instalación limpia.
 
 ## 6. Pendientes siguientes
 
-1. Confirmar CI del commit final.
+1. Ejecutar Expo Doctor y preparar development builds; después probar migraciones SQLite v1→v3 en Android/iOS físicos.
 2. Probar migraciones SQLite v1→v3 conservando sesiones/hábitos.
 3. Probar creación de objetivos y agregados en Android/iOS.
 4. Diseñar edición/archivo de objetivos y relación opcional objetivo-hábito solo si pruebas de usuario lo justifican.
