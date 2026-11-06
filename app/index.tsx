@@ -305,6 +305,12 @@ export default function HomeScreen() {
           </Pressable>
         </Link>
 
+        <Link href="/goals" asChild>
+          <Pressable accessibilityRole="button" style={styles.goalsLink}>
+            <Text style={styles.goalsLinkText}>Definir mis objetivos semanales  →</Text>
+          </Pressable>
+        </Link>
+
         {storageError && (
           <Text accessibilityRole="alert" style={styles.storageWarning}>
             No pudimos guardar algunos cambios. Comprueba el almacenamiento del dispositivo.
@@ -381,6 +387,8 @@ const styles = StyleSheet.create({
   emptyText: { color: COLORS.muted, fontSize: 11, lineHeight: 17, marginTop: 5 },
   habitsLink: { minHeight: 48, borderRadius: 15, borderWidth: 1, borderColor: COLORS.accentBorder, backgroundColor: COLORS.accentSoft, alignItems: "center", justifyContent: "center", marginTop: 16 },
   habitsLinkText: { color: COLORS.accent, fontSize: 13, fontWeight: "800" },
+  goalsLink: { minHeight: 48, borderRadius: 15, borderWidth: 1, borderColor: COLORS.line, backgroundColor: COLORS.surface, alignItems: "center", justifyContent: "center", marginTop: 8 },
+  goalsLinkText: { color: COLORS.green, fontSize: 13, fontWeight: "800" },
   storageWarning: { color: theme.colors.danger, fontSize: 11, lineHeight: 16, marginTop: 8 },
   valuesRow: { flexDirection: "row", gap: 11, marginTop: 13 },
   valueCard: { flex: 1, backgroundColor: COLORS.surface, borderRadius: 18, padding: 15, borderWidth: 1, borderColor: COLORS.line },
