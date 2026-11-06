@@ -408,6 +408,6 @@ Antes de programar XP/insignias deben definirse eventos fuente verificables, ide
 
 Se añade [IMPLEMENTACION-ETAPA-3-OBJETIVOS.md](IMPLEMENTACION-ETAPA-3-OBJETIVOS.md). Un objetivo se define como resultado semanal medible, distinto de un hábito (acción repetible) y de una sesión de enfoque (bloque de concentración).
 
-La primera versión permite medir sesiones completadas o check-ins de hábitos. El progreso se calcula desde registros SQLite y no se puede editar manualmente. Se añadió dominio, pruebas, migración local 003, repositorio, pantalla `/goals` y accesos desde Inicio y Hábitos. La base local pasa a versión 3 sin borrar sesiones ni hábitos.
+La primera versión permite medir sesiones completadas o check-ins de hábitos. El progreso se calcula desde registros SQLite y no se puede editar manualmente. Se añadió dominio, pruebas, migración local 003, repositorio, pantalla `/goals` y accesos desde Inicio y Hábitos. Las sesiones completadas se conservan en SQLite al iniciar otra sesión; las sesiones terminadas antes de tiempo se eliminan. La base local pasa a versión 3 sin borrar sesiones ni hábitos.
 
 No se implementan XP, rachas, insignias ni sincronización remota. La siguiente puerta es CI y prueba física de actualización SQLite v1→v3; después se diseña historial/eventos antes de gamificación.
