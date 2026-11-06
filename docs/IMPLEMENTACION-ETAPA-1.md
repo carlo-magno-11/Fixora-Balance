@@ -2,11 +2,11 @@
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** main  
-**Estado:** CI de la etapa 1 aprobado en GitHub Actions (TypeScript, Vitest, bundles Android/iOS, migraciones locales y pgTAP); persistencia SQLite aún requiere prueba física.
+**Estado:** CI integral aprobado en run 42312021727 (Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS, Supabase local y pgTAP); instalación congelada se vuelve a validar tras incorporar el lockfile; persistencia SQLite requiere prueba física.
 
 ## 1. Alcance entregado en el repositorio
 
-Se inició la aplicación nativa con Expo SDK 58, React Native 0.88, React 19.3, TypeScript 6 y Expo Router 58. La selección se basa en la versión estable de Expo disponible al iniciar esta etapa y en la matriz oficial de paquetes del SDK.
+Se inició la aplicación nativa con Expo SDK 58, React Native 0.88.1, React 19.3, TypeScript 6 y Expo Router 58. La selección se basa en la versión estable de Expo disponible al iniciar esta etapa y en la matriz oficial de paquetes del SDK.
 
 Archivos principales:
 - `package.json`: scripts de ejecución, TypeScript y pruebas.
@@ -36,7 +36,7 @@ Archivos principales:
 
 ## 3. Límite explícito
 
-Esta entrega no significa que la app esté lista para usuarios o tiendas. TypeScript, Vitest y exportación JavaScript Android/iOS sí se ejecutaron en GitHub Actions y pasaron. No se ha ejecutado Expo Doctor, build nativo ni pruebas físicas. La conexión a Supabase se ha auditado, pero Auth, perfiles, sincronización y permisos de usuario aún no están implementados.
+Esta entrega no significa que la app esté lista para usuarios o tiendas. TypeScript, Vitest y exportación JavaScript Android/iOS sí se ejecutaron en GitHub Actions y pasaron. Expo Doctor se ejecutó y pasó 20/20 en CI run 42312021727. No se han ejecutado builds nativos ni pruebas físicas. La conexión a Supabase se ha auditado, pero Auth, perfiles, sincronización y permisos de usuario aún no están implementados.
 
 El lockfile ya está generado y versionado. El workflow instala con `pnpm install --frozen-lockfile`. La reconstrucción local de Supabase y pgTAP pasó en GitHub Actions para las etapas 1, 2 y 3; el run `42308655770` confirmó éxito de TypeScript, Vitest, bundles JS Android/iOS y pgTAP. El workflow ahora incluye Expo Doctor `1.21.6`; su resultado posterior al cambio debe verificarse por separado.
 
@@ -54,7 +54,7 @@ El lockfile ya está generado y versionado. El workflow instala con `pnpm instal
 
 ## 5. Base tecnológica investigada
 
-- Expo SDK 58 estable, React Native 0.88 y React 19.3.
+- Expo SDK 58 estable, React Native 0.88.1 y React 19.3.
 - Expo Router 58, SQLite 58 y TypeScript 6.
 - Supabase/PostgreSQL 17 para cuenta y sincronización opcional.
 - SQLite local para sesiones y trabajo offline.
@@ -66,3 +66,11 @@ Referencias:
 - https://docs.expo.dev/versions/v58.0.0/sdk/router/
 - https://docs.expo.dev/versions/latest/sdk/sqlite/
 - https://supabase.com/docs/guides/local-development/cli-workflows
+
+
+## Alineación Expo SDK 58 — 6 de noviembre de 2026
+
+- app.json ya no declara newArchEnabled ni android.edgeToEdgeEnabled; Expo Doctor rechazaba ambas propiedades en el esquema actual.
+- React Native se alineó a 0.88.1; react-native-safe-area-context a ~5.11.1; @react-native/metro-config a 0.88.1 como devDependency/override para resolver el peer dependency.
+- Expo Doctor 20/20 pasó sin issues y pnpm install no reportó peer dependency warnings en run 42312021727.
+- El lockfile actualizado se incorpora al commit actual. El siguiente CI ejecutará pnpm install --frozen-lockfile para validar la reproducción exacta.

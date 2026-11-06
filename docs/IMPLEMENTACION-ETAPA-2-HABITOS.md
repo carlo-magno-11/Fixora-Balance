@@ -1,8 +1,10 @@
-# Fixora Balance — Implementación etapa 2: hábitos locales
+# Fixora Balance — Subetapa técnica 2.2: hábitos locales
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** `main`  
-**Estado:** CI de GitHub Actions aprobado para el commit de cierre de la etapa; prueba en dispositivo y Expo Doctor pendientes.
+**Estado:** CI de hábitos aprobado en 42308655770; Expo Doctor 20/20 y CI integral aprobados en 42312021727; prueba física y migración SQLite en Expo pendientes.
+
+**Correspondencia de roadmap:** este corte técnico pertenece a la Etapa 2 estratégica (núcleo de bienestar), no a la Etapa 3 estratégica (progreso consciente).
 
 ## 1. Objetivo
 
@@ -46,7 +48,7 @@ Entregar la primera experiencia real de hábitos dentro del MVP, sin adelantar s
 - CI GitHub Actions run `42308655770`: los trabajos `TypeScript and domain tests` y `Local Supabase migrations and pgTAP` finalizaron `success`; el primero completó TypeScript, Vitest y bundles JavaScript Android/iOS. Esta validación no equivale a build nativo ni prueba física.
 - El workflow actual reconstruye Supabase y ejecuta pgTAP; no prueba SQLite nativo.
 - La migración SQLite y la navegación deben probarse en development build/dispositivo real antes de declarar la persistencia física verificada.
-- No se declara Expo Doctor, build nativo, E2E ni validación de App Store/Play Store.
+- Expo Doctor 20/20 pasó en run 42312021727; no se declaran build nativo, E2E ni validación de App Store/Play Store.
 
 ## 6. Pendientes siguientes
 

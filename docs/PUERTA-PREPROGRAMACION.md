@@ -2,7 +2,7 @@
 
 **Versión:** 1.0  
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** primera vertical slice escrita; no autoriza lanzamiento ni ampliación sin validar instalación, CI, pruebas y dispositivo.
+**Estado:** prototipo local de enfoque/hábitos/objetivos implementado; CI integral aprobado en `42312021727`; lockfile congelado, builds nativos y pruebas físicas aún deben confirmarse. No autoriza beta ni lanzamiento.
 
 Este documento es la lista de control final para convertir el plan en ejecución. Distingue decisiones ya aceptadas, recomendaciones de trabajo y bloqueos reales.
 
@@ -43,22 +43,21 @@ Los límites de Family, el entitlement Apple Family Controls, VPN/DNS, protecci�
 6. Un proveedor de compra por canal y una sola integración web al inicio.
 7. No lanzar Protección/Family hasta superar matriz nativa, revisión legal y pruebas físicas.
 
-## 4. Auditoría preliminar del repositorio
+## 4. Auditoría actualizada del repositorio
 
-Observado mediante GitHub al 6 de noviembre de 2026:
-- Repositorio público y rama por defecto main.
-- Solo se confirmó main como rama listada.
-- Búsqueda de código para package.json, Expo/React Native, migraciones Supabase y workflows no devolvió archivos.
-- Las rutas comunes .github/workflows/ci.yml, ci.yaml, test.yml, security.yml, .github/dependabot.yml, LICENSE y CODE_OF_CONDUCT.md devolvieron 404 en la inspección.
-- Después de esa inspección se añadieron SECURITY.md y .gitignore.
-- No se encontró evidencia de workflow CI en las búsquedas efectuadas; aún no existe evidencia de CI ejecutándose.
-- No se pudo inspeccionar desde las acciones disponibles la configuración privada de GitHub Settings, secrets, reglas de protección, Actions permissions ni el historial completo.
+Observado en GitHub al 6 de noviembre de 2026:
+- Repositorio público; la única rama listada es main.
+- Existe .github/workflows/quality.yml con permissions: contents: read; las acciones directas quedan fijadas por SHA completo y ambos checkouts usan persist-credentials: false.
+- CI run 42312021727 pasó Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP. Ese run regeneró el lockfile sin modo frozen; el commit actual lo versiona y el siguiente CI valida instalación congelada.
+- No se ha auditado la configuración privada de GitHub Settings, Secret Scanning, Push Protection, Dependabot, CodeQL, reglas de protección ni permisos de colaboradores. No declarar estos controles activos sin verificación.
+- No hay licencia LICENSE confirmada; la decisión de propiedad intelectual sigue abierta.
+- No se han detectado secretos en los archivos revisados en esta sesión, pero esto no sustituye un escaneo histórico completo ni Secret Scanning.
+- No se modificó Supabase remoto durante esta revisión.
 
 Por lo tanto:
-- No declarar activos Secret Scanning, Push Protection, Dependabot, CodeQL, reglas de main ni permisos mínimos de Actions.
-- Los runners públicos gratuitos no generan ahorro mientras no exista workflow que ejecute CI.
-- No subir secretos ni datos reales.
-- Antes de fuente ejecutable, decidir licencia/visibilidad, agregar workflows seguros y verificar Settings directamente en GitHub. SECURITY.md y .gitignore ya están añadidos.
+- Mantener datos sintéticos y no incluir secretos.
+- La política de Actions se aplica al workflow; Settings de GitHub siguen como verificación manual pendiente.
+- Resolver licencia/visibilidad antes de beta o publicar código que se quiera mantener propietario.
 
 ## 5. Orden exacto de preparación para programar
 
@@ -71,7 +70,7 @@ Por lo tanto:
 - [ ] Confirmar mercado e idioma iniciales.
 
 ### P1 — Preparación técnica
-- [ ] Crear estructura del monorepo solo después de revisar convenciones y stack final.
+- [x] Crear repositorio y estructura inicial de aplicación; el monorepo completo sigue siendo innecesario hasta que existan más paquetes.
 - [ ] Definir contratos de dominio y adaptadores.
 - [x] Crear proyecto Supabase remoto exclusivo de desarrollo en organización Free; ref `emacfszktufyqtfgzunl`, región `us-east-1`, estado `ACTIVE_HEALTHY`.
 - [x] Definir estrategia Supabase + PostgreSQL remoto + SQLite local y política migration-first en ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md.
@@ -80,16 +79,17 @@ Por lo tanto:
 - [x] Añadir persistencia local SQLite versionada para sesiones de enfoque.
 - [x] Añadir workflow inicial de calidad.
 - [x] Generar lockfile y ejecutar TypeScript, Vitest y bundles Android/iOS en CI.
-- [ ] Completar CI local de Supabase/pgTAP.
-- [ ] Ejecutar Expo Doctor, builds nativos y validar en dispositivos físicos.
-- [ ] Preparar Supabase CLI/Docker local y reconstrucción de esquema.
-- [ ] Configurar CI con permisos mínimos, SHA completo y sin secretos en PR externos.
+- [x] Completar CI local de Supabase/pgTAP (runs 42308655770 y 42312021727).
+- [x] Ejecutar Expo Doctor (20/20 en run 42312021727).
+- [ ] Preparar builds nativos y validar en dispositivos físicos.
+- [x] Preparar Supabase CLI/Docker local y reconstrucción de esquema en CI.
+- [x] Configurar CI con permisos mínimos, SHA completo y checkouts sin credenciales persistentes; no se pasan secretos.
 - [ ] Definir estrategia de pruebas unitarias, integración, E2E y dispositivos físicos.
 - [ ] Revisar threat model y esquema de datos con pruebas RLS.
 
 ### P2 — Inicio controlado de implementación
-- [ ] Núcleo de dominio, sesiones, objetivos y hábitos.
-- [ ] Persistencia local y sincronización mínima.
+- [x] Núcleo local de dominio, sesiones, objetivos y hábitos.
+- [x] Persistencia local SQLite versionada (v1→v3); [ ] sincronización mínima.
 - [ ] Autenticación y perfiles.
 - [ ] UI Free y Plus sin checkout real.
 - [ ] Entitlements de prueba en backend, sin confiar en flags del cliente.
@@ -98,9 +98,9 @@ Por lo tanto:
 
 ## 6. Criterio para declarar “listos para programar”
 
-La fase de planificación permitió iniciar una primera vertical slice, pero no se considera cerrada para lanzamiento. El proyecto Supabase remoto está identificado y tiene una primera migración de hardening; el stack local aún debe generar lockfile, reconstruir esquema y ejecutar pruebas. La licencia/visibilidad, versiones mínimas, canal comercial y política de sincronización siguen abiertos. Todas las migraciones deberán estar versionadas y probadas localmente.
+La puerta de planificación autorizó el prototipo local, no una beta ni un lanzamiento. El núcleo de enfoque/hábitos/objetivos está implementado; run 42312021727 pasó Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP. El lockfile actualizado se incorpora en este commit; falta la confirmación final con pnpm install --frozen-lockfile.
 
-La primera vertical slice ya está escrita y pasa TypeScript, pruebas de dominio y bundles Android/iOS. La siguiente puerta es completar pgTAP local, validar SQLite en dispositivos y después ampliar a hábitos/recompensas. No se habilitarán bloqueos nativos ni compras antes de sus pruebas específicas.
+La siguiente puerta es validar builds nativos y SQLite v1→v3 en dispositivos físicos. La licencia/visibilidad, versiones mínimas, canal comercial, semántica de dispositivos y retención siguen abiertos. Auth/sincronización requieren modelo, RLS y pgTAP revisados. No se habilitarán bloqueos nativos ni compras antes de sus pruebas específicas.
 
 ## 7. Fuentes de seguridad base
 

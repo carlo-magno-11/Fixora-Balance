@@ -4,7 +4,7 @@
 **Fecha:** 6 de noviembre de 2026  
 **Marca matriz:** Fixora Dynamics  
 **Repositorio:** carlo-magno-11/Fixora-Balance  
-**Estado:** implementación inicial del núcleo de enfoque en curso; la primera vertical slice está escrita pero aún no validada en ejecución.
+**Estado:** núcleo local de enfoque, hábitos y objetivos implementado; CI de TypeScript, Vitest, bundles Android/iOS, Expo Doctor y Supabase/pgTAP aprobado en run `42312021727`; verificación final con lockfile congelado, builds nativos y pruebas físicas pendientes.
 
 ---
 
@@ -282,6 +282,8 @@ Entrevistas y prototipo; pruebas de usabilidad; viabilidad de APIs nativas en di
 **Salida:** demostrar permisos, flujo de compra, restauración y derechos antes de construir el producto completo.
 
 ### Etapa 2 — Núcleo de bienestar
+
+**Mapa técnico:** subetapa 2.1 = enfoque; 2.2 = hábitos locales; 2.3 = objetivos semanales. Los archivos históricos IMPLEMENTACION-ETAPA-2/3 describen estos cortes técnicos, no las etapas estratégicas del roadmap. La Etapa 3 estratégica —Progreso consciente— sigue pendiente: eventos fuente, historial, XP opcional, niveles e insignias no están implementados.
 Onboarding, objetivos, sesiones, pausas, horarios y estadísticas básicas; persistencia local y sincronización opcional; notificaciones controlables.
 
 ### Etapa 3 — Progreso consciente
@@ -356,18 +358,18 @@ El alcance del primer MVP y sus criterios están en [ALCANCE-MVP-Y-CRITERIOS-ACE
 La puerta de preparación y bloqueos previos al código se mantiene en [PUERTA-PREPROGRAMACION.md](PUERTA-PREPROGRAMACION.md). La bitácora viva se mantiene en [ESTADO-Y-BITACORA.md](ESTADO-Y-BITACORA.md). Toda redirección sustancial debe actualizar este plan y el registro de decisiones antes de implementarse.
 
 
-## 15. Ejecución inicial — 6 de noviembre de 2026
+## 16. Ejecución inicial — 6 de noviembre de 2026
 
 Se inició la primera vertical slice en `main`: scaffold Expo SDK 58/React Native 0.88, layout Expo Router, temporizador de enfoque con estados explícitos, dominio TypeScript puro, persistencia local SQLite versionada y pruebas de dominio. Se agregó workflow inicial de TypeScript y pruebas. Los detalles y límites están en [IMPLEMENTACION-ETAPA-1.md](IMPLEMENTACION-ETAPA-1.md).
 
 El proyecto Supabase dedicado ya existe en la organización Free `Fixora-Balance`, ref `emacfszktufyqtfgzunl`, región `us-east-1`, PostgreSQL 17.11. El esquema de negocio público está vacío. Se aplicó una migración de hardening de permisos al event trigger automático de RLS; el Security Advisor quedó sin hallazgos después de verificar permisos y registro del event trigger.
 
-**No está terminada la etapa:** faltan instalación/lockfile, ejecución de typecheck y pruebas, Expo Doctor, builds y validación en dispositivos físicos. Auth, perfiles, sincronización, hábitos, recompensas y compras siguen pendientes. Family/Protection y bloqueo nativo siguen fuera del MVP hasta validar APIs, permisos y requisitos legales.
+**Estado actualizado:** enfoque, hábitos y objetivos semanales están implementados localmente. CI de TypeScript, Vitest, bundles JavaScript Android/iOS, Expo Doctor 20/20 y Supabase local/pgTAP pasó en run `42312021727`. El lockfile generado por CI se incorpora en este commit; falta confirmar el siguiente CI con pnpm install frozen. No hay builds nativos ni pruebas físicas. Auth, perfiles, sincronización, recompensas y compras siguen pendientes. Family/Protection y bloqueo nativo siguen fuera del MVP hasta validar APIs, permisos y requisitos legales.
 
 
 ---
 
-## 16. Dirección visual y experiencia de usuario — 6 de noviembre de 2026
+## 17. Dirección visual y experiencia de usuario — 6 de noviembre de 2026
 
 Se incorpora [SISTEMA-DISENO-UX.md](SISTEMA-DISENO-UX.md) como guía de diseño del producto. La dirección propuesta es **calma activa**: superficies cálidas, jerarquía editorial, acciones claras, progreso no punitivo y una identidad propia.
 
@@ -380,7 +382,7 @@ La investigación de componentes open source recomienda adoptar patrones y arqui
 
 ---
 
-## 17. Implementación etapa 2 — hábitos locales — 6 de noviembre de 2026
+## 18. Subetapa técnica 2.2 — hábitos locales — 6 de noviembre de 2026
 
 Se añadió la primera vertical slice de hábitos locales, documentada en [IMPLEMENTACION-ETAPA-2-HABITOS.md](IMPLEMENTACION-ETAPA-2-HABITOS.md). El usuario puede crear hábitos diarios o semanales, definir metas de 1–7 cumplimientos semanales, marcar/deshacer el cumplimiento de hoy y consultar el conteo de la semana. Los datos permanecen en SQLite y no se sincronizan todavía.
 
@@ -393,7 +395,7 @@ Se corrigió además el reinicio de una sesión de enfoque para eliminar su fila
 
 ---
 
-## 18. Investigación de hábitos y progreso consciente — 6 de noviembre de 2026
+## 19. Investigación de hábitos y progreso consciente — 6 de noviembre de 2026
 
 Se incorpora [INVESTIGACION-HABITOS-PROGRESO.md](INVESTIGACION-HABITOS-PROGRESO.md), basada en inspección de repositorios GitHub de referencia. Loop Habit Tracker (10,395 estrellas observadas, GPL-3.0) aporta conceptos de frecuencia flexible y progreso no destructivo; Habitica (14,294 estrellas observadas, licencia reportada NOASSERTION) aporta separación conceptual entre hábitos, tareas y recompensas. No se copiará código ni assets de esos repositorios.
 
@@ -404,16 +406,16 @@ Antes de programar XP/insignias deben definirse eventos fuente verificables, ide
 
 ---
 
-## 19. Implementación etapa 3 — objetivos semanales — 6 de noviembre de 2026
+## 20. Subetapa técnica 2.3 — objetivos semanales — 6 de noviembre de 2026
 
 Se añade [IMPLEMENTACION-ETAPA-3-OBJETIVOS.md](IMPLEMENTACION-ETAPA-3-OBJETIVOS.md). Un objetivo se define como resultado semanal medible, distinto de un hábito (acción repetible) y de una sesión de enfoque (bloque de concentración).
 
 La primera versión permite medir sesiones completadas o check-ins de hábitos. El progreso se calcula desde registros SQLite y no se puede editar manualmente. Se añadió dominio, pruebas, migración local 003, repositorio, pantalla `/goals` y accesos desde Inicio y Hábitos. Las sesiones completadas se conservan en SQLite al iniciar otra sesión; las sesiones terminadas antes de tiempo se eliminan. La base local pasa a versión 3 sin borrar sesiones ni hábitos.
 
-No se implementan XP, rachas, insignias ni sincronización remota. El run `42308655770` pasó los dos trabajos de CI. La siguiente puerta es Expo Doctor, development builds y prueba física de actualización SQLite v1→v3; después se diseña historial/eventos antes de gamificación.
+No se implementan XP, rachas, insignias ni sincronización remota. El run `42308655770` pasó los dos trabajos de CI. La siguiente puerta es confirmar CI con lockfile congelado, preparar development builds y probar actualización SQLite v1→v3 en dispositivos; después se diseña historial/eventos antes de gamificación.
 
 
-## 20. Verificación CI de etapas 2 y 3 — 6 de noviembre de 2026
+## 21. Verificación CI de subetapas técnicas 2.2 y 2.3 — 6 de noviembre de 2026
 
 El run de GitHub Actions `42308655770` finalizó con éxito en sus dos trabajos: `TypeScript and domain tests` y `Local Supabase migrations and pgTAP`. El primero completó TypeScript, Vitest y bundles JavaScript Android/iOS; el segundo inició Supabase local, aplicó migraciones a una base limpia y ejecutó pgTAP. Esto valida CI, no builds nativos ni funcionamiento en dispositivos.
 

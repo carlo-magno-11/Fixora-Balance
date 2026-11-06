@@ -1,8 +1,10 @@
-# Fixora Balance — Implementación etapa 3: objetivos semanales
+# Fixora Balance — Subetapa técnica 2.3: objetivos semanales
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** `main`  
-**Estado:** implementación local añadida y CI GitHub Actions aprobado; prueba física y migración SQLite v1→v3 pendientes.
+**Estado:** objetivos locales y CI aprobados en 42308655770; Expo Doctor 20/20 y CI integral aprobados en 42312021727; prueba física y migración SQLite v1→v3 pendientes.
+
+**Correspondencia de roadmap:** este corte técnico pertenece a la Etapa 2 estratégica. La Etapa 3 estratégica (progreso consciente, historial y recompensas) sigue pendiente.
 
 ## 1. Definición de producto
 
@@ -54,7 +56,7 @@ La primera versión ofrece dos métricas verificables: sesiones de enfoque compl
 
 ## 6. Pendientes siguientes
 
-1. Ejecutar Expo Doctor y preparar development builds; después probar migraciones SQLite v1→v3 en Android/iOS físicos.
+1. Expo Doctor 20/20 ya pasó en 42312021727; preparar development builds y probar migraciones SQLite v1→v3 en Android/iOS físicos.
 2. Probar migraciones SQLite v1→v3 conservando sesiones/hábitos.
 3. Probar creación de objetivos y agregados en Android/iOS.
 4. Diseñar edición/archivo de objetivos y relación opcional objetivo-hábito solo si pruebas de usuario lo justifican.

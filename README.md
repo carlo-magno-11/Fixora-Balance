@@ -7,7 +7,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 
 **Estado: prototipo técnico inicial.**
 
-La experiencia inicial de enfoque, la pantalla de hábitos y los objetivos semanales están implementados localmente. El CI de GitHub Actions run `42308655770` pasó: TypeScript, Vitest, bundles JavaScript Android/iOS, reconstrucción Supabase local y pgTAP. No está lista para usuarios: falta confirmar el resultado de Expo Doctor (ya incorporado al CI), además de builds nativos, pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
+La experiencia local de enfoque, hábitos y objetivos está implementada. El run `42312021727` pasó Expo Doctor (20/20), TypeScript, Vitest, bundles JavaScript Android/iOS y Supabase local/pgTAP sin avisos de peer dependencies. El lockfile actualizado se incorpora en este commit y el workflow vuelve a instalación congelada; falta confirmar esa ejecución final. No está lista para usuarios: faltan builds nativos, pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
 
 ## Documento rector
 - [Plan maestro del producto](docs/PLAN-MAESTRO.md)
@@ -18,6 +18,7 @@ La experiencia inicial de enfoque, la pantalla de hábitos y los objetivos seman
 - [Seguridad del repositorio público](docs/SEGURIDAD-REPOSITORIO-PUBLICO.md)
 - [Política de reporte de vulnerabilidades](SECURITY.md)
 - [Estado y bitácora del proyecto](docs/ESTADO-Y-BITACORA.md)
+- [Revisión de coherencia documental](docs/REVISION-COHERENCIA-DOCUMENTAL.md)
 - [Registro de decisiones](docs/REGISTRO-DE-DECISIONES.md)
 - [Alcance MVP y criterios de aceptación](docs/ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md)
 - [Catálogo y matriz de derechos](docs/MATRIZ-CATALOGO-ENTITLEMENTS.md)
@@ -43,7 +44,7 @@ Consulta las implementaciones [etapa 1](docs/IMPLEMENTACION-ETAPA-1.md), [etapa 
 ## Estado actual
 - Repositorio: carlo-magno-11/Fixora-Balance (público; decisión documentada y sujeta a revisión de seguridad/IP).
 - Rama principal confirmada: main
-- Fase: núcleo local de enfoque, hábitos y objetivos; CI aprobado, validación física pendiente.
+- Fase: núcleo local de enfoque, hábitos y objetivos; Expo Doctor y CI de validación pasaron en run `42312021727`; verificación final con lockfile congelado pendiente.
 - Existe scaffold Expo SDK 58 / React Native 0.88 / React 19.3 / TypeScript 6 / Expo Router 58.
 - La pantalla inicial contiene un temporizador de enfoque con pausa/reanudación y persistencia SQLite.
 - La pantalla Hábitos permite crear hábitos diarios/semanales y registrar cumplimiento local.

@@ -40,7 +40,7 @@ La paleta existente ya contenía borgoña, crema, dorado y verde, pero estaba de
 
 ### Reglas de uso
 1. Verde bosque es el color de las acciones principales; borgoña identifica la marca. No competirán por el mismo rol.
-2. Dorado no se utilizará como texto pequeño sobre blanco: su contraste es insuficiente para ese uso. Reservarlo para iconos, ornamentos y superficies suaves.
+2. Dorado #C99B58 no se utilizará como texto pequeño sobre fondos claros: su contraste es insuficiente. Reservarlo para iconos, ornamentos y superficies suaves.
 3. Los estados no dependerán únicamente del color: acompañar con texto e iconografía.
 4. Mantener una proporción visual aproximada 70/20/8/2: fondos neutros, superficies, color de acción, acentos.
 5. No usar gradientes saturados, sombras fuertes, glassmorphism ni tarjetas excesivamente redondeadas en todas partes.
@@ -159,3 +159,20 @@ Repositorios consultados el 6 de noviembre de 2026. Los conteos de estrellas son
 - [gluestack-ui — Button composition](https://github.com/gluestack/gluestack-ui/blob/main/apps/website/app/ui/docs/components/button/index.mdx): composición de botón, texto e icono como piezas separadas; usarlo como referencia al extraer `PrimaryButton` y `SecondaryButton`.
 
 Esta revisión confirma que el mayor beneficio para Fixora Balance no es copiar el estilo de esos proyectos, sino reproducir sus buenas decisiones estructurales: tema central, variantes explícitas, componentes pequeños y accesibilidad documentada.
+
+
+## 11. Auditoría inicial de contraste — 6 de noviembre de 2026
+
+Se midieron los colores v0.1 con la fórmula WCAG de luminancia relativa sRGB. Los resultados sirven para detectar riesgos; todavía falta automatizar estas reglas en tests y validar cada combinación realmente usada por pantalla.
+
+| Color de texto | Fondo | Contraste | Evaluación |
+|---|---|---:|---|
+| #C99B58 dorado | #F6F3ED crema | 2.28:1 | No usar como texto |
+| #8B632D dorado oscuro candidato | #F6F3ED crema | 4.84:1 | AA para texto normal |
+| #8B632D dorado oscuro candidato | #FFFFFF blanco | 5.36:1 | AA para texto normal |
+| #716B64 secundario actual | #F0ECE5 superficie sutil | 4.47:1 | No alcanza AA por poco |
+| #6E685F secundario candidato | #F0ECE5 superficie sutil | 4.68:1 | AA para texto normal |
+| #315C4B verde primario | #F6F3ED crema | 6.86:1 | AA |
+| #6E0D25 borgoña | #F6F3ED crema | 10.85:1 | AA |
+
+**Acción pendiente:** incorporar accentGoldText #8B632D y ajustar textSecondary a un tono que cumpla AA en todas las superficies claras usadas. app/index.tsx todavía aplica el dorado decorativo al texto pequeño sectionEyebrow; corregirlo antes de marcar la paleta como validada. Añadir pruebas Vitest de contraste para los pares semánticos.

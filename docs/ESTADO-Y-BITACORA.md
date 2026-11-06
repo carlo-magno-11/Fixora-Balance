@@ -2,7 +2,7 @@
 
 **Última actualización:** 6 de noviembre de 2026  
 **Rama:** main  
-**Fase:** núcleo local de enfoque, hábitos y objetivos semanales implementado; CI de etapas 2 y 3 aprobado; Expo Doctor, builds nativos y pruebas físicas pendientes.
+**Fase:** núcleo local de enfoque, hábitos y objetivos implementado; run `42312021727` aprobó Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase/pgTAP; lockfile congelado pendiente de verificación final; builds nativos y pruebas físicas pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -17,14 +17,14 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - Se añadieron la propuesta comercial/precios piloto y la política de seguridad del repositorio público.
 - Se actualizaron README, plan maestro, monetización y registro de decisiones.
 - Scaffold Expo SDK 58 y primera experiencia de enfoque escritos en `main`.
-- Dominio de sesiones, hábitos y objetivos con pruebas Vitest; CI de etapa 2 y CI final de etapa 3 aprobados en GitHub Actions (run `42308655770`).
+- Dominio de sesiones, hábitos y objetivos con pruebas Vitest; CI de hábitos/objetivos aprobado en `42308655770`; validación integral con Expo Doctor 20/20 y sin avisos de peer dependencies aprobada en `42312021727`.
 - Exportación JavaScript para Android e iOS pasa en GitHub Actions; no equivale a build nativo ni prueba física.
 - Persistencia SQLite local con migraciones versionadas 001–003: sesiones, hábitos y objetivos; actualización v1→v3 aún pendiente de prueba física.
-- `pnpm-lock.yaml` generado y versionado; CI usa `pnpm install --frozen-lockfile`.
+- `pnpm-lock.yaml` alineado con React Native 0.88.1, safe-area-context 5.11.1 y metro-config 0.88.1; se incorpora en este commit. El siguiente CI verifica instalación congelada.
 - `supabase/config.toml` y workflow Supabase CLI 3.0.0 añadidos.
-- CI local Supabase/pgTAP pasó en GitHub Actions; el run `42308655770` reconstruyó el stack local y ejecutó pgTAP correctamente.
+- CI local Supabase/pgTAP pasó en `42308655770` y `42312021727`; ambos reconstruyeron el stack local y ejecutaron pgTAP.
 - No se han creado productos reales en App Store Connect, Google Play, Stripe, Mercado Pago o RevenueCat.
-- Supabase remoto sigue sin tablas de negocio, perfiles ni usuarios; no se aplicaron migraciones de hábitos/objetivos al proyecto remoto.
+- Supabase remoto: organización `Fixora-Balance` (Free), proyecto `emacfszktufyqtfgzunl`, región `us-east-1`, PostgreSQL 17.11, `ACTIVE_HEALTHY`; una migración de hardening, cero tablas públicas, cero usuarios Auth, cero buckets y cero Edge Functions. Advisors de seguridad, rendimiento y salud: cero lints. No se aplicaron migraciones de hábitos/objetivos.
 - Se añadieron .gitignore y SECURITY.md.
 - No se ha verificado toda la configuración de GitHub Settings, Actions, secrets, reglas de rama o historial completo.
 
@@ -43,6 +43,13 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 11. [Implementación etapa 2](IMPLEMENTACION-ETAPA-2-HABITOS.md) — hábitos locales.
 12. [Implementación etapa 3](IMPLEMENTACION-ETAPA-3-OBJETIVOS.md) — objetivos semanales.
 13. [Investigación de hábitos y progreso](INVESTIGACION-HABITOS-PROGRESO.md) — patrones open source y reglas anti-daño.
+14. [Alcance MVP y criterios de aceptación](ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md).
+15. [Sistema de diseño UX](SISTEMA-DISENO-UX.md) — colorimetría, pantallas y accesibilidad.
+16. [Modelo de datos y arquitectura](MODELO-DATOS-Y-ARQUITECTURA.md).
+17. [Matriz de capacidades nativas](MATRIZ-CAPACIDADES-NATIVAS.md).
+18. [Matriz de catálogo y entitlements](MATRIZ-CATALOGO-ENTITLEMENTS.md).
+19. [Threat model inicial](THREAT-MODEL-INICIAL.md).
+20. [Revisión de coherencia documental](REVISION-COHERENCIA-DOCUMENTAL.md).
 
 ## 3. Decisiones de trabajo vigentes
 
@@ -93,15 +100,14 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 
 ## 5. Próxima secuencia recomendada
 
-1. Resolver las decisiones de catálogo y límites.
-2. Revisar matriz SKU/derechos y escenarios de upgrades/downgrades por canal; resolver límites de dispositivos y beneficiarios.
-3. Probar técnicamente las compras Sandbox sin cobros reales.
-4. Validar APIs nativas críticas de iOS/Android.
-5. Cerrar seguridad, privacidad y licencia.
-6. Revisar y aprobar la arquitectura y el esquema de datos antes de crear migraciones.
-7. Solo entonces iniciar el código de la aplicación y las migraciones de desarrollo.
+1. Confirmar CI final con pnpm install --frozen-lockfile y acciones fijadas por SHA.
+2. Completar Inicio/Hoy con resúmenes reales de hábitos y objetivos; corregir contraste y accesibilidad según SISTEMA-DISENO-UX.md.
+3. Preparar development builds y probar SQLite v1→v3, reinicio, segundo plano y persistencia en Android/iOS físicos.
+4. Diseñar historial/eventos verificables, idempotencia y reversión antes de XP o insignias.
+5. Diseñar Auth, perfiles y sincronización Supabase con RLS/pgTAP; no aplicar migraciones remotas de negocio sin revisión.
+6. Resolver licencia/visibilidad, versiones mínimas, canal piloto, retención y semántica de dispositivos antes de beta o publicación.
 
-## 6. Bitácora de sesiones
+## 6. Contexto histórico previo
 
 ### 2026-11-06 — Nueva referencia Supabase compartida; acceso aún no autorizado en la integración
 **Dato recibido**
@@ -144,7 +150,7 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 - Prototipos UsageStats, FamilyControls y VpnService antes de activar funciones dependientes.
 - Validar fiscalidad, privacidad infantil, términos y reembolsos con asesoría adecuada.
 
-## 6. Bitácora de sesiones
+## 7. Bitácora de ejecución
 
 ### 2026-11-06 — Modelo comercial y decisión de repositorio
 **Trabajo realizado**
@@ -221,7 +227,7 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 - Resolver la política de publicación del código antes de introducir fuente ejecutable en el repositorio público.
 - En paralelo, preparar especificación de núcleo Free + Plus y contratos de dominio sin exponer código propietario ni modificar bases de datos ajenas.
 
-## 7. Regla de continuidad
+## 8. Regla de continuidad
 
 No afirmar que algo está implementado solo porque está descrito. No modificar ramas, visibilidad, servicios de pago, bases de datos o configuración de producción sin inspección previa y autorización adecuada. Cada cambio sustancial debe actualizar este archivo, el plan maestro y el registro de decisiones.
 
@@ -391,3 +397,12 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Se modificó `.github/workflows/quality.yml` para ejecutar `pnpm dlx expo-doctor@1.21.6` después de instalar dependencias y antes de TypeScript/Vitest.
 - La versión quedó fijada para evitar que cada ejecución use una versión flotante distinta. La documentación oficial de Expo recomienda ejecutar Expo Doctor para revisar configuración y compatibilidad de dependencias.
 - El commit del workflow es `49d1482c9c7ead561076f8f562aaa40e68ee0c8b`. Su resultado CI aún debe verificarse; no se declara que Expo Doctor haya pasado.
+
+
+### 2026-11-06 — Auditoría documental, Expo Doctor y lockfile
+- Se revisaron los 18 documentos de docs/ y se creó REVISION-COHERENCIA-DOCUMENTAL.md como mapa de referencia y contradicciones.
+- Se aclaró que los cortes técnicos 2.1/2.2/2.3 (enfoque/hábitos/objetivos) están dentro de la Etapa 2 estratégica; la Etapa 3 estratégica de progreso consciente sigue pendiente.
+- CI run 42312021727 terminó success: Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP. No hubo avisos de peer dependencies.
+- Se alinearon React Native 0.88.1, react-native-safe-area-context 5.11.1 y @react-native/metro-config 0.88.1; el lockfile se incorpora en el commit actual. La instalación congelada se verificará en el siguiente run.
+- Auditoría Supabase: organización Fixora-Balance Free, proyecto emacfszktufyqtfgzunl, us-east-1, PostgreSQL 17.11, ACTIVE_HEALTHY; una migración de hardening, cero tablas públicas, cero usuarios Auth, cero buckets y cero Edge Functions; tres grupos de Advisors sin hallazgos.
+- Sin builds nativos ni pruebas físicas. Sin cambios en Supabase remoto.

@@ -118,7 +118,7 @@ Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricció
 ## DEC-UX-004 — Objetivos semanales derivados de datos fuente
 
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** implementada localmente; pendiente CI final y prueba física.
+**Estado:** implementada localmente; CI aprobado en 42308655770 y 42312021727; prueba física pendiente.
 
 **Decisión:** distinguir objetivo (resultado semanal medible), hábito (acción repetible) y sesión de enfoque (bloque de concentración). La primera versión mide sesiones completadas o check-ins de hábitos. El progreso se calcula desde SQLite, no se edita manualmente.
 
@@ -130,22 +130,41 @@ Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricció
 ## DEC-TECH-001 — Serializar guardado y eliminación de sesiones locales
 
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** implementada; CI pendiente.
+**Estado:** implementada; CI aprobado en 42308655770 y 42312021727; prueba física pendiente.
 
 **Decisión:** ejecutar en una cola FIFO los guardados y eliminaciones de sesiones de enfoque. Un fallo no debe bloquear operaciones posteriores.
 
 **Motivo:** evitar que un upsert iniciado antes de que el usuario termine una sesión vuelva a insertar la fila después de un DELETE. Las sesiones completadas se conservan para historial y metas; las sesiones incompletas terminadas por el usuario se eliminan.
 
-**Validación:** pruebas unitarias de orden de operaciones y recuperación tras fallo; CI y prueba física pendientes.
+**Validación:** pruebas unitarias de orden de operaciones y recuperación tras fallo; CI aprobado en 42312021727; prueba física pendiente.
 
 
 ## DEC-TECH-002 — Expo Doctor como puerta de CI
 
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** incorporado al workflow; ejecución pendiente de verificar.
+**Estado:** Expo Doctor 20/20 aprobado en 42312021727; verificación final del lockfile congelado pendiente.
 
 **Decisión:** ejecutar `pnpm dlx expo-doctor@1.21.6` en GitHub Actions después de instalar dependencias y antes de TypeScript/Vitest.
 
 **Motivo:** detectar desajustes de dependencias Expo, configuración y problemas comunes de proyecto de forma reproducible, sin depender únicamente de una revisión manual o de la exportación JS.
 
 **Límite:** Expo Doctor no reemplaza builds nativos, pruebas E2E ni validación física. No actualizar paquetes automáticamente como consecuencia de un warning; revisar cada hallazgo y corregirlo de forma controlada.
+
+
+## DEC-PLAN-001 — Correspondencia entre roadmap estratégico y cortes técnicos
+
+**Fecha:** 6 de noviembre de 2026  
+**Estado:** aceptada.
+
+**Decisión:** los documentos IMPLEMENTACION-ETAPA-1, ETAPA-2-HABITOS y ETAPA-3-OBJETIVOS se interpretan como cortes técnicos 2.1 (enfoque), 2.2 (hábitos) y 2.3 (objetivos) dentro de la Etapa 2 estratégica del Plan Maestro. La Etapa 3 estratégica —progreso consciente, historial/eventos y recompensas— no está implementada.
+
+**Motivo:** evitar confundir objetivos semanales con gamificación y declarar por error terminada una etapa estratégica que aún no comenzó.
+
+## DEC-UX-005 — Contraste semántico del dorado
+
+**Fecha:** 6 de noviembre de 2026  
+**Estado:** hallazgo confirmado; token de texto y prueba automatizada pendientes.
+
+**Decisión:** #C99B58 se reserva para iconografía/ornamento y no se usa como texto pequeño sobre fondos claros. El token candidato #8B632D alcanza contraste WCAG AA sobre crema/blanco; textSecondary requiere oscurecerse ligeramente para alcanzar AA también sobre surfaceSubtle.
+
+**Validación:** agregar tokens semánticos y pruebas automatizadas de contraste antes de declarar definitiva la paleta.

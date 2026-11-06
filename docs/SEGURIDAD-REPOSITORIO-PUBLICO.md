@@ -76,13 +76,13 @@ Antes de publicar el código de la app, decidir una licencia. Si el objetivo es 
 
 ## 7. Estrategia recomendada por etapas
 
-**Ahora — planificación pública**
+**Ahora — prototipo público no sensible**
 - Mantener el repo público mientras solo contiene documentos no sensibles.
 - Añadir política de seguridad y documentación del producto.
 - No agregar secretos, datos ni credenciales.
 - Revisar Settings y protección de ramas.
 
-**Antes de código ejecutable**
+**Antes de beta o publicación**
 - Decidir licencia.
 - Revisar Actions permissions y workflows.
 - Activar escaneo de secretos y dependencias.
@@ -107,8 +107,8 @@ Antes de publicar el código de la app, decidir una licencia. Si el objetivo es 
 - La rama por defecto observada es main.
 - Los cuatro documentos base existen y se pudieron leer.
 - Se añadieron .gitignore y SECURITY.md con reglas de exclusión y reporte privado de vulnerabilidades.
-- No se encontraron workflows en las rutas comunes .github/workflows/ci.yml, ci.yaml, test.yml y security.yml ni en la búsqueda de código realizada. Esto no demuestra que no existan otros workflows o controles configurados.
-- No se ha auditado Settings, secrets, historial completo, reglas de rama ni permisos de Actions.
+- El workflow .github/workflows/quality.yml existe y se ejecuta en main. Sus permisos globales son contents: read, las acciones directas están fijadas por SHA completo y los checkouts usan persist-credentials: false.
+- No se ha auditado Settings, secrets, historial completo, reglas de rama, Secret Scanning, Push Protection, Dependabot, CodeQL ni permisos de colaboradores. El workflow de CI está endurecido, pero no equivale a verificar los controles de cuenta/repo.
 - No se ha confirmado si GitHub Private Vulnerability Reporting está habilitado; la política SECURITY.md condiciona el reporte a que la función esté disponible.
 - Por tanto, no se declara activado ningún control de seguridad hasta verificarlo.
 

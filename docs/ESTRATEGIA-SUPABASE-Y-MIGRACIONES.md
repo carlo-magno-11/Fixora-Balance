@@ -85,7 +85,7 @@ No almacenar mensajes, pulsaciones de teclado, fotos privadas, contenido de pant
 
 **Staging:** se añadirá como proyecto separado cuando haya necesidad real de probar un candidato de release con datos sintéticos y configuración casi idéntica a producción. No crear ramas remotas de Supabase sin revisar coste y aislamiento; las ramas pueden tener cómputo y facturación propios.
 
-En la consulta actual de la organización solo aparecen proyectos existentes de EYESITE; no aparece un proyecto llamado Fixora Balance. No se ha inspeccionado ni modificado el esquema de esos proyectos.
+El proyecto dedicado de Fixora Balance sí existe en la organización Fixora-Balance; sus datos verificables se detallan en la sección 10. No se inspeccionaron ni modificaron proyectos de EYESITE.
 
 ## 4. Regla estricta de migraciones
 
@@ -225,4 +225,4 @@ El proyecto ahora incluye `supabase/config.toml` generado con Supabase CLI 3.0.0
 
 Para probar la migración localmente, CI desactiva temporalmente la aplicación automática de migraciones al iniciar el stack, crea el helper hosted mediante dos fixtures SQL separados (una sentencia por llamada a `supabase db query --file`), vuelve a habilitar migraciones, ejecuta `supabase migration up` y luego `supabase test db`. Los fixtures viven en `supabase/fixtures/`, fuera del directorio que pgTAP descubre. El fixture nunca se despliega a hosted.
 
-La primera ejecución encontró que `supabase db query --file` no admite varias sentencias en una misma llamada; se dividió la creación de función y la creación del event trigger en archivos separados. La siguiente ejecución debe confirmar que la migración y pgTAP pasan de extremo a extremo.
+La primera ejecución encontró que `supabase db query --file` no admite varias sentencias en una misma llamada; se dividió la creación de función y la creación del event trigger en archivos separados. Los runs 42308655770 y 42312021727 confirmaron reconstrucción local, aplicación de migraciones y pgTAP de extremo a extremo. El run 42312021727 también validó Expo Doctor 20/20, TypeScript, Vitest y bundles JS. El lockfile actualizado se versiona en el commit actual; el siguiente CI confirma instalación frozen.
