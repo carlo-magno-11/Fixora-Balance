@@ -2,7 +2,7 @@
 
 **Última actualización:** 6 de noviembre de 2026  
 **Rama:** main  
-**Fase:** primera vertical slice de implementación; ejecución local/CI y pruebas físicas pendientes.
+**Fase:** primera vertical slice escrita; CI de app verde; validación local de Supabase/pgTAP y pruebas físicas pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -17,9 +17,12 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - Se añadieron la propuesta comercial/precios piloto y la política de seguridad del repositorio público.
 - Se actualizaron README, plan maestro, monetización y registro de decisiones.
 - Scaffold Expo SDK 58 y primera experiencia de enfoque escritos en `main`.
-- Dominio de sesiones con pruebas Vitest añadidas; todavía no ejecutadas.
-- Persistencia SQLite con migración local versionada añadida; todavía no probada en dispositivo.
-- Workflow inicial de GitHub Actions añadido; ejecución pendiente de confirmar.
+- Dominio de sesiones con pruebas Vitest; TypeScript y pruebas pasan en GitHub Actions.
+- Exportación JavaScript para Android e iOS pasa en GitHub Actions; no equivale a build nativo ni prueba física.
+- Persistencia SQLite con migración local versionada añadida; pendiente de probar en dispositivo.
+- `pnpm-lock.yaml` generado y versionado; CI usa `pnpm install --frozen-lockfile`.
+- `supabase/config.toml` y workflow Supabase CLI 3.0.0 añadidos.
+- CI local de Supabase/pgTAP sigue en ajuste: el stack arranca; el fixture del event trigger se dividió en dos archivos porque `supabase db query --file` acepta una sentencia por llamada.
 - No se han creado productos reales en App Store Connect, Google Play, Stripe, Mercado Pago o RevenueCat.
 - No existen todavía tablas de negocio, perfiles ni usuarios en Supabase.
 - Se añadieron .gitignore y SECURITY.md.
@@ -34,9 +37,9 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 5. [Seguridad del repositorio público](SEGURIDAD-REPOSITORIO-PUBLICO.md) — decisión de visibilidad y controles.
 6. [Registro de decisiones](REGISTRO-DE-DECISIONES.md) — decisiones, hipótesis y revisiones.
 7. [Puerta de preprogramación](PUERTA-PREPROGRAMACION.md) — bloqueos reales y secuencia de ejecución.
-10. [Implementación etapa 1](IMPLEMENTACION-ETAPA-1.md) — primera vertical slice y validaciones pendientes.
-9. [Estrategia Supabase y migraciones](ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md) — PostgreSQL, SQLite, entornos y regla migration-first.
 8. [Política de seguridad](../SECURITY.md) — reporte coordinado de vulnerabilidades.
+9. [Estrategia Supabase y migraciones](ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md) — PostgreSQL, SQLite, entornos y regla migration-first.
+10. [Implementación etapa 1](IMPLEMENTACION-ETAPA-1.md) — primera vertical slice y validaciones pendientes.
 
 ## 3. Decisiones de trabajo vigentes
 
@@ -49,7 +52,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - Backend como autoridad de compras y entitlements; eventos verificados e idempotentes.
 - No lifetime para módulos con costes recurrentes en esta fase.
 
-## 4. Pendientes que bloquean comenzar la implementación funcional
+## 4. Pendientes que bloquean cerrar el MVP y publicar
 
 ### Producto y negocio
 - [x] Aceptar precios piloto como base inicial de trabajo; revisar y ajustar antes de publicación.
@@ -258,4 +261,14 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Revisar permisos y configuración GitHub Settings; el repo sigue público y sin decisión de licencia.
 - Implementar objetivos/hábitos, manejo de errores SQLite, Auth/perfiles y primera migración de usuario con RLS.
 - No implementar pagos ni permisos Family/Protection todavía.
+
+
+### 2026-11-06 — CI de aplicación y preparación de Supabase local
+
+- Añadido `pnpm-lock.yaml` mediante instalación controlada en GitHub Actions; la verificación usa ahora `--frozen-lockfile`.
+- Verificación CI completada con éxito: TypeScript, Vitest, export Android e iOS.
+- Configuración local `supabase/config.toml` generada con Supabase CLI 3.0.0 y PostgreSQL 17 para igualar hosted.
+- Se detectó que la función `public.rls_auto_enable()` es una infraestructura event-trigger disponible en hosted, pero no viene en el contenedor local estándar. No se modificó la migración ya aplicada. Se creó un fixture de pruebas fuera de `supabase/tests` para simular el helper hosted y probar el hardening localmente.
+- Se creó `supabase/seed.sql` vacío intencionalmente para que el flujo local sea reproducible sin datos inventados.
+- CI local ya consigue arrancar Supabase; está pendiente terminar de aplicar el fixture como sentencias separadas, ejecutar migraciones y pgTAP.
 
