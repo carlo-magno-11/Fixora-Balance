@@ -125,3 +125,15 @@ Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricció
 **Consecuencias:** objetivos semanales empiezan lunes local; meta de 1–100. No se añade XP ni sincronización. Los objetivos se mantienen independientes de hábitos hasta que pruebas UX justifiquen una relación explícita.
 
 **Validación:** CI, migración SQLite v1→v3 con datos previos, instalación limpia y pruebas físicas Android/iOS.
+
+
+## DEC-TECH-001 — Serializar guardado y eliminación de sesiones locales
+
+**Fecha:** 6 de noviembre de 2026  
+**Estado:** implementada; CI pendiente.
+
+**Decisión:** ejecutar en una cola FIFO los guardados y eliminaciones de sesiones de enfoque. Un fallo no debe bloquear operaciones posteriores.
+
+**Motivo:** evitar que un upsert iniciado antes de que el usuario termine una sesión vuelva a insertar la fila después de un DELETE. Las sesiones completadas se conservan para historial y metas; las sesiones incompletas terminadas por el usuario se eliminan.
+
+**Validación:** pruebas unitarias de orden de operaciones y recuperación tras fallo; CI y prueba física pendientes.
