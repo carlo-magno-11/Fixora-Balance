@@ -29,6 +29,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 4. [Propuesta comercial y precios](PROPUESTA-COMERCIAL-Y-PRECIOS.md) — precios piloto, simulaciones y proveedores.
 5. [Seguridad del repositorio público](SEGURIDAD-REPOSITORIO-PUBLICO.md) — decisión de visibilidad y controles.
 6. [Registro de decisiones](REGISTRO-DE-DECISIONES.md) — decisiones, hipótesis y revisiones.
+7. [Puerta de preprogramación](PUERTA-PREPROGRAMACION.md) — bloqueos reales y secuencia para iniciar código.
 
 ## 3. Decisiones de trabajo vigentes
 
@@ -46,7 +47,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 ### Producto y negocio
 - [x] Aceptar precios piloto como base inicial de trabajo; revisar y ajustar antes de publicación.
 - [x] Definir recomendación de MVP: Free + Plus Personal; Protección y Family quedan en fases posteriores hasta validar APIs, permisos, políticas y riesgos.
-- [ ] Confirmar límites: tres dispositivos personales, tres perfiles infantiles, cinco dispositivos Family.
+- [ ] Confirmar semántica del límite Plus de tres dispositivos; Family (3 perfiles/5 dispositivos) queda pendiente para su fase.
 - [ ] Definir exactamente qué incluye cada módulo y qué no.
 - [ ] Validar demanda/disposición de pago con usuarios reales.
 - [ ] Decidir mercados e idiomas iniciales.
@@ -65,7 +66,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - [ ] Confirmar qué funciones pueden lanzarse en ambas plataformas.
 - [ ] Completar threat model y modelo de datos.
 - [ ] Definir política de privacidad y evaluación legal de funciones infantiles.
-- [ ] Decidir licencia del repositorio y del producto.
+- [ ] Decidir licencia del repositorio y estrategia público/privado para código ejecutable.
 
 ### GitHub y seguridad
 - [ ] Verificar Dependency Graph, Dependabot, Secret Scanning y Push Protection.
@@ -74,6 +75,8 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - [ ] Revisar colaboradores, GitHub Apps, tokens y secretos.
 - [ ] Establecer política de CI y límites de gasto.
 - [ ] Confirmar qué documentación y código pueden permanecer públicos.
+
+La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACION.md](PUERTA-PREPROGRAMACION.md).
 
 ## 5. Próxima secuencia recomendada
 
@@ -91,8 +94,8 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 **Trabajo realizado**
 - El responsable del producto aprobó los precios MXN propuestos como referencia inicial de trabajo, sujetos a revisión antes de publicación.
 - Confirmada la recomendación de MVP: Free + Plus Personal; Protección y Family continúan en la visión, pero quedan condicionados a prototipos nativos, permisos, políticas y revisión legal.
-- Creados ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md, MATRIZ-CATALOGO-ENTITLEMENTS.md, MATRIZ-CAPACIDADES-NATIVAS.md, MODELO-DATOS-Y-ARQUITECTURA.md y THREAT-MODEL-INICIAL.md.
-- Actualizados README, PLAN-MAESTRO, MONETIZACION-Y-LICENCIAS y REGISTRO-DE-DECISIONES para reflejar el nuevo estado.
+- Creados ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md, MATRIZ-CATALOGO-ENTITLEMENTS.md, MATRIZ-CAPACIDADES-NATIVAS.md, MODELO-DATOS-Y-ARQUITECTURA.md, THREAT-MODEL-INICIAL.md y PUERTA-PREPROGRAMACION.md.
+- Actualizados README, PLAN-MAESTRO, MONETIZACION-Y-LICENCIAS, PROPUESTA-COMERCIAL-Y-PRECIOS, REGISTRO-DE-DECISIONES y ESTADO-Y-BITACORA para reflejar el nuevo estado.
 - Revisadas fuentes oficiales Apple Family Controls, Google Play VpnService y Supabase Production Security Checklist.
 
 **Decisiones**
