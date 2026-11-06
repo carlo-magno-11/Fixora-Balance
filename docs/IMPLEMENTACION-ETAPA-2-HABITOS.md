@@ -22,7 +22,7 @@ Entregar la primera experiencia real de hábitos dentro del MVP, sin adelantar s
 ## 3. Reglas de producto y datos
 
 - Frecuencia diaria equivale a una meta de siete cumplimientos por semana.
-- Frecuencia semanal permite una meta de una a siete veces.
+- Frecuencia semanal permite una meta de una a siete veces; el selector ofrece todas las opciones 1–7.
 - La fecha de cumplimiento usa el calendario local del dispositivo; la semana comienza el lunes.
 - Cada hábito solo puede tener un cumplimiento por día. La identidad estable `habitId:YYYY-MM-DD` y la restricción UNIQUE evitan duplicados.
 - Marcar como hecho es idempotente; deshacer es una operación explícita.
@@ -42,6 +42,7 @@ Entregar la primera experiencia real de hábitos dentro del MVP, sin adelantar s
 ## 5. Validación
 
 - Pruebas unitarias del dominio añadidas a Vitest.
+- Prueba aislada del DDL en SQLite 3.46.1: conserva una tabla previa de sesiones, acepta un check-in válido, ignora el duplicado, rechaza meta diaria distinta de siete y hace cumplir unicidad hábito/día. Esta prueba no sustituye la migración Expo SQLite ni la prueba física.
 - CI debe confirmar TypeScript, Vitest y bundles Android/iOS en el commit final de esta etapa.
 - El workflow actual reconstruye Supabase y ejecuta pgTAP; no prueba SQLite nativo.
 - La migración SQLite y la navegación deben probarse en development build/dispositivo real antes de declarar la persistencia física verificada.
