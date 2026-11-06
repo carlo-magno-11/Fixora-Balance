@@ -2,7 +2,7 @@
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** main  
-**Estado:** scaffold y primera experiencia de enfoque escritos; validación de ejecución pendiente.
+**Estado:** TypeScript, Vitest y bundles Android/iOS pasan en GitHub Actions; persistencia SQLite aún requiere prueba física. La validación local de Supabase/pgTAP está en ajuste.
 
 ## 1. Alcance entregado en el repositorio
 
@@ -18,7 +18,9 @@ Archivos principales:
 - `src/infrastructure/local/database.ts`: apertura y migración versionada de SQLite.
 - `src/infrastructure/local/migrations/001_create_focus_sessions.ts`: primera migración local SQLite.
 - `src/infrastructure/local/focus-session-repository.ts`: persistencia local de sesiones.
-- `.github/workflows/quality.yml`: verificación TypeScript y pruebas de dominio.
+- `pnpm-lock.yaml`: resolución reproducible de dependencias.
+- `supabase/config.toml`: configuración local con PostgreSQL 17.
+- `.github/workflows/quality.yml`: TypeScript, pruebas de dominio, bundles Android/iOS y pruebas locales de Supabase/pgTAP.
 - `supabase/migrations/20261106221629_harden_rls_event_trigger_permissions.sql`: primera migración remota para restringir permisos de una función de evento DDL.
 
 ## 2. Comportamiento de la primera vertical slice
@@ -34,15 +36,15 @@ Archivos principales:
 
 ## 3. Límite explícito
 
-Esta entrega no significa que la app esté lista para usuarios o tiendas. No se han ejecutado TypeScript, Vitest, Expo Doctor, build nativo ni pruebas físicas. La conexión a Supabase se ha auditado, pero Auth, perfiles, sincronización y permisos de usuario aún no están implementados.
+Esta entrega no significa que la app esté lista para usuarios o tiendas. TypeScript, Vitest y exportación JavaScript Android/iOS sí se ejecutaron en GitHub Actions y pasaron. No se ha ejecutado Expo Doctor, build nativo ni pruebas físicas. La conexión a Supabase se ha auditado, pero Auth, perfiles, sincronización y permisos de usuario aún no están implementados.
 
-La instalación debe completarse con el gestor de paquetes en un entorno con acceso al registro npm y generar/confirmar el lockfile antes de considerar CI reproducible. El workflow inicial instala sin modo frozen como puente de bootstrap; no debe convertirse en la política final de releases.
+El lockfile ya está generado y versionado. El workflow instala con `pnpm install --frozen-lockfile`. La validación de Supabase local se mantiene separada y todavía no está verde.
 
 ## 4. Próximas tareas
 
-1. Ejecutar instalación de dependencias y generar pnpm-lock.yaml.
-2. Ejecutar typecheck, pruebas, Expo Doctor y bundle Android/iOS.
-3. Corregir todos los errores detectados y obtener CI verde.
+1. Completar la prueba local de migraciones y pgTAP usando el fixture hosted-only.
+2. Ejecutar Expo Doctor y preparar builds nativos/dev clients.
+3. Probar SQLite, background y restauración en dispositivos físicos.
 4. Añadir manejo de errores/migraciones locales y pruebas de reinicio/background.
 5. Añadir objetivos y hábitos con repositorios SQLite y pruebas.
 6. Crear primera migración de perfiles/preferencias Supabase con RLS y pgTAP.
