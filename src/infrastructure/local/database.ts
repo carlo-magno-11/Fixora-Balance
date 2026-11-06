@@ -1,9 +1,10 @@
 import { openDatabaseAsync, type SQLiteDatabase } from "expo-sqlite";
 import { applyLocalMigration001 } from "./migrations/001_create_focus_sessions";
 import { applyLocalMigration002 } from "./migrations/002_create_habits";
+import { applyLocalMigration003 } from "./migrations/003_create_goals";
 
 const DATABASE_NAME = "fixora-balance.db";
-const LOCAL_DATABASE_VERSION = 2;
+const LOCAL_DATABASE_VERSION = 3;
 
 let databasePromise: Promise<SQLiteDatabase> | undefined;
 
@@ -21,6 +22,11 @@ async function migrate(db: SQLiteDatabase): Promise<void> {
       if (currentVersion < 2) {
         await applyLocalMigration002(transaction);
         await transaction.execAsync("PRAGMA user_version = 2");
+      }
+
+      if (currentVersion < 3) {
+        await applyLocalMigration003(transaction);
+        await transaction.execAsync("PRAGMA user_version = 3");
       }
     });
   }
