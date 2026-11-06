@@ -2,7 +2,7 @@
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** `main`  
-**Estado:** código y pruebas de dominio añadidos; pendiente CI posterior al cambio y prueba en dispositivo.
+**Estado:** CI de GitHub Actions aprobado para el commit de cierre de la etapa; prueba en dispositivo y Expo Doctor pendientes.
 
 ## 1. Objetivo
 
@@ -43,14 +43,14 @@ Entregar la primera experiencia real de hábitos dentro del MVP, sin adelantar s
 
 - Pruebas unitarias del dominio añadidas a Vitest.
 - Prueba aislada del DDL en SQLite 3.46.1: conserva una tabla previa de sesiones, acepta un check-in válido, ignora el duplicado, rechaza meta diaria distinta de siete y hace cumplir unicidad hábito/día. Esta prueba no sustituye la migración Expo SQLite ni la prueba física.
-- CI debe confirmar TypeScript, Vitest y bundles Android/iOS en el commit final de esta etapa.
+- CI GitHub Actions run `42308655770`: los trabajos `TypeScript and domain tests` y `Local Supabase migrations and pgTAP` finalizaron `success`; el primero completó TypeScript, Vitest y bundles JavaScript Android/iOS. Esta validación no equivale a build nativo ni prueba física.
 - El workflow actual reconstruye Supabase y ejecuta pgTAP; no prueba SQLite nativo.
 - La migración SQLite y la navegación deben probarse en development build/dispositivo real antes de declarar la persistencia física verificada.
 - No se declara Expo Doctor, build nativo, E2E ni validación de App Store/Play Store.
 
 ## 6. Pendientes siguientes
 
-1. Esperar y revisar el CI del commit final de la etapa.
+1. Probar migración SQLite v1→v3 y flujos de hábitos en development build/dispositivos físicos.
 2. Probar migración SQLite desde versión 1 con sesiones existentes y desde instalación limpia.
 3. Probar creación, cumplimiento, deshacer, reinicio de app y persistencia en Android/iOS físicos.
 4. Añadir manejo de errores y validación de integridad en el repositorio SQLite.
