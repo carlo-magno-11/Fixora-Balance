@@ -5,7 +5,7 @@
 
 Fixora Balance busca ayudar a las personas a recuperar atención, construir hábitos digitales saludables, proteger su privacidad y acompañar a las familias con controles transparentes.
 
-<badge color="warning">Prototipo técnico inicial</badge>
+**Estado: prototipo técnico inicial.**
 
 La primera experiencia de enfoque ya está escrita y pasa TypeScript, pruebas de dominio y exportación JavaScript para Android/iOS en GitHub Actions. No está lista para usuarios: faltan pruebas locales de migraciones, dispositivos físicos, autenticación, sincronización, hábitos, recompensas, notificaciones y compras.
 
