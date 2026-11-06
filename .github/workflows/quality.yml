@@ -63,7 +63,7 @@ jobs:
         run: supabase init --force
 
       - name: Start local Supabase stack
-        run: supabase start
+        run: supabase start -x studio,mailpit,storage-api,imgproxy,edge-runtime,analytics,vector
 
       - name: Simulate hosted platform RLS event trigger
         run: supabase db query --file supabase/tests/fixtures/hosted_rls_event_trigger.sql
