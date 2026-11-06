@@ -2,7 +2,7 @@
 
 **Última actualización:** 6 de noviembre de 2026  
 **Rama:** main  
-**Fase:** definición de producto y decisiones previas a implementación.
+**Fase:** preparación técnica; inicio de implementación condicionado por acceso verificable a Supabase y decisión de publicación del código.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -166,6 +166,30 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 - Confirmar organización y coste antes de crear proyecto remoto dedicado Fixora Balance.
 - Instalar/verificar Supabase CLI y Docker en entorno de desarrollo.
 - Resolver P0 restantes y luego crear primera migración de perfiles/preferencias con pruebas RLS.
+
+### 2026-11-06 — Reanudación de ejecución y verificación de organización Supabase
+
+**Solicitud del responsable**
+- Se indicó continuar con la ejecución del plan y se proporcionó el nombre `Fixora-Balance` como referencia de la organización Free recién preparada.
+
+**Verificación efectuada**
+- Se consultó nuevamente la lista de organizaciones mediante la conexión Supabase activa.
+- La conexión solo devuelve la organización `carlo-magno-11's Org` con ID `iihmpoccnyrphzrngrvo`.
+- La lista de proyectos devuelve únicamente `terrenos Yucatan` (ref `xhvpvpvtkdgnnxdwdrkn`) y `eyesite-security-test` (ref `dclaebknyalimmtgppeg`).
+- No se recibió una organización identificada como `Fixora-Balance`, ni un proyecto `fixora-balance-dev`.
+- Se volvió a inspeccionar el repositorio: solo existe la rama `main`; no se localizaron `package.json`, configuración Expo, `supabase/config.toml`, migraciones ni workflows CI.
+
+**Límites de seguridad aplicados**
+- No se creó proyecto Supabase dentro de la organización Pro, porque no es el destino Free indicado y puede generar cargos.
+- No se ejecutó SQL ni se aplicaron migraciones en ninguno de los proyectos existentes.
+- No se publicó código ejecutable en el repositorio público mientras la estrategia de licencia/visibilidad del código siga sin resolverse.
+- La arquitectura migration-first y la separación Supabase/SQLite permanecen como decisiones documentadas.
+
+**Siguiente desbloqueo**
+- Actualizar/reautorizar la conexión Supabase con acceso a la organización Free `Fixora-Balance` (o proporcionar su ID exacto y asegurar que la conexión autenticada sea miembro).
+- Verificar organización, plan y coste del proyecto `fixora-balance-dev` antes de provisionarlo.
+- Resolver la política de publicación del código antes de introducir fuente ejecutable en el repositorio público.
+- En paralelo, preparar especificación de núcleo Free + Plus y contratos de dominio sin exponer código propietario ni modificar bases de datos ajenas.
 
 ## 7. Regla de continuidad
 
