@@ -168,7 +168,7 @@ export default function HabitsScreen() {
             <>
               <Text style={styles.fieldLabel}>Meta semanal</Text>
               <View style={styles.choiceRow}>
-                {[2, 3, 4, 5, 6, 7].map((target) => (
+                {[1, 2, 3, 4, 5, 6, 7].map((target) => (
                   <Pressable
                     accessibilityRole="button"
                     accessibilityState={{ selected: weeklyTarget === target }}
