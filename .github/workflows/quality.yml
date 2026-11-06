@@ -42,3 +42,9 @@ jobs:
 
       - name: Domain tests
         run: pnpm test
+
+      - name: Android JavaScript bundle
+        run: pnpm exec expo export --platform android --output-dir /tmp/fixora-balance-android
+
+      - name: iOS JavaScript bundle
+        run: pnpm exec expo export --platform ios --output-dir /tmp/fixora-balance-ios
