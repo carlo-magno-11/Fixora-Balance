@@ -36,3 +36,13 @@ Cada hipótesis debe tener una prueba y una métrica antes de convertirse en hec
 
 ## Registro de cambios
 Añadir una fila por decisión nueva o modificación. No borrar decisiones previas: marcarlas como sustituidas y explicar por qué.
+
+
+| FB-019 | Repositorio público | Mantener público durante la fase documental y de prototipo no sensible | Runners estándar públicos de Actions son gratuitos; permite revisiones | Decidir licencia y verificar secretos, Actions, reglas de rama antes de código sensible |
+| FB-020 | Precios piloto | Plus $79/$799; Protección $49/$499; Family $109/$1,099; Completo $179/$1,799; +3 dispositivos $29/$299 MXN (mensual/anual) | Propuesta inicial competitiva y paquete completo ~25 % inferior a módulos separados | Validar disposición de pago, costes, impuestos y comisiones; no son precios finales |
+| FB-021 | Prueba | 14 días de Balance Completo, una vez por cuenta elegible y canal | Experiencia integral y menor abuso que pruebas repetidas por módulo | Verificar ofertas introductorias, requisitos de pago y elegibilidad de tiendas |
+| FB-022 | Web billing | Stripe Billing candidato principal; Mercado Pago alternativa a comparar | API, prorrateo y métodos locales | Sandbox comparativo; elegir un único procesador web para MVP |
+| FB-023 | Compras móviles modulares | No asumir catálogo apilable idéntico a web; validar grupos de suscripción Apple y Google Play Billing | Evitar doble cobro y derechos duplicados | Prototipo Sandbox antes de fijar catálogo de tiendas |
+| FB-024 | Derechos | Separar SKU, entitlement, transacción, suscripción y asignación | Evitar que el cliente conceda funciones o que se cobre dos veces | Cerrar matriz de derechos y modelo de datos |
+| FB-025 | Extensión | Extensión recurrente +3 dispositivos; no lifetime | La capacidad y soporte generan costes continuos | Validar coste real y límite nativo |
+| FB-026 | Bitácora | Actualizar plan maestro, monetización y registro de decisiones con cada cambio importante | Mantener continuidad y trazabilidad | Revisar estado en cada sesión |
