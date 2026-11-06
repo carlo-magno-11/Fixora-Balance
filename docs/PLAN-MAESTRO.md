@@ -248,7 +248,7 @@ La protección infantil requiere evaluación legal y de tiendas antes de recopil
 
 El catálogo será modular, pero el acceso se resolverá por derechos atómicos y un ledger central. El usuario no debe pagar dos veces por el mismo derecho en el mismo período. No ofrecer “de por vida” para funciones con costes continuos de servidores, listas de filtrado o mantenimiento sin evaluación financiera.
 
-Los precios, impuestos, comisiones y márgenes no están aprobados. No anunciar cantidades hasta hacer el modelo unit economics y validar el proveedor.
+Los precios piloto de la propuesta comercial han sido aceptados como base inicial de trabajo. No son definitivos ni están publicados. Antes de abrir ventas se validarán unit economics, impuestos, comisiones, margen, proveedor y disposición de pago.
 
 ---
 
