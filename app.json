@@ -16,8 +16,7 @@
       "bundleIdentifier": "com.fixoradynamics.balance"
     },
     "android": {
-      "package": "com.fixoradynamics.balance",
-      "edgeToEdgeEnabled": true
+      "package": "com.fixoradynamics.balance"
     },
     "experiments": {
       "typedRoutes": true
