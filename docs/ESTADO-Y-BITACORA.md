@@ -346,6 +346,7 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Añadido repositorio de objetivos con agregación semanal basada en sesiones completadas y check-ins reales.
 - Añadida pantalla `/goals` para crear metas y ver avance calculado, sin progreso editable.
 - Añadidos accesos desde Inicio y Hábitos.
+- Corregido el reinicio de enfoque: una sesión completada se conserva para el historial y las metas semanales; solo se elimina una sesión en curso/pausada terminada anticipadamente.
 - Creado `docs/IMPLEMENTACION-ETAPA-3-OBJETIVOS.md`.
 
 **Validación local aislada**
