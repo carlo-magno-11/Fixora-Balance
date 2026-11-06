@@ -31,6 +31,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 5. [Seguridad del repositorio público](SEGURIDAD-REPOSITORIO-PUBLICO.md) — decisión de visibilidad y controles.
 6. [Registro de decisiones](REGISTRO-DE-DECISIONES.md) — decisiones, hipótesis y revisiones.
 7. [Puerta de preprogramación](PUERTA-PREPROGRAMACION.md) — bloqueos reales y secuencia para iniciar código.
+9. [Estrategia Supabase y migraciones](ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md) — PostgreSQL, SQLite, entornos y regla migration-first.
 8. [Política de seguridad](../SECURITY.md) — reporte coordinado de vulnerabilidades.
 
 ## 3. Decisiones de trabajo vigentes
@@ -142,6 +143,29 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 - Precios y límites requieren validación de costes y usuarios.
 
 ---
+
+### 2026-11-06 — Decisión de arquitectura de datos y control de migraciones
+
+**Investigación y verificación**
+- Consultada la documentación oficial actual de Supabase sobre local development workflow, migrations, pgTAP, Auth, entornos remotos y backups.
+- Consultada la organización Supabase conectada: aparecen proyectos EYESITE, pero no existe un proyecto identificado como Fixora Balance.
+- No se consultó ni modificó el esquema de proyectos EYESITE.
+
+**Decisiones de trabajo**
+- Supabase/PostgreSQL será el backend central de Balance; SQLite será almacenamiento local/offline.
+- Todas las modificaciones de esquema y permisos deben quedar en migraciones SQL versionadas antes de aplicarse a entornos compartidos.
+- Las operaciones de usuario en tiempo real no crean una migración por evento: se guardan como datos operativos y, para pagos/derechos/admin, en ledger/auditoría idempotente.
+- Flujo: crear migración con CLI, probar localmente, pgTAP/RLS, revisar, commit, dry-run remoto y despliegue aprobado.
+- No reutilizar EYESITE ni otro producto Fixora; no crear proyecto remoto ni ejecutar SQL en esta etapa.
+
+**Trabajo realizado**
+- Creado ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md.
+- Actualizados modelo de datos, puerta de preprogramación y README.
+
+**Pendiente**
+- Confirmar organización y coste antes de crear proyecto remoto dedicado Fixora Balance.
+- Instalar/verificar Supabase CLI y Docker en entorno de desarrollo.
+- Resolver P0 restantes y luego crear primera migración de perfiles/preferencias con pruebas RLS.
 
 ## 7. Regla de continuidad
 
