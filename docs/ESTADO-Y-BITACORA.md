@@ -2,7 +2,7 @@
 
 **Última actualización:** 6 de noviembre de 2026  
 **Rama:** main  
-**Fase:** primera vertical slice escrita; CI de app verde; validación local de Supabase/pgTAP y pruebas físicas pendientes.
+**Fase:** núcleo local de enfoque, hábitos y objetivos semanales implementado; CI de etapa 2 aprobado; CI final de etapa 3 pendiente; pruebas físicas y Expo Doctor pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -17,14 +17,14 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - Se añadieron la propuesta comercial/precios piloto y la política de seguridad del repositorio público.
 - Se actualizaron README, plan maestro, monetización y registro de decisiones.
 - Scaffold Expo SDK 58 y primera experiencia de enfoque escritos en `main`.
-- Dominio de sesiones con pruebas Vitest; TypeScript y pruebas pasan en GitHub Actions.
+- Dominio de sesiones, hábitos y objetivos con pruebas Vitest; TypeScript y Vitest pasaron para la etapa 2; la etapa 3 y la cola de escrituras esperan CI final.
 - Exportación JavaScript para Android e iOS pasa en GitHub Actions; no equivale a build nativo ni prueba física.
-- Persistencia SQLite con migración local versionada añadida; pendiente de probar en dispositivo.
+- Persistencia SQLite local con migraciones versionadas 001–003: sesiones, hábitos y objetivos; actualización v1→v3 aún pendiente de prueba física.
 - `pnpm-lock.yaml` generado y versionado; CI usa `pnpm install --frozen-lockfile`.
 - `supabase/config.toml` y workflow Supabase CLI 3.0.0 añadidos.
-- CI local de Supabase/pgTAP sigue en ajuste: el stack arranca; el fixture del event trigger se dividió en dos archivos porque `supabase db query --file` acepta una sentencia por llamada.
+- CI local Supabase/pgTAP pasó en GitHub Actions para las etapas 1 y 2; el workflow reconstruye la migración y prueba el event trigger mediante fixtures hosted-only.
 - No se han creado productos reales en App Store Connect, Google Play, Stripe, Mercado Pago o RevenueCat.
-- No existen todavía tablas de negocio, perfiles ni usuarios en Supabase.
+- Supabase remoto sigue sin tablas de negocio, perfiles ni usuarios; no se aplicaron migraciones de hábitos/objetivos al proyecto remoto.
 - Se añadieron .gitignore y SECURITY.md.
 - No se ha verificado toda la configuración de GitHub Settings, Actions, secrets, reglas de rama o historial completo.
 
@@ -39,7 +39,10 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 7. [Puerta de preprogramación](PUERTA-PREPROGRAMACION.md) — bloqueos reales y secuencia de ejecución.
 8. [Política de seguridad](../SECURITY.md) — reporte coordinado de vulnerabilidades.
 9. [Estrategia Supabase y migraciones](ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md) — PostgreSQL, SQLite, entornos y regla migration-first.
-10. [Implementación etapa 1](IMPLEMENTACION-ETAPA-1.md) — primera vertical slice y validaciones pendientes.
+10. [Implementación etapa 1](IMPLEMENTACION-ETAPA-1.md) — enfoque y SQLite.
+11. [Implementación etapa 2](IMPLEMENTACION-ETAPA-2-HABITOS.md) — hábitos locales.
+12. [Implementación etapa 3](IMPLEMENTACION-ETAPA-3-OBJETIVOS.md) — objetivos semanales.
+13. [Investigación de hábitos y progreso](INVESTIGACION-HABITOS-PROGRESO.md) — patrones open source y reglas anti-daño.
 
 ## 3. Decisiones de trabajo vigentes
 
