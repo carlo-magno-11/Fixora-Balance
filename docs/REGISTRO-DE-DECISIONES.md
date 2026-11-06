@@ -79,3 +79,25 @@ Añadir una fila por decisión nueva o modificación. No borrar decisiones previ
 **Consecuencias:** no añadir NativeWind/Uniwind ni una UI library completa antes de probar compatibilidad, coste de migración y necesidad real. Los tokens son fuente de verdad para estilos; los componentes visuales no contendrán colores arbitrarios.
 
 **Validación pendiente:** contraste WCAG 2.2 AA, estados accesibles, tamaños táctiles, Reduce Motion y pruebas visuales iOS/Android/web. La paleta no se declara definitiva hasta completar estas pruebas.
+
+
+## DEC-UX-002 — Hábitos locales antes de sincronización
+
+**Fecha:** 6 de noviembre de 2026  
+**Estado:** aceptada para MVP local; pendiente de pruebas físicas.
+
+**Decisión:** introducir hábitos diarios y semanales en SQLite. La frecuencia diaria equivale a siete objetivos semanales; la frecuencia semanal admite metas de una a siete veces. Cada check-in se identifica por hábito y fecha local, con unicidad por día; deshacer es una acción explícita.
+
+**Justificación:** validar el valor y la persistencia del módulo sin añadir Auth, sincronización ni tablas remotas antes de aprobar RLS y resolución de conflictos.
+
+**Consecuencias:** el progreso es local y no se atribuye XP ni rachas en esta etapa. La sincronización futura debe respetar timezone, idempotencia, borrado y conflictos multi-dispositivo.
+
+**Validación:** CI de la etapa 2, migración SQLite v1→v2 con datos previos, instalación limpia y pruebas en Android/iOS físicos.
+
+## FB-039 — Primera vertical slice de hábitos
+
+Se aprueba como alcance local inicial la creación de hábitos diarios/semanales, meta semanal, check-in diario y resumen semanal. La funcionalidad se mantiene offline-first en SQLite; no se concede XP ni se sincroniza hasta definir eventos y RLS.
+
+## FB-040 — Identidad idempotente de cumplimiento
+
+Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricción única en SQLite. Las operaciones de check-in no duplican eventos; deshacer es explícito. La futura sincronización debe preservar esta identidad y documentar reglas de timezone.
