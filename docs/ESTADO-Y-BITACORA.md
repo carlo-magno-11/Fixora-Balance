@@ -33,7 +33,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 ## 3. Decisiones de trabajo vigentes
 
 - Mantener Fixora-Balance público mientras el contenido sea documentación y código que aceptemos publicar. Revaluar antes de incorporar secretos, propiedad intelectual confidencial o despliegues sensibles.
-- Precios piloto en México: Plus $79/$799; Protección $49/$499; Family $109/$1,099; Completo $179/$1,799; extensión +3 dispositivos $29/$299 MXN (mensual/anual). Son propuestas, no tarifas aprobadas.
+- Precios piloto en México: Plus $79/$799; Protección $49/$499; Family $109/$1,099; Completo $179/$1,799; extensión +3 dispositivos $29/$299 MXN (mensual/anual). Aprobados como base inicial de trabajo, no definitivos ni publicados.
 - Prueba integral de 14 días, una vez por cuenta elegible, con conversión transparente al plan elegido.
 - Stripe Billing como candidato web; Mercado Pago como alternativa a comparar.
 - StoreKit e IAP en iOS; Google Play Billing en Android. No asumir catálogo modular acumulable sin prototipo de compras y cambios de plan.
@@ -84,6 +84,28 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 5. Cerrar seguridad, privacidad y licencia.
 6. Aprobar la arquitectura y el esquema de datos.
 7. Solo entonces iniciar el código de la aplicación y las migraciones de desarrollo.
+
+## 6. Bitácora de sesiones
+
+### 2026-11-06 — Aprobación de precios piloto y cierre documental previo a programación
+**Trabajo realizado**
+- El responsable del producto aprobó los precios MXN propuestos como referencia inicial de trabajo, sujetos a revisión antes de publicación.
+- Confirmada la recomendación de MVP: Free + Plus Personal; Protección y Family continúan en la visión, pero quedan condicionados a prototipos nativos, permisos, políticas y revisión legal.
+- Creados ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md, MATRIZ-CATALOGO-ENTITLEMENTS.md, MATRIZ-CAPACIDADES-NATIVAS.md, MODELO-DATOS-Y-ARQUITECTURA.md y THREAT-MODEL-INICIAL.md.
+- Actualizados README, PLAN-MAESTRO, MONETIZACION-Y-LICENCIAS y REGISTRO-DE-DECISIONES para reflejar el nuevo estado.
+- Revisadas fuentes oficiales Apple Family Controls, Google Play VpnService y Supabase Production Security Checklist.
+
+**Decisiones**
+- Precios piloto aceptados como base, no finales ni publicados.
+- MVP funcional prioriza Free + Plus; Protección/Family quedan para fases posteriores con puertas explícitas.
+- No iniciar migraciones hasta cerrar los límites de dispositivos, canal/proveedor inicial, retención y autorización de datos.
+
+**Pendientes críticos**
+- Resolver si los dispositivos personales del tutor cuentan dentro de los cinco dispositivos Family.
+- Elegir plataforma/canal inicial y confirmar mínimos de iOS/Android.
+- Auditar Settings, workflows, permisos de Actions, secretos, licencia y protección de main.
+- Prototipos UsageStats, FamilyControls y VpnService antes de activar funciones dependientes.
+- Validar fiscalidad, privacidad infantil, términos y reembolsos con asesoría adecuada.
 
 ## 6. Bitácora de sesiones
 
