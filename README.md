@@ -12,6 +12,7 @@ La experiencia inicial de enfoque y la primera pantalla de hábitos están escri
 ## Documento rector
 - [Plan maestro del producto](docs/PLAN-MAESTRO.md)
 - [Sistema visual y dirección UX](docs/SISTEMA-DISENO-UX.md)
+- [Investigación de hábitos y progreso consciente](docs/INVESTIGACION-HABITOS-PROGRESO.md)
 - [Modelo comercial, paquetes, pruebas y pagos](docs/MONETIZACION-Y-LICENCIAS.md)
 - [Propuesta comercial y precios piloto](docs/PROPUESTA-COMERCIAL-Y-PRECIOS.md)
 - [Seguridad del repositorio público](docs/SEGURIDAD-REPOSITORIO-PUBLICO.md)
