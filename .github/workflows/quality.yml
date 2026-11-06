@@ -39,8 +39,7 @@ jobs:
           path = Path("supabase/config.toml")
           text = path.read_text()
           start = text.index("[db.migrations]")
-          end = text.find("
-[", start + 1)
+          end = text.find("\n[", start + 1)
           if end == -1:
               end = len(text)
           section = text[start:end]
@@ -59,8 +58,7 @@ jobs:
           path = Path("supabase/config.toml")
           text = path.read_text()
           start = text.index("[db.migrations]")
-          end = text.find("
-[", start + 1)
+          end = text.find("\n[", start + 1)
           if end == -1:
               end = len(text)
           section = text[start:end]
