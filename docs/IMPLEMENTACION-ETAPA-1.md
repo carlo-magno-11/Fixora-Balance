@@ -42,14 +42,14 @@ El lockfile ya está generado y versionado. El workflow instala con `pnpm instal
 
 ## 4. Próximas tareas
 
-1. CI de reconstrucción local, migraciones y pgTAP completado correctamente para el commit `aff85cd`.
-2. Ejecutar Expo Doctor y preparar builds nativos/dev clients.
-3. Probar SQLite, background y restauración en dispositivos físicos.
-4. Añadir manejo de errores/migraciones locales y pruebas de reinicio/background.
-5. Añadir objetivos y hábitos con repositorios SQLite y pruebas.
-6. Crear primera migración de perfiles/preferencias Supabase con RLS y pgTAP.
+1. Ejecutar Expo Doctor y preparar builds nativos/dev clients.
+2. Probar migraciones SQLite v1→v3, background, reinicio y restauración en dispositivos físicos.
+3. Añadir pruebas de integración del repositorio SQLite y manejo de errores/migraciones fallidas.
+4. Revisar el historial local y agregados de objetivos con sesiones completadas.
+5. Diseñar objetivos/hábitos sincronizables, timezone, cola idempotente y conflictos antes de enviar datos.
+6. Diseñar primera migración remota de perfiles/preferencias/hábitos/objetivos con RLS y pgTAP; no aplicar hasta revisión de seguridad.
 7. Implementar Auth cuando el esquema y el trigger de perfil estén revisados.
-8. Definir sincronización con cola idempotente y conflictos antes de enviar datos.
+8. Definir progreso/XP desde eventos fuente verificables, con reversión y gamificación opcional.
 9. Prototipar APIs nativas de control de aplicaciones por separado; no prometer bloqueo universal.
 
 ## 5. Base tecnológica investigada
