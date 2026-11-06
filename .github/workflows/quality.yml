@@ -98,7 +98,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Expo Doctor
         run: pnpm dlx expo-doctor@1.21.6
