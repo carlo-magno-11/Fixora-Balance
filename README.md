@@ -7,7 +7,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 
 **Estado: prototipo técnico inicial.**
 
-La experiencia inicial de enfoque y la primera pantalla de hábitos están escritas. TypeScript, Vitest, reconstrucción Supabase/pgTAP y exportación JavaScript Android/iOS han pasado en CI hasta el commit de diseño; la etapa de hábitos requiere su propia ejecución CI. No está lista para usuarios: faltan pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
+La experiencia inicial de enfoque, la pantalla de hábitos y los objetivos semanales están escritos. TypeScript, Vitest, reconstrucción Supabase/pgTAP y exportación JavaScript Android/iOS han pasado en CI hasta el commit de diseño; las etapas de hábitos y objetivos requieren su ejecución CI final. No está lista para usuarios: faltan pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
 
 ## Documento rector
 - [Plan maestro del producto](docs/PLAN-MAESTRO.md)
@@ -46,7 +46,8 @@ Consulta las implementaciones [etapa 1](docs/IMPLEMENTACION-ETAPA-1.md) y [etapa
 - Fase: núcleo local de enfoque y primera vertical slice de hábitos; CI de hábitos y validación física pendientes.
 - Existe scaffold Expo SDK 58 / React Native 0.88 / React 19.3 / TypeScript 6 / Expo Router 58.
 - La pantalla inicial contiene un temporizador de enfoque con pausa/reanudación y persistencia SQLite.
-- La pantalla Hábitos permite crear hábitos diarios/semanales y registrar cumplimiento local; la sincronización no está implementada.
+- La pantalla Hábitos permite crear hábitos diarios/semanales y registrar cumplimiento local.
+- La pantalla Objetivos permite medir metas semanales desde sesiones completadas y check-ins persistidos; no hay XP ni sincronización remota.
 - `pnpm-lock.yaml` está versionado y CI usa instalación frozen.
 - TypeScript, Vitest y exportación JS Android/iOS han pasado en GitHub Actions.
 - El workflow local Supabase/pgTAP reconstruye la migración remota y prueba el event trigger hosted mediante fixtures; la ejecución más reciente para la etapa 1 pasó.
