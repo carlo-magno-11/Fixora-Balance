@@ -341,7 +341,7 @@ Las políticas y tarifas cambian. Volver a verificar fuentes oficiales antes de 
 
 ## 15. Actualización comercial y decisión de repositorio — 6 de noviembre de 2026
 
-La propuesta de precios piloto se encuentra en [PROPUESTA-COMERCIAL-Y-PRECIOS.md](PROPUESTA-COMERCIAL-Y-PRECIOS.md). Valores propuestos para validar en México: Plus Personal $79 MXN/mes o $799/año; Protección Personal $49/mes o $499/año; Family $109/mes o $1,099/año; Balance Completo $179/mes o $1,799/año; extensión de tres dispositivos $29/mes o $299/año. **No son precios aprobados ni publicados.** Requieren validar disposición de pago, coste real, impuestos, tarifas de proveedor y límites técnicos.
+La propuesta de precios piloto se encuentra en [PROPUESTA-COMERCIAL-Y-PRECIOS.md](PROPUESTA-COMERCIAL-Y-PRECIOS.md). Valores propuestos para validar en México: Plus Personal $79 MXN/mes o $799/año; Protección Personal $49/mes o $499/año; Family $109/mes o $1,099/año; Balance Completo $179/mes o $1,799/año; extensión de tres dispositivos $29/mes o $299/año. **Precios piloto aprobados como base de trabajo por el responsable del producto; no son precios definitivos ni están publicados.** Antes de publicar se validarán disposición de pago, coste real, impuestos, tarifas de proveedor y límites técnicos.
 
 La prueba recomendada es una sola prueba de 14 días de Balance Completo por cuenta elegible y canal de compra, con método de pago cuando el proveedor lo requiera, consentimiento explícito de renovación, precio posterior visible y sin reinicios por añadir módulos.
 
@@ -350,5 +350,7 @@ La arquitectura comercial debe separar productos/SKUs, derechos atómicos, trans
 **Restricción multiplataforma:** no asumir que la venta modular recurrente se implementa igual en web, iOS y Android. Apple limita a una suscripción activa por grupo y requiere diseño de niveles; las combinaciones modulares deben probarse en Sandbox para evitar dobles cobros. Google Play Billing también debe probarse con su ciclo de vida. La web puede ofrecer el catálogo más flexible, sujeto a políticas de tienda al mostrar/permitir compras externas.
 
 **Repositorio:** se mantiene público por ahora para aprovechar runners estándar gratuitos de GitHub Actions y facilitar revisiones. Esto solo es aceptable mientras se publique contenido no sensible, se decida la licencia y se verifiquen escaneo de secretos, dependencias, permisos de Actions y protección de ramas. La política está en [SEGURIDAD-REPOSITORIO-PUBLICO.md](SEGURIDAD-REPOSITORIO-PUBLICO.md). No se ha auditado aún toda la configuración de Settings.
+
+El alcance del primer MVP y sus criterios están en [ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md](ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md). La matriz SKU→derechos está en [MATRIZ-CATALOGO-ENTITLEMENTS.md](MATRIZ-CATALOGO-ENTITLEMENTS.md). La viabilidad por sistema operativo se documenta en [MATRIZ-CAPACIDADES-NATIVAS.md](MATRIZ-CAPACIDADES-NATIVAS.md); el diseño lógico en [MODELO-DATOS-Y-ARQUITECTURA.md](MODELO-DATOS-Y-ARQUITECTURA.md); y los riesgos en [THREAT-MODEL-INICIAL.md](THREAT-MODEL-INICIAL.md).
 
 La bitácora viva se mantiene en [ESTADO-Y-BITACORA.md](ESTADO-Y-BITACORA.md). Toda redirección sustancial debe actualizar este plan y el registro de decisiones antes de implementarse.
