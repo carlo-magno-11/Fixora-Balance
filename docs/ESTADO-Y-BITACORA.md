@@ -335,3 +335,24 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Creado `docs/INVESTIGACION-HABITOS-PROGRESO.md`.
 - Decisión propuesta: progreso no punitivo; descansos y omisiones no borran puntos ganados; XP opcional y desactivable.
 - No se implementa XP todavía. Faltan eventos fuente, idempotencia, reversión, zona horaria y reglas offline.
+
+
+### 2026-11-06 — Etapa 3: objetivos semanales
+
+**Trabajo en main**
+- Añadido dominio de objetivos semanales con dos métricas: sesiones completadas y check-ins de hábitos.
+- Añadidas pruebas de dominio para creación, normalización y límites.
+- Creada migración SQLite 003 y actualizado el gestor de base local a versión 3.
+- Añadido repositorio de objetivos con agregación semanal basada en sesiones completadas y check-ins reales.
+- Añadida pantalla `/goals` para crear metas y ver avance calculado, sin progreso editable.
+- Añadidos accesos desde Inicio y Hábitos.
+- Creado `docs/IMPLEMENTACION-ETAPA-3-OBJETIVOS.md`.
+
+**Validación local aislada**
+- En SQLite 3.46.1 se comprobó la consulta de agregación para ambas métricas y la conservación de filas de sesiones/hábitos. No sustituye CI ni prueba de Expo SQLite.
+
+**Pendiente**
+- CI del commit final de etapa 3.
+- Prueba física de migración SQLite desde v1/v2 y creación/avance de objetivos.
+- Edición/archivo de objetivos y asociación directa a hábitos siguen fuera de esta primera versión.
+- XP, niveles, rachas, insignias, Auth y sincronización remota siguen pendientes.
