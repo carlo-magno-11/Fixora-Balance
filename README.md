@@ -19,6 +19,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 - [Catálogo y matriz de derechos](docs/MATRIZ-CATALOGO-ENTITLEMENTS.md)
 - [Capacidades nativas iOS/Android](docs/MATRIZ-CAPACIDADES-NATIVAS.md)
 - [Arquitectura y modelo de datos](docs/MODELO-DATOS-Y-ARQUITECTURA.md)
+- [Estrategia Supabase y migraciones](docs/ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md)
 - [Threat model inicial](docs/THREAT-MODEL-INICIAL.md)
 - [Puerta de preprogramación](docs/PUERTA-PREPROGRAMACION.md)
 
@@ -36,6 +37,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 - Rama principal confirmada: main
 - Fase: cierre de decisiones y preparación previa a programación.
 - No se ha iniciado la implementación de la aplicación.
-- No se han creado productos de pago, cuentas de proveedores, suscripciones ni migraciones de base de datos.
+- Supabase se ha definido como backend propuesto; SQLite cubrirá trabajo offline.
+- No existe aún un proyecto Supabase de Fixora Balance y no se han ejecutado SQL ni migraciones.
 
 La documentación del plan maestro define alcance, arquitectura, seguridad, privacidad, plataformas, monetización, etapas y criterios de salida. Cualquier cambio sustancial debe justificarse y registrarse antes de convertirse en implementación.
