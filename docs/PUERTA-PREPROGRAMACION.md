@@ -2,7 +2,7 @@
 
 **Versión:** 1.0  
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** preparación documental avanzada; todavía no autoriza empezar implementación funcional ni migraciones.
+**Estado:** primera vertical slice escrita; no autoriza lanzamiento ni ampliación sin validar instalación, CI, pruebas y dispositivo.
 
 Este documento es la lista de control final para convertir el plan en ejecución. Distingue decisiones ya aceptadas, recomendaciones de trabajo y bloqueos reales.
 
@@ -73,9 +73,14 @@ Por lo tanto:
 ### P1 — Preparación técnica
 - [ ] Crear estructura del monorepo solo después de revisar convenciones y stack final.
 - [ ] Definir contratos de dominio y adaptadores.
-- [ ] Crear proyecto Supabase remoto exclusivo para Fixora Balance, después de confirmar organización y coste; verificar ref/proyecto antes de cualquier migración.
+- [x] Crear proyecto Supabase remoto exclusivo de desarrollo en organización Free; ref `emacfszktufyqtfgzunl`, región `us-east-1`, estado `ACTIVE_HEALTHY`.
 - [x] Definir estrategia Supabase + PostgreSQL remoto + SQLite local y política migration-first en ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md.
 - [ ] Definir ambientes local, staging y producción.
+- [x] Crear scaffold inicial Expo SDK 58 y dominio de enfoque.
+- [x] Añadir persistencia local SQLite versionada para sesiones de enfoque.
+- [x] Añadir workflow inicial de calidad.
+- [ ] Generar lockfile, ejecutar CI y validar en dispositivos físicos.
+- [ ] Preparar Supabase CLI/Docker local y reconstrucción de esquema.
 - [ ] Configurar CI con permisos mínimos, SHA completo y sin secretos en PR externos.
 - [ ] Definir estrategia de pruebas unitarias, integración, E2E y dispositivos físicos.
 - [ ] Revisar threat model y esquema de datos con pruebas RLS.
@@ -91,7 +96,7 @@ Por lo tanto:
 
 ## 6. Criterio para declarar “listos para programar”
 
-La fase documental queda cerrada cuando los seis puntos P0 estén decididos, la licencia/visibilidad esté resuelta, el stack y las versiones mínimas estén fijados, el proyecto Supabase remoto de desarrollo esté identificado sin ambigüedad, el stack local pueda reconstruir el esquema y el esquema de datos pase revisión de autorización. Todas las migraciones deberán estar versionadas y probadas localmente.
+La fase de planificación permitió iniciar una primera vertical slice, pero no se considera cerrada para lanzamiento. El proyecto Supabase remoto está identificado y tiene una primera migración de hardening; el stack local aún debe generar lockfile, reconstruir esquema y ejecutar pruebas. La licencia/visibilidad, versiones mínimas, canal comercial y política de sincronización siguen abiertos. Todas las migraciones deberán estar versionadas y probadas localmente.
 
 La primera tarea de código será un spike vertical pequeño y verificable, no construir toda la app de golpe: iniciar app, probar navegación, persistencia local, sesión de enfoque y pruebas automatizadas; después revisar en Android/iOS antes de ampliar alcance.
 
