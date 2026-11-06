@@ -4,7 +4,7 @@
 **Fecha:** 6 de noviembre de 2026  
 **Marca matriz:** Fixora Dynamics  
 **Repositorio:** carlo-magno-11/Fixora-Balance  
-**Estado:** núcleo local de enfoque, hábitos y objetivos implementado; CI de TypeScript, Vitest, bundles Android/iOS, Expo Doctor y Supabase/pgTAP aprobado en run `42312724248` con lockfile congelado; builds nativos y pruebas físicas pendientes.
+**Estado:** núcleo local de enfoque, hábitos y objetivos implementado; CI de TypeScript, 27 pruebas Vitest, bundles Android/iOS, Expo Doctor y Supabase/pgTAP aprobado en run `42313449617` con lockfile congelado; builds nativos y pruebas físicas pendientes.
 
 ---
 
@@ -419,9 +419,9 @@ No se implementan XP, rachas, insignias ni sincronización remota. El run `42308
 
 El run de GitHub Actions `42308655770` finalizó con éxito en sus dos trabajos: `TypeScript and domain tests` y `Local Supabase migrations and pgTAP`. El primero completó TypeScript, Vitest y bundles JavaScript Android/iOS; el segundo inició Supabase local, aplicó migraciones a una base limpia y ejecutó pgTAP. Esto valida CI, no builds nativos ni funcionamiento en dispositivos.
 
-**Siguiente puerta técnica:** Expo Doctor, development builds, migración SQLite v1→v3 en Expo, pruebas de persistencia/background/reinicio en Android e iOS. Luego historial/eventos verificables y diseño de XP opcional; sincronización remota seguirá bloqueada hasta completar modelo, RLS y pgTAP revisados.
+**Siguiente puerta técnica:** development builds, migración SQLite v1→v3 en Expo, pruebas de persistencia/background/reinicio en Android e iOS. Expo Doctor y lockfile congelado ya pasaron. El run 42313449617 también validó Inicio/Hoy y 27 pruebas. Luego historial/eventos verificables y diseño de XP opcional; sincronización remota seguirá bloqueada hasta completar modelo, RLS y pgTAP revisados.
 
 
 ## 22. Inicio/Hoy dinámico y accesibilidad de la paleta — 6 de noviembre de 2026
 
-Inicio/Hoy ahora consulta los resúmenes reales de hábitos y objetivos desde SQLite cada vez que la pantalla recupera foco y cuando se completa una sesión. Muestra hasta dos objetivos y dos hábitos, con valores reales, barras limitadas a 100% y estados de carga/error/reintento; no inventa estadísticas. La paleta añade accentGoldText (#8B632D) y oscurece textSecondary (#6E685F). El texto pequeño de eyebrow usa el token de texto, no el dorado ornamental. Se agregaron pruebas Vitest de contraste WCAG AA para doce combinaciones semánticas. La auditoría visual completa y pruebas físicas siguen pendientes.
+Inicio/Hoy ahora consulta los resúmenes reales de hábitos y objetivos desde SQLite cada vez que la pantalla recupera foco y cuando se completa una sesión. Muestra hasta dos objetivos y dos hábitos, con valores reales, barras limitadas a 100% y estados de carga/error/reintento; no inventa estadísticas. La paleta añade accentGoldText (#8B632D) y oscurece textSecondary (#6E685F). El texto pequeño de eyebrow usa el token de texto, no el dorado ornamental. Se agregaron pruebas Vitest de contraste WCAG AA para doce combinaciones semánticas; 27 pruebas pasaron en run `42313449617`. El run también validó la corrección para refrescar el resumen después de persistir una sesión completada. La auditoría visual completa y pruebas físicas siguen pendientes.

@@ -7,7 +7,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 
 **Estado: prototipo técnico inicial.**
 
-La experiencia local de enfoque, hábitos y objetivos está implementada. El run `42312724248` pasó con instalación `pnpm install --frozen-lockfile`: Expo Doctor (20/20), TypeScript, Vitest, bundles JavaScript Android/iOS y Supabase local/pgTAP; sin avisos de peer dependencies. No está lista para usuarios: faltan builds nativos, pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
+La experiencia local de enfoque, hábitos y objetivos está implementada. El run `42313449617` pasó con instalación `pnpm install --frozen-lockfile`: Expo Doctor (20/20), TypeScript, 27 pruebas Vitest, bundles JavaScript Android/iOS y Supabase local/pgTAP; sin avisos de peer dependencies. Inicio/Hoy muestra ahora progreso real desde SQLite. No está lista para usuarios: faltan builds nativos, pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
 
 ## Documento rector
 - [Plan maestro del producto](docs/PLAN-MAESTRO.md)

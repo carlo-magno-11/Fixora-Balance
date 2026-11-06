@@ -57,7 +57,8 @@ La Etapa 3 estratégica sigue pendiente: historial de eventos, puntos/XP, nivele
 
 - Run 42308655770: CI de hábitos/objetivos, TypeScript, Vitest, bundles JS Android/iOS, Supabase local y pgTAP aprobado.
 - Run 42312021727: Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP aprobados; instalación sin warnings de peer dependencies. Se usó temporalmente para generar el lockfile.
-- Run 42312724248: instalación pnpm install --frozen-lockfile con lockfile up to date, Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS, Supabase local y pgTAP; ambos jobs success. Este es el CI reproducible de referencia.
+- Run 42312724248: instalación pnpm install --frozen-lockfile con lockfile up to date, Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS, Supabase local y pgTAP; ambos jobs success. Este es el CI reproducible del lockfile.
+- Run 42313449617: la versión actual de Inicio/Hoy, la actualización posterior al guardado SQLite y los doce tests de contraste se validaron con instalación congelada; 27 tests, Expo Doctor 20/20, TypeScript, bundles JS Android/iOS y Supabase local/pgTAP pasaron.
 - Ninguno de esos runs acredita build nativo, E2E ni pruebas físicas.
 
 ### 3.3 Supabase remoto verificado

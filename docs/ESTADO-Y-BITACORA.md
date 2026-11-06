@@ -17,7 +17,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - Se añadieron la propuesta comercial/precios piloto y la política de seguridad del repositorio público.
 - Se actualizaron README, plan maestro, monetización y registro de decisiones.
 - Scaffold Expo SDK 58 y primera experiencia de enfoque escritos en `main`.
-- Dominio de sesiones, hábitos y objetivos con pruebas Vitest; CI de hábitos/objetivos aprobado en `42308655770`; validación integral con Expo Doctor 20/20, lockfile congelado y sin avisos de peer dependencies aprobada en `42312724248`.
+- Dominio de sesiones, hábitos y objetivos con pruebas Vitest; CI de hábitos/objetivos aprobado en `42308655770`; validación integral con Expo Doctor 20/20, lockfile congelado y sin avisos de peer dependencies aprobada en `42313449617`.
 - Exportación JavaScript para Android e iOS pasa en GitHub Actions; no equivale a build nativo ni prueba física.
 - Persistencia SQLite local con migraciones versionadas 001–003: sesiones, hábitos y objetivos; actualización v1→v3 aún pendiente de prueba física.
 - `pnpm-lock.yaml` alineado con React Native 0.88.1, safe-area-context 5.11.1 y metro-config 0.88.1; `pnpm install --frozen-lockfile` pasó en run `42312724248`.
@@ -408,8 +408,9 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 
 
 ### 2026-11-06 — CI congelado, Inicio/Hoy y contraste
-- Run `42312724248` terminó success en ambos jobs. `pnpm install --frozen-lockfile` informó lockfile up to date; Expo Doctor 20/20; TypeScript, Vitest, bundles Android/iOS, Supabase local y pgTAP pasaron.
-- Actions directas fijadas por SHA; checkouts con persist-credentials false; permisos de workflow contents: read.
-- Inicio/Hoy muestra datos reales de hábitos/objetivos desde SQLite y se refresca al recuperar foco y al completar sesión.
+- Run `42312724248` confirmó la instalación congelada, Expo Doctor 20/20, TypeScript, Vitest, bundles y Supabase local/pgTAP.
 - Se añadió token accentGoldText #8B632D, textSecondary #6E685F y tests WCAG AA para doce pares de texto/fondo.
+- Inicio/Hoy muestra datos reales de hábitos/objetivos desde SQLite. La actualización al completar sesión se ejecuta después de que la escritura SQLite confirma éxito, evitando consultar antes de persistir.
+- Run `42313449617` terminó success en ambos jobs: pnpm install --frozen-lockfile, Expo Doctor 20/20, TypeScript, 27 pruebas Vitest, bundles Android/iOS, Supabase local y pgTAP.
+- Actions directas fijadas por SHA; checkouts con persist-credentials false; permisos de workflow contents: read.
 - Sin build nativo ni pruebas físicas. Sin migraciones de negocio ni cambios remotos en Supabase.

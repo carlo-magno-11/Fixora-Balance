@@ -163,7 +163,7 @@ Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricció
 ## DEC-UX-005 — Contraste semántico del dorado
 
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** implementada; tokens semánticos y doce pruebas WCAG AA pasan en CI 42312724248; auditoría visual/physical pendiente.
+**Estado:** implementada; tokens semánticos y doce pruebas WCAG AA pasan en CI 42313449617; auditoría visual/física pendiente.
 
 **Decisión:** #C99B58 se reserva para iconografía/ornamento y no se usa como texto pequeño sobre fondos claros. El token candidato #8B632D alcanza contraste WCAG AA sobre crema/blanco; textSecondary requiere oscurecerse ligeramente para alcanzar AA también sobre surfaceSubtle.
 
@@ -179,4 +179,4 @@ Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricció
 
 **Motivo:** convertir el espacio de progreso en una vista útil y verificable sin fomentar comparación, culpa ni métricas fabricadas.
 
-**Validación:** run 42312724248 pasó TypeScript, Vitest y bundles JS Android/iOS. Falta E2E y prueba en dispositivos.
+**Validación:** run 42313449617 pasó instalación congelada, Expo Doctor 20/20, TypeScript, 27 pruebas Vitest, bundles JS Android/iOS y Supabase local/pgTAP. La persistencia del resultado se refresca después de confirmar el guardado SQLite. Falta E2E y prueba en dispositivos.
