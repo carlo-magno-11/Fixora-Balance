@@ -14,6 +14,11 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 - [Seguridad del repositorio público](docs/SEGURIDAD-REPOSITORIO-PUBLICO.md)
 - [Estado y bitácora del proyecto](docs/ESTADO-Y-BITACORA.md)
 - [Registro de decisiones](docs/REGISTRO-DE-DECISIONES.md)
+- [Alcance MVP y criterios de aceptación](docs/ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md)
+- [Catálogo y matriz de derechos](docs/MATRIZ-CATALOGO-ENTITLEMENTS.md)
+- [Capacidades nativas iOS/Android](docs/MATRIZ-CAPACIDADES-NATIVAS.md)
+- [Arquitectura y modelo de datos](docs/MODELO-DATOS-Y-ARQUITECTURA.md)
+- [Threat model inicial](docs/THREAT-MODEL-INICIAL.md)
 
 ## Principios
 1. Bienestar antes que tiempo de pantalla: distinguir uso útil de uso problemático.
