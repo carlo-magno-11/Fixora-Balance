@@ -62,8 +62,14 @@ jobs:
       - name: Initialize local configuration
         run: supabase init --force
 
+      - name: Defer project migrations until hosted-platform fixture is installed
+        run: sed -i '/^\\[db.migrations\\]/,/^\\[/{s/^enabled = true$/enabled = false/;}' supabase/config.toml
+
       - name: Start local Supabase stack
         run: supabase start -x studio,mailpit,storage-api,imgproxy,edge-runtime,analytics,vector
+
+      - name: Enable project migrations after stack startup
+        run: sed -i '/^\\[db.migrations\\]/,/^\\[/{s/^enabled = false$/enabled = true/;}' supabase/config.toml
 
       - name: Simulate hosted platform RLS event trigger
         run: supabase db query --file supabase/tests/fixtures/hosted_rls_event_trigger.sql
