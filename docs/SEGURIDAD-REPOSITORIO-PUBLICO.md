@@ -107,7 +107,7 @@ Antes de publicar el código de la app, decidir una licencia. Si el objetivo es 
 - La rama por defecto observada es main.
 - Los cuatro documentos base existen y se pudieron leer.
 - Se añadieron .gitignore y SECURITY.md con reglas de exclusión y reporte privado de vulnerabilidades.
-- El workflow .github/workflows/quality.yml existe y se ejecuta en main. Sus permisos globales son contents: read, las acciones directas están fijadas por SHA completo y los checkouts usan persist-credentials: false.
+- El workflow .github/workflows/quality.yml existe y se ejecuta en main. Sus permisos globales son contents: read, las acciones directas están fijadas por SHA completo y los checkouts usan persist-credentials: false. El run 42312724248 pasó con instalación congelada.
 - No se ha auditado Settings, secrets, historial completo, reglas de rama, Secret Scanning, Push Protection, Dependabot, CodeQL ni permisos de colaboradores. El workflow de CI está endurecido, pero no equivale a verificar los controles de cuenta/repo.
 - No se ha confirmado si GitHub Private Vulnerability Reporting está habilitado; la política SECURITY.md condiciona el reporte a que la función esté disponible.
 - Por tanto, no se declara activado ningún control de seguridad hasta verificarlo.

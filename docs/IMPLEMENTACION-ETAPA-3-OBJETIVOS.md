@@ -2,7 +2,7 @@
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** `main`  
-**Estado:** objetivos locales y CI aprobados en 42308655770; Expo Doctor 20/20 y CI integral aprobados en 42312021727; prueba física y migración SQLite v1→v3 pendientes.
+**Estado:** objetivos locales y CI aprobados en 42308655770; Expo Doctor 20/20, lockfile congelado y CI integral aprobados en 42312724248; prueba física y migración SQLite v1→v3 pendientes.
 
 **Correspondencia de roadmap:** este corte técnico pertenece a la Etapa 2 estratégica. La Etapa 3 estratégica (progreso consciente, historial y recompensas) sigue pendiente.
 

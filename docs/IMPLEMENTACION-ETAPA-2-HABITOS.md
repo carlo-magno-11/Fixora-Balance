@@ -2,7 +2,7 @@
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** `main`  
-**Estado:** CI de hábitos aprobado en 42308655770; Expo Doctor 20/20 y CI integral aprobados en 42312021727; prueba física y migración SQLite en Expo pendientes.
+**Estado:** CI de hábitos aprobado en 42308655770; Expo Doctor 20/20, lockfile congelado y CI integral aprobados en 42312724248; prueba física y migración SQLite en Expo pendientes.
 
 **Correspondencia de roadmap:** este corte técnico pertenece a la Etapa 2 estratégica (núcleo de bienestar), no a la Etapa 3 estratégica (progreso consciente).
 

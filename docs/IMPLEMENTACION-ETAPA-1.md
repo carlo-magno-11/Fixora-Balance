@@ -2,7 +2,7 @@
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** main  
-**Estado:** CI integral aprobado en run 42312021727 (Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS, Supabase local y pgTAP); instalación congelada se vuelve a validar tras incorporar el lockfile; persistencia SQLite requiere prueba física.
+**Estado:** CI integral aprobado en run 42312724248 (pnpm install --frozen-lockfile, Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS, Supabase local y pgTAP); persistencia SQLite requiere prueba física.
 
 ## 1. Alcance entregado en el repositorio
 
@@ -73,4 +73,4 @@ Referencias:
 - app.json ya no declara newArchEnabled ni android.edgeToEdgeEnabled; Expo Doctor rechazaba ambas propiedades en el esquema actual.
 - React Native se alineó a 0.88.1; react-native-safe-area-context a ~5.11.1; @react-native/metro-config a 0.88.1 como devDependency/override para resolver el peer dependency.
 - Expo Doctor 20/20 pasó sin issues y pnpm install no reportó peer dependency warnings en run 42312021727.
-- El lockfile actualizado se incorpora al commit actual. El siguiente CI ejecutará pnpm install --frozen-lockfile para validar la reproducción exacta.
+- El lockfile actualizado se incorpora al commit actual. CI run 42312724248 confirmó pnpm install --frozen-lockfile con lockfile up to date.

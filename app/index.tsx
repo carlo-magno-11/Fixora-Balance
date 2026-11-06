@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
-import { Link } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useFocusEffect } from "expo-router";
 import { theme } from "@/theme/tokens";
+import { getLocalDayKey, getLocalWeekStartKey } from "@/domain/habits/habit";
+import { getHabitSummaries, type HabitSummary } from "@/infrastructure/local/habit-repository";
+import { getGoalSummaries, type GoalSummary } from "@/infrastructure/local/goal-repository";
 import { deleteFocusSession, getLatestFocusSession, saveFocusSession } from "@/infrastructure/local/focus-session-repository";
 import {
   Pressable,
@@ -29,6 +32,7 @@ const COLORS = {
   accentSoft: theme.colors.brandBurgundySoft,
   accentBorder: theme.colors.brandBurgundyBorder,
   gold: theme.colors.accentGold,
+  goldText: theme.colors.accentGoldText,
   line: theme.colors.border,
   green: theme.colors.primary,
   greenSoft: theme.colors.primarySoft,
@@ -36,6 +40,11 @@ const COLORS = {
   surfaceWarm: theme.colors.surfaceWarm,
   white: theme.colors.white,
 };
+
+function getWeekStartMs(dayKey: string): number {
+  const [year, month, day] = dayKey.split("-").map(Number);
+  return new Date(year, month - 1, day).getTime();
+}
 
 function formatTime(totalSeconds: number): string {
   const minutes = Math.floor(totalSeconds / 60);
@@ -49,6 +58,41 @@ export default function HomeScreen() {
   const [remainingSeconds, setRemainingSeconds] = useState(durationMinutes * 60);
   const [storageReady, setStorageReady] = useState(false);
   const [storageError, setStorageError] = useState(false);
+  const [homeHabits, setHomeHabits] = useState<HabitSummary[]>([]);
+  const [homeGoals, setHomeGoals] = useState<GoalSummary[]>([]);
+  const [homeSummaryLoading, setHomeSummaryLoading] = useState(true);
+  const [homeSummaryError, setHomeSummaryError] = useState(false);
+
+  const refreshHomeSummary = useCallback(async () => {
+    const now = new Date();
+    const todayKey = getLocalDayKey(now);
+    const weekStartKey = getLocalWeekStartKey(now);
+
+    try {
+      const [habits, goals] = await Promise.all([
+        getHabitSummaries(weekStartKey, todayKey),
+        getGoalSummaries({
+          weekStartKey,
+          todayKey,
+          weekStartMs: getWeekStartMs(weekStartKey),
+          nowMs: Date.now(),
+        }),
+      ]);
+      setHomeHabits(habits);
+      setHomeGoals(goals);
+      setHomeSummaryError(false);
+    } catch {
+      setHomeSummaryError(true);
+    } finally {
+      setHomeSummaryLoading(false);
+    }
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      void refreshHomeSummary();
+    }, [refreshHomeSummary]),
+  );
 
   useEffect(() => {
     let mounted = true;
@@ -66,6 +110,7 @@ export default function HomeScreen() {
               if (completed.ok) {
                 restored = completed.value;
                 await saveFocusSession(restored);
+                void refreshHomeSummary();
               }
             }
           } else {
@@ -85,7 +130,7 @@ export default function HomeScreen() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [refreshHomeSummary]);
 
   useEffect(() => {
     if (!storageReady || !session) return;
@@ -101,14 +146,17 @@ export default function HomeScreen() {
 
       if (remaining === 0) {
         const result = completeFocusSession(session, Date.now());
-        if (result.ok) setSession(result.value);
+        if (result.ok) {
+          setSession(result.value);
+          void refreshHomeSummary();
+        }
       }
     };
 
     update();
     const interval = setInterval(update, 500);
     return () => clearInterval(interval);
-  }, [session]);
+  }, [session, refreshHomeSummary]);
 
   const isRunning = session?.status === "running";
   const isPaused = session?.status === "paused";
@@ -287,17 +335,77 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <View style={styles.emptyProgressCard}>
-          <View style={styles.emptyIcon}>
-            <Text style={styles.emptyIconText}>✧</Text>
+        {homeSummaryLoading && (
+          <View style={styles.emptyProgressCard}>
+            <Text style={styles.emptyText}>Preparando tu resumen semanal...</Text>
           </View>
-          <View style={styles.emptyCopy}>
-            <Text style={styles.emptyTitle}>Tu historia comienza aquí</Text>
-            <Text style={styles.emptyText}>
-              Cuando completes tus primeras sesiones y hábitos, verás aquí tu avance real. Sin comparaciones ni presión.
-            </Text>
+        )}
+
+        {!homeSummaryLoading && homeSummaryError && (
+          <View style={styles.emptyProgressCard}>
+            <View style={styles.emptyCopy}>
+              <Text style={styles.emptyTitle}>No pudimos cargar tu avance</Text>
+              <Text style={styles.emptyText}>Tus datos siguen guardados en este dispositivo. Puedes intentarlo de nuevo.</Text>
+              <Pressable accessibilityRole="button" onPress={() => void refreshHomeSummary()} style={styles.retryButton}>
+                <Text style={styles.retryText}>Reintentar</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
+        )}
+
+        {!homeSummaryLoading && !homeSummaryError && homeGoals.length === 0 && homeHabits.length === 0 && (
+          <View style={styles.emptyProgressCard}>
+            <View style={styles.emptyIcon}>
+              <Text style={styles.emptyIconText}>✧</Text>
+            </View>
+            <View style={styles.emptyCopy}>
+              <Text style={styles.emptyTitle}>Tu historia comienza aquí</Text>
+              <Text style={styles.emptyText}>
+                Crea un hábito o un objetivo semanal y verás aquí tu avance real. Tus sesiones completadas contarán en los objetivos que elijas.
+              </Text>
+            </View>
+          </View>
+        )}
+
+        {!homeSummaryLoading && !homeSummaryError && (homeGoals.length > 0 || homeHabits.length > 0) && (
+          <View style={styles.progressList}>
+            {homeGoals.slice(0, 2).map((goal) => {
+              const percentage = Math.min(100, Math.round((goal.currentValue / goal.targetPerWeek) * 100));
+              const metricLabel = goal.metric === "focus_sessions" ? "Sesiones de enfoque" : "Cumplimientos de hábitos";
+              return (
+                <View key={goal.id} style={styles.progressCard}>
+                  <View style={styles.progressCardHeader}>
+                    <Text style={styles.progressEyebrow}>OBJETIVO SEMANAL</Text>
+                    <Text style={styles.progressCount}>{goal.currentValue}/{goal.targetPerWeek}</Text>
+                  </View>
+                  <Text style={styles.progressTitle}>{goal.title}</Text>
+                  <View accessible accessibilityLabel={`Avance: ${goal.currentValue} de ${goal.targetPerWeek} ${metricLabel.toLowerCase()}`} style={styles.progressTrack}>
+                    <View style={[styles.progressFill, { width: `${percentage}%` }]} />
+                  </View>
+                  <Text style={styles.progressMeta}>{metricLabel}</Text>
+                </View>
+              );
+            })}
+            {homeHabits.slice(0, 2).map((habit) => {
+              const percentage = Math.min(100, Math.round((habit.completedThisWeek / habit.targetPerWeek) * 100));
+              return (
+                <View key={habit.id} style={styles.progressCard}>
+                  <View style={styles.progressCardHeader}>
+                    <Text style={styles.progressEyebrow}>HÁBITO</Text>
+                    <Text style={styles.progressCount}>{habit.completedThisWeek}/{habit.targetPerWeek}</Text>
+                  </View>
+                  <Text style={styles.progressTitle}>{habit.title}</Text>
+                  <View accessible accessibilityLabel={`Avance semanal: ${habit.completedThisWeek} de ${habit.targetPerWeek} cumplimientos`} style={styles.progressTrack}>
+                    <View style={[styles.progressFill, { width: `${percentage}%` }]} />
+                  </View>
+                  <Text style={styles.progressMeta}>
+                    {habit.completedToday ? "Registrado hoy" : "Sin registro hoy"} · {habit.frequency === "daily" ? "Diario" : "Frecuencia semanal"}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
+        )}
 
         <Link href="/habits" asChild>
           <Pressable accessibilityRole="button" style={styles.habitsLink}>
@@ -377,9 +485,20 @@ const styles = StyleSheet.create({
   secondaryButtonText: { color: COLORS.muted, fontSize: 12, fontWeight: "700" },
   focusFootnote: { color: COLORS.muted, fontSize: 10, lineHeight: 16, textAlign: "center", marginTop: 13 },
   sectionHeading: { marginTop: 31, marginBottom: 13 },
-  sectionEyebrow: { color: COLORS.gold, fontSize: 9, fontWeight: "900", letterSpacing: 1.8 },
+  sectionEyebrow: { color: COLORS.goldText, fontSize: 9, fontWeight: "900", letterSpacing: 1.8 },
   sectionTitle: { color: COLORS.ink, fontSize: 18, fontWeight: "800", marginTop: 5 },
   emptyProgressCard: { backgroundColor: COLORS.surfaceSubtle, borderRadius: 20, padding: 17, flexDirection: "row", gap: 13, alignItems: "flex-start" },
+  progressList: { gap: 10 },
+  progressCard: { backgroundColor: COLORS.surface, borderRadius: 20, padding: 16, borderWidth: 1, borderColor: COLORS.line },
+  progressCardHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  progressEyebrow: { color: COLORS.goldText, fontSize: 9, fontWeight: "900", letterSpacing: 1.5 },
+  progressCount: { color: COLORS.green, fontSize: 12, fontWeight: "900", fontVariant: ["tabular-nums"] },
+  progressTitle: { color: COLORS.ink, fontSize: 14, fontWeight: "800", marginTop: 7 },
+  progressTrack: { height: 7, borderRadius: 4, backgroundColor: COLORS.surfaceSubtle, overflow: "hidden", marginTop: 11 },
+  progressFill: { height: 7, borderRadius: 4, backgroundColor: COLORS.green },
+  progressMeta: { color: COLORS.muted, fontSize: 10, lineHeight: 15, marginTop: 7 },
+  retryButton: { alignSelf: "flex-start", marginTop: 10, paddingVertical: 6 },
+  retryText: { color: COLORS.green, fontSize: 12, fontWeight: "800" },
   emptyIcon: { width: 37, height: 37, borderRadius: 13, backgroundColor: COLORS.white, alignItems: "center", justifyContent: "center" },
   emptyIconText: { color: COLORS.gold, fontSize: 22 },
   emptyCopy: { flex: 1 },

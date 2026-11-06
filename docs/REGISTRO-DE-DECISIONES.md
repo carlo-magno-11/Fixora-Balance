@@ -142,7 +142,7 @@ Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricció
 ## DEC-TECH-002 — Expo Doctor como puerta de CI
 
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** Expo Doctor 20/20 aprobado en 42312021727; verificación final del lockfile congelado pendiente.
+**Estado:** Expo Doctor 20/20 y pnpm install --frozen-lockfile aprobados en 42312724248.
 
 **Decisión:** ejecutar `pnpm dlx expo-doctor@1.21.6` en GitHub Actions después de instalar dependencias y antes de TypeScript/Vitest.
 
@@ -163,8 +163,20 @@ Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricció
 ## DEC-UX-005 — Contraste semántico del dorado
 
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** hallazgo confirmado; token de texto y prueba automatizada pendientes.
+**Estado:** implementada; tokens semánticos y doce pruebas WCAG AA pasan en CI 42312724248; auditoría visual/physical pendiente.
 
 **Decisión:** #C99B58 se reserva para iconografía/ornamento y no se usa como texto pequeño sobre fondos claros. El token candidato #8B632D alcanza contraste WCAG AA sobre crema/blanco; textSecondary requiere oscurecerse ligeramente para alcanzar AA también sobre surfaceSubtle.
 
-**Validación:** agregar tokens semánticos y pruebas automatizadas de contraste antes de declarar definitiva la paleta.
+**Validación:** doce pares semánticos pasan WCAG AA; falta revisar pantallas completas, estados, contraste no textual y dispositivos.
+
+
+## DEC-UX-006 — Resumen real de progreso en Inicio/Hoy
+
+**Fecha:** 6 de noviembre de 2026  
+**Estado:** implementada localmente; CI aprobado; validación física pendiente.
+
+**Decisión:** Inicio/Hoy consulta resúmenes reales de hábitos y objetivos desde SQLite al recuperar foco y al completar una sesión. Muestra hasta dos objetivos y dos hábitos, barras limitadas a 100%, y estados de carga, error y reintento. El empty state orienta a crear un hábito u objetivo, sin inventar estadísticas.
+
+**Motivo:** convertir el espacio de progreso en una vista útil y verificable sin fomentar comparación, culpa ni métricas fabricadas.
+
+**Validación:** run 42312724248 pasó TypeScript, Vitest y bundles JS Android/iOS. Falta E2E y prueba en dispositivos.

@@ -4,7 +4,7 @@
 **Fecha:** 6 de noviembre de 2026  
 **Marca matriz:** Fixora Dynamics  
 **Repositorio:** carlo-magno-11/Fixora-Balance  
-**Estado:** núcleo local de enfoque, hábitos y objetivos implementado; CI de TypeScript, Vitest, bundles Android/iOS, Expo Doctor y Supabase/pgTAP aprobado en run `42312021727`; verificación final con lockfile congelado, builds nativos y pruebas físicas pendientes.
+**Estado:** núcleo local de enfoque, hábitos y objetivos implementado; CI de TypeScript, Vitest, bundles Android/iOS, Expo Doctor y Supabase/pgTAP aprobado en run `42312724248` con lockfile congelado; builds nativos y pruebas físicas pendientes.
 
 ---
 
@@ -364,7 +364,7 @@ Se inició la primera vertical slice en `main`: scaffold Expo SDK 58/React Nativ
 
 El proyecto Supabase dedicado ya existe en la organización Free `Fixora-Balance`, ref `emacfszktufyqtfgzunl`, región `us-east-1`, PostgreSQL 17.11. El esquema de negocio público está vacío. Se aplicó una migración de hardening de permisos al event trigger automático de RLS; el Security Advisor quedó sin hallazgos después de verificar permisos y registro del event trigger.
 
-**Estado actualizado:** enfoque, hábitos y objetivos semanales están implementados localmente. CI de TypeScript, Vitest, bundles JavaScript Android/iOS, Expo Doctor 20/20 y Supabase local/pgTAP pasó en run `42312021727`. El lockfile generado por CI se incorpora en este commit; falta confirmar el siguiente CI con pnpm install frozen. No hay builds nativos ni pruebas físicas. Auth, perfiles, sincronización, recompensas y compras siguen pendientes. Family/Protection y bloqueo nativo siguen fuera del MVP hasta validar APIs, permisos y requisitos legales.
+**Estado actualizado:** enfoque, hábitos y objetivos semanales están implementados localmente. CI de TypeScript, Vitest, bundles JavaScript Android/iOS, Expo Doctor 20/20 y Supabase local/pgTAP pasó en run `42312021727`. El lockfile actualizado quedó versionado y `pnpm install --frozen-lockfile` pasó en run `42312724248`. No hay builds nativos ni pruebas físicas. Auth, perfiles, sincronización, recompensas y compras siguen pendientes. Family/Protection y bloqueo nativo siguen fuera del MVP hasta validar APIs, permisos y requisitos legales.
 
 
 ---
@@ -412,7 +412,7 @@ Se añade [IMPLEMENTACION-ETAPA-3-OBJETIVOS.md](IMPLEMENTACION-ETAPA-3-OBJETIVOS
 
 La primera versión permite medir sesiones completadas o check-ins de hábitos. El progreso se calcula desde registros SQLite y no se puede editar manualmente. Se añadió dominio, pruebas, migración local 003, repositorio, pantalla `/goals` y accesos desde Inicio y Hábitos. Las sesiones completadas se conservan en SQLite al iniciar otra sesión; las sesiones terminadas antes de tiempo se eliminan. La base local pasa a versión 3 sin borrar sesiones ni hábitos.
 
-No se implementan XP, rachas, insignias ni sincronización remota. El run `42308655770` pasó los dos trabajos de CI. La siguiente puerta es confirmar CI con lockfile congelado, preparar development builds y probar actualización SQLite v1→v3 en dispositivos; después se diseña historial/eventos antes de gamificación.
+No se implementan XP, rachas, insignias ni sincronización remota. El run `42308655770` pasó los dos trabajos de CI. La siguiente puerta es preparar development builds y probar actualización SQLite v1→v3 en dispositivos; después se diseña historial/eventos antes de gamificación.
 
 
 ## 21. Verificación CI de subetapas técnicas 2.2 y 2.3 — 6 de noviembre de 2026
@@ -420,3 +420,8 @@ No se implementan XP, rachas, insignias ni sincronización remota. El run `42308
 El run de GitHub Actions `42308655770` finalizó con éxito en sus dos trabajos: `TypeScript and domain tests` y `Local Supabase migrations and pgTAP`. El primero completó TypeScript, Vitest y bundles JavaScript Android/iOS; el segundo inició Supabase local, aplicó migraciones a una base limpia y ejecutó pgTAP. Esto valida CI, no builds nativos ni funcionamiento en dispositivos.
 
 **Siguiente puerta técnica:** Expo Doctor, development builds, migración SQLite v1→v3 en Expo, pruebas de persistencia/background/reinicio en Android e iOS. Luego historial/eventos verificables y diseño de XP opcional; sincronización remota seguirá bloqueada hasta completar modelo, RLS y pgTAP revisados.
+
+
+## 22. Inicio/Hoy dinámico y accesibilidad de la paleta — 6 de noviembre de 2026
+
+Inicio/Hoy ahora consulta los resúmenes reales de hábitos y objetivos desde SQLite cada vez que la pantalla recupera foco y cuando se completa una sesión. Muestra hasta dos objetivos y dos hábitos, con valores reales, barras limitadas a 100% y estados de carga/error/reintento; no inventa estadísticas. La paleta añade accentGoldText (#8B632D) y oscurece textSecondary (#6E685F). El texto pequeño de eyebrow usa el token de texto, no el dorado ornamental. Se agregaron pruebas Vitest de contraste WCAG AA para doce combinaciones semánticas. La auditoría visual completa y pruebas físicas siguen pendientes.

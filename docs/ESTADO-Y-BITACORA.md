@@ -2,7 +2,7 @@
 
 **Última actualización:** 6 de noviembre de 2026  
 **Rama:** main  
-**Fase:** núcleo local de enfoque, hábitos y objetivos implementado; run `42312021727` aprobó Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase/pgTAP; lockfile congelado pendiente de verificación final; builds nativos y pruebas físicas pendientes.
+**Fase:** núcleo local de enfoque, hábitos y objetivos implementado; run `42312724248` aprobó Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase/pgTAP con `pnpm install --frozen-lockfile`; builds nativos y pruebas físicas pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -17,10 +17,10 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - Se añadieron la propuesta comercial/precios piloto y la política de seguridad del repositorio público.
 - Se actualizaron README, plan maestro, monetización y registro de decisiones.
 - Scaffold Expo SDK 58 y primera experiencia de enfoque escritos en `main`.
-- Dominio de sesiones, hábitos y objetivos con pruebas Vitest; CI de hábitos/objetivos aprobado en `42308655770`; validación integral con Expo Doctor 20/20 y sin avisos de peer dependencies aprobada en `42312021727`.
+- Dominio de sesiones, hábitos y objetivos con pruebas Vitest; CI de hábitos/objetivos aprobado en `42308655770`; validación integral con Expo Doctor 20/20, lockfile congelado y sin avisos de peer dependencies aprobada en `42312724248`.
 - Exportación JavaScript para Android e iOS pasa en GitHub Actions; no equivale a build nativo ni prueba física.
 - Persistencia SQLite local con migraciones versionadas 001–003: sesiones, hábitos y objetivos; actualización v1→v3 aún pendiente de prueba física.
-- `pnpm-lock.yaml` alineado con React Native 0.88.1, safe-area-context 5.11.1 y metro-config 0.88.1; se incorpora en este commit. El siguiente CI verifica instalación congelada.
+- `pnpm-lock.yaml` alineado con React Native 0.88.1, safe-area-context 5.11.1 y metro-config 0.88.1; `pnpm install --frozen-lockfile` pasó en run `42312724248`.
 - `supabase/config.toml` y workflow Supabase CLI 3.0.0 añadidos.
 - CI local Supabase/pgTAP pasó en `42308655770` y `42312021727`; ambos reconstruyeron el stack local y ejecutaron pgTAP.
 - No se han creado productos reales en App Store Connect, Google Play, Stripe, Mercado Pago o RevenueCat.
@@ -100,12 +100,11 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 
 ## 5. Próxima secuencia recomendada
 
-1. Confirmar CI final con pnpm install --frozen-lockfile y acciones fijadas por SHA.
-2. Completar Inicio/Hoy con resúmenes reales de hábitos y objetivos; corregir contraste y accesibilidad según SISTEMA-DISENO-UX.md.
-3. Preparar development builds y probar SQLite v1→v3, reinicio, segundo plano y persistencia en Android/iOS físicos.
-4. Diseñar historial/eventos verificables, idempotencia y reversión antes de XP o insignias.
-5. Diseñar Auth, perfiles y sincronización Supabase con RLS/pgTAP; no aplicar migraciones remotas de negocio sin revisión.
-6. Resolver licencia/visibilidad, versiones mínimas, canal piloto, retención y semántica de dispositivos antes de beta o publicación.
+1. Preparar development builds y probar SQLite v1→v3, reinicio, segundo plano y persistencia en Android/iOS físicos.
+2. Completar auditoría visual de contraste, accesibilidad y navegación en dispositivos.
+3. Diseñar historial/eventos verificables, idempotencia y reversión antes de XP o insignias.
+4. Diseñar Auth, perfiles y sincronización Supabase con RLS/pgTAP; no aplicar migraciones remotas de negocio sin revisión.
+5. Resolver licencia/visibilidad, versiones mínimas, canal piloto, retención y semántica de dispositivos antes de beta o publicación.
 
 ## 6. Contexto histórico previo
 
@@ -406,3 +405,11 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Se alinearon React Native 0.88.1, react-native-safe-area-context 5.11.1 y @react-native/metro-config 0.88.1; el lockfile se incorpora en el commit actual. La instalación congelada se verificará en el siguiente run.
 - Auditoría Supabase: organización Fixora-Balance Free, proyecto emacfszktufyqtfgzunl, us-east-1, PostgreSQL 17.11, ACTIVE_HEALTHY; una migración de hardening, cero tablas públicas, cero usuarios Auth, cero buckets y cero Edge Functions; tres grupos de Advisors sin hallazgos.
 - Sin builds nativos ni pruebas físicas. Sin cambios en Supabase remoto.
+
+
+### 2026-11-06 — CI congelado, Inicio/Hoy y contraste
+- Run `42312724248` terminó success en ambos jobs. `pnpm install --frozen-lockfile` informó lockfile up to date; Expo Doctor 20/20; TypeScript, Vitest, bundles Android/iOS, Supabase local y pgTAP pasaron.
+- Actions directas fijadas por SHA; checkouts con persist-credentials false; permisos de workflow contents: read.
+- Inicio/Hoy muestra datos reales de hábitos/objetivos desde SQLite y se refresca al recuperar foco y al completar sesión.
+- Se añadió token accentGoldText #8B632D, textSecondary #6E685F y tests WCAG AA para doce pares de texto/fondo.
+- Sin build nativo ni pruebas físicas. Sin migraciones de negocio ni cambios remotos en Supabase.

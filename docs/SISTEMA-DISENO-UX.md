@@ -175,4 +175,14 @@ Se midieron los colores v0.1 con la fórmula WCAG de luminancia relativa sRGB. L
 | #315C4B verde primario | #F6F3ED crema | 6.86:1 | AA |
 | #6E0D25 borgoña | #F6F3ED crema | 10.85:1 | AA |
 
-**Acción pendiente:** incorporar accentGoldText #8B632D y ajustar textSecondary a un tono que cumpla AA en todas las superficies claras usadas. app/index.tsx todavía aplica el dorado decorativo al texto pequeño sectionEyebrow; corregirlo antes de marcar la paleta como validada. Añadir pruebas Vitest de contraste para los pares semánticos.
+**Acción completada en código:** se incorporó accentGoldText #8B632D, textSecondary se ajustó a #6E685F y app/index.tsx usa el token semántico en los eyebrow. src/theme/tokens.test.ts comprueba doce pares de texto/fondo con umbral WCAG AA 4.5:1. La paleta aún no se declara totalmente validada: falta revisar todas las pantallas, estados, tamaños, contraste no textual y pruebas físicas.
+
+
+## 12. Aplicación de la auditoría de contraste — 6 de noviembre de 2026
+
+- El dorado ornamental #C99B58 permanece para iconos y decoración; no se usa para texto pequeño en fondos claros.
+- El token accentGoldText #8B632D se utiliza para texto de acento y alcanza AA en crema, blanco y superficie sutil.
+- textSecondary cambió de #716B64 a #6E685F para superar AA también en surfaceSubtle.
+- Se agregó una suite Vitest en src/theme/tokens.test.ts con doce combinaciones semánticas. El CI run 42312724248 pasó la suite completa.
+- Inicio/Hoy ahora muestra resúmenes reales de objetivos y hábitos, con estados vacíos, carga y error; no usa estadísticas ficticias.
+- Pendiente: revisión de todas las pantallas, escalado de texto, contraste no textual, lector de pantalla y pruebas en Android/iOS físicos.

@@ -2,7 +2,7 @@
 
 **Versión:** 1.0  
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** prototipo local de enfoque/hábitos/objetivos implementado; CI integral aprobado en `42312021727`; lockfile congelado, builds nativos y pruebas físicas aún deben confirmarse. No autoriza beta ni lanzamiento.
+**Estado:** prototipo local de enfoque/hábitos/objetivos implementado; CI integral aprobado en `42312724248` con lockfile congelado y Expo Doctor 20/20; builds nativos y pruebas físicas aún pendientes. No autoriza beta ni lanzamiento.
 
 Este documento es la lista de control final para convertir el plan en ejecución. Distingue decisiones ya aceptadas, recomendaciones de trabajo y bloqueos reales.
 
@@ -48,7 +48,7 @@ Los límites de Family, el entitlement Apple Family Controls, VPN/DNS, protecci�
 Observado en GitHub al 6 de noviembre de 2026:
 - Repositorio público; la única rama listada es main.
 - Existe .github/workflows/quality.yml con permissions: contents: read; las acciones directas quedan fijadas por SHA completo y ambos checkouts usan persist-credentials: false.
-- CI run 42312021727 pasó Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP. Ese run regeneró el lockfile sin modo frozen; el commit actual lo versiona y el siguiente CI valida instalación congelada.
+- CI run 42312724248 pasó pnpm install --frozen-lockfile, Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP.
 - No se ha auditado la configuración privada de GitHub Settings, Secret Scanning, Push Protection, Dependabot, CodeQL, reglas de protección ni permisos de colaboradores. No declarar estos controles activos sin verificación.
 - No hay licencia LICENSE confirmada; la decisión de propiedad intelectual sigue abierta.
 - No se han detectado secretos en los archivos revisados en esta sesión, pero esto no sustituye un escaneo histórico completo ni Secret Scanning.
@@ -98,7 +98,7 @@ Por lo tanto:
 
 ## 6. Criterio para declarar “listos para programar”
 
-La puerta de planificación autorizó el prototipo local, no una beta ni un lanzamiento. El núcleo de enfoque/hábitos/objetivos está implementado; run 42312021727 pasó Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP. El lockfile actualizado se incorpora en este commit; falta la confirmación final con pnpm install --frozen-lockfile.
+La puerta de planificación autorizó el prototipo local, no una beta ni un lanzamiento. El núcleo de enfoque/hábitos/objetivos está implementado; run 42312021727 pasó Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP. El lockfile actualizado está versionado y la instalación congelada pasó en CI run 42312724248.
 
 La siguiente puerta es validar builds nativos y SQLite v1→v3 en dispositivos físicos. La licencia/visibilidad, versiones mínimas, canal comercial, semántica de dispositivos y retención siguen abiertos. Auth/sincronización requieren modelo, RLS y pgTAP revisados. No se habilitarán bloqueos nativos ni compras antes de sus pruebas específicas.
 

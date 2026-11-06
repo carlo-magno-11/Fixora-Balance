@@ -56,8 +56,8 @@ La Etapa 3 estratégica sigue pendiente: historial de eventos, puntos/XP, nivele
 ### 3.2 Estado del CI
 
 - Run 42308655770: CI de hábitos/objetivos, TypeScript, Vitest, bundles JS Android/iOS, Supabase local y pgTAP aprobado.
-- Run 42312021727: Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP aprobados; instalación sin warnings de peer dependencies.
-- El run 42312021727 se ejecutó temporalmente con pnpm install --no-frozen-lockfile para generar el lockfile. Este commit incluye el lockfile y restaura pnpm install --frozen-lockfile; el siguiente run es la verificación final reproducible.
+- Run 42312021727: Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase local/pgTAP aprobados; instalación sin warnings de peer dependencies. Se usó temporalmente para generar el lockfile.
+- Run 42312724248: instalación pnpm install --frozen-lockfile con lockfile up to date, Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS, Supabase local y pgTAP; ambos jobs success. Este es el CI reproducible de referencia.
 - Ninguno de esos runs acredita build nativo, E2E ni pruebas físicas.
 
 ### 3.3 Supabase remoto verificado
@@ -71,7 +71,7 @@ La Etapa 3 estratégica sigue pendiente: historial de eventos, puntos/XP, nivele
 
 ### 3.4 Dirección visual y contraste
 
-La paleta v0.1 es borgoña #6E0D25, verde bosque #315C4B, crema #F6F3ED y dorado #C99B58. El dorado funciona como ornamento, pero no como texto pequeño sobre fondos claros (2.28:1 sobre crema). Se propone #8B632D como token de texto dorado y oscurecer textSecondary para que también cumpla AA sobre surfaceSubtle. app/index.tsx aún usa el dorado decorativo en un eyebrow de texto; corregirlo y añadir tests automáticos antes de declarar validada la paleta.
+La paleta v0.1 es borgoña #6E0D25, verde bosque #315C4B, crema #F6F3ED y dorado #C99B58. El dorado se reserva para ornamento (2.28:1 sobre crema). Ya se incorporó #8B632D como token de texto dorado y textSecondary #6E685F; app/index.tsx usa el token semántico y src/theme/tokens.test.ts verifica doce pares WCAG AA. Inicio/Hoy ya muestra resúmenes reales desde SQLite. Sigue pendiente la auditoría visual completa y la validación física.
 
 ## 4. Decisiones que siguen abiertas (no completar por inferencia)
 
@@ -86,12 +86,11 @@ La paleta v0.1 es borgoña #6E0D25, verde bosque #315C4B, crema #F6F3ED y dorado
 
 ## 5. Próxima secuencia técnica
 
-1. Confirmar la instalación congelada del lockfile en CI.
-2. Completar Inicio/Hoy con resumen de hábitos/objetivos basado en datos SQLite reales; corregir tokens de contraste y accesibilidad.
-3. Preparar development builds y probar migración SQLite v1→v3, background y reinicio en dispositivos Android/iOS.
-4. Diseñar historial/eventos verificables, idempotencia y reversión antes de XP.
-5. Diseñar Auth/perfiles/sincronización con RLS y pgTAP; no aplicar migraciones remotas sin revisión.
-6. Cerrar decisiones de licencia, versiones mínimas, canal, retención y dispositivos antes de beta/publicación.
+1. Preparar development builds y probar migración SQLite v1→v3, background y reinicio en dispositivos Android/iOS.
+2. Completar auditoría visual y accesibilidad de todas las pantallas en dispositivos.
+3. Diseñar historial/eventos verificables, idempotencia y reversión antes de XP.
+4. Diseñar Auth/perfiles/sincronización con RLS y pgTAP; no aplicar migraciones remotas sin revisión.
+5. Cerrar decisiones de licencia, versiones mínimas, canal, retención y dispositivos antes de beta/publicación.
 
 ## 6. Límite de esta revisión
 
