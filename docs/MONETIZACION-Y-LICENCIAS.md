@@ -170,6 +170,7 @@ Los nombres son identificadores técnicos provisionales. La aplicación pregunta
 - Incluir restauración de compras.
 - Mostrar duración, precio total localizado, contenido, renovación y condiciones de prueba.
 - No insertar enlaces ni llamadas a checkout externo salvo que se confirme que una excepción/entitlement regional aplica y se cumplan sus condiciones.
+- **Riesgo de catálogo que debe resolverse en prototipo:** las suscripciones de una misma Subscription Group se comportan como opciones de nivel (upgrade/downgrade/crossgrade), no como módulos acumulables independientes. Para vender add-ons acumulables puede requerirse separar grupos de suscripción o usar otra combinación de productos no consumibles/no renovables cuando corresponda. Eso puede permitir varias suscripciones simultáneas y complica el paso a Balance Completo, prorrateos y cancelaciones. No publicar un catálogo iOS hasta probar en Sandbox la compra de dos módulos, la conversión al paquete, restauración y prevención de doble cobro. RevenueCat organiza productos y entitlements, pero no elimina estas reglas de StoreKit/App Store.
 
 **Android / Google Play**
 - Para funcionalidades digitales de la app distribuida en Play, usar Google Play Billing salvo una excepción o programa aplicable y aprobado.
