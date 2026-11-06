@@ -209,7 +209,8 @@ export default function HomeScreen() {
                   accessibilityRole="button"
                   accessibilityState={{ selected: durationMinutes === minutes }}
                   key={minutes}
-                  disabled={!storageReady}\n                  onPress={() => handleDuration(minutes)}
+                  disabled={!storageReady}
+                  onPress={() => handleDuration(minutes)}
                   style={[
                     styles.durationOption,
                     durationMinutes === minutes && styles.durationOptionSelected,
