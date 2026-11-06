@@ -19,6 +19,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 - [Capacidades nativas iOS/Android](docs/MATRIZ-CAPACIDADES-NATIVAS.md)
 - [Arquitectura y modelo de datos](docs/MODELO-DATOS-Y-ARQUITECTURA.md)
 - [Threat model inicial](docs/THREAT-MODEL-INICIAL.md)
+- [Puerta de preprogramación](docs/PUERTA-PREPROGRAMACION.md)
 
 ## Principios
 1. Bienestar antes que tiempo de pantalla: distinguir uso útil de uso problemático.
@@ -32,7 +33,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 ## Estado actual
 - Repositorio: carlo-magno-11/Fixora-Balance (público; decisión documentada y sujeta a revisión de seguridad/IP).
 - Rama principal confirmada: main
-- Fase: definición de producto, arquitectura, precios piloto y modelo comercial.
+- Fase: cierre de decisiones y preparación previa a programación.
 - No se ha iniciado la implementación de la aplicación.
 - No se han creado productos de pago, cuentas de proveedores, suscripciones ni migraciones de base de datos.
 
