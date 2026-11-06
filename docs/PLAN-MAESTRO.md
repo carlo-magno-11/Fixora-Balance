@@ -4,7 +4,7 @@
 **Fecha:** 6 de noviembre de 2026  
 **Marca matriz:** Fixora Dynamics  
 **Repositorio:** carlo-magno-11/Fixora-Balance  
-**Estado:** planificación; ninguna función descrita debe considerarse implementada.
+**Estado:** implementación inicial del núcleo de enfoque en curso; la primera vertical slice está escrita pero aún no validada en ejecución.
 
 ---
 
@@ -354,3 +354,12 @@ La arquitectura comercial debe separar productos/SKUs, derechos atómicos, trans
 El alcance del primer MVP y sus criterios están en [ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md](ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md). La matriz SKU→derechos está en [MATRIZ-CATALOGO-ENTITLEMENTS.md](MATRIZ-CATALOGO-ENTITLEMENTS.md). La viabilidad por sistema operativo se documenta en [MATRIZ-CAPACIDADES-NATIVAS.md](MATRIZ-CAPACIDADES-NATIVAS.md); el diseño lógico en [MODELO-DATOS-Y-ARQUITECTURA.md](MODELO-DATOS-Y-ARQUITECTURA.md); la estrategia Supabase/migraciones en [ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md](ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md); y los riesgos en [THREAT-MODEL-INICIAL.md](THREAT-MODEL-INICIAL.md).
 
 La puerta de preparación y bloqueos previos al código se mantiene en [PUERTA-PREPROGRAMACION.md](PUERTA-PREPROGRAMACION.md). La bitácora viva se mantiene en [ESTADO-Y-BITACORA.md](ESTADO-Y-BITACORA.md). Toda redirección sustancial debe actualizar este plan y el registro de decisiones antes de implementarse.
+
+
+## 15. Ejecución inicial — 6 de noviembre de 2026
+
+Se inició la primera vertical slice en `main`: scaffold Expo SDK 58/React Native 0.88, layout Expo Router, temporizador de enfoque con estados explícitos, dominio TypeScript puro, persistencia local SQLite versionada y pruebas de dominio. Se agregó workflow inicial de TypeScript y pruebas. Los detalles y límites están en [IMPLEMENTACION-ETAPA-1.md](IMPLEMENTACION-ETAPA-1.md).
+
+El proyecto Supabase dedicado ya existe en la organización Free `Fixora-Balance`, ref `emacfszktufyqtfgzunl`, región `us-east-1`, PostgreSQL 17.11. El esquema de negocio público está vacío. Se aplicó una migración de hardening de permisos al event trigger automático de RLS; el Security Advisor quedó sin hallazgos después de verificar permisos y registro del event trigger.
+
+**No está terminada la etapa:** faltan instalación/lockfile, ejecución de typecheck y pruebas, Expo Doctor, builds y validación en dispositivos físicos. Auth, perfiles, sincronización, hábitos, recompensas y compras siguen pendientes. Family/Protection y bloqueo nativo siguen fuera del MVP hasta validar APIs, permisos y requisitos legales.
