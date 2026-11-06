@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Pressable,
   SafeAreaView,
@@ -61,11 +61,6 @@ export default function HomeScreen() {
   const isRunning = session?.status === "running";
   const isPaused = session?.status === "paused";
   const isCompleted = session?.status === "completed";
-
-  const progress = useMemo(() => {
-    if (!session) return 0;
-    return Math.min(1, Math.max(0, 1 - remainingSeconds / session.durationSeconds));
-  }, [remainingSeconds, session]);
 
   const handleStart = () => {
     const result = startFocusSession({
