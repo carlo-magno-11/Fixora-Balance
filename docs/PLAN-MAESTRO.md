@@ -389,3 +389,14 @@ La base local avanza de versión 1 a 2 con migración incremental; la migración
 Se corrigió además el reinicio de una sesión de enfoque para eliminar su fila persistida, evitando que reaparezca al reabrir la aplicación.
 
 **Límites:** no hay XP, rachas, insignias, objetivos ni sincronización remota en esta etapa. La ejecución CI posterior a estos cambios y la prueba SQLite en dispositivo aún deben confirmarse. La siguiente puerta es validar CI y migración local desde instalaciones existentes antes de avanzar a progreso/recompensas o diseñar la migración Supabase con RLS.
+
+
+---
+
+## 18. Investigación de hábitos y progreso consciente — 6 de noviembre de 2026
+
+Se incorpora [INVESTIGACION-HABITOS-PROGRESO.md](INVESTIGACION-HABITOS-PROGRESO.md), basada en inspección de repositorios GitHub de referencia. Loop Habit Tracker (10,395 estrellas observadas, GPL-3.0) aporta conceptos de frecuencia flexible y progreso no destructivo; Habitica (14,294 estrellas observadas, licencia reportada NOASSERTION) aporta separación conceptual entre hábitos, tareas y recompensas. No se copiará código ni assets de esos repositorios.
+
+La decisión de producto es evitar una mecánica punitiva de rachas. Un descanso no resta puntos ya ganados; las metas se evalúan contra el objetivo elegido por el usuario; XP debe ser opcional y desactivable.
+
+Antes de programar XP/insignias deben definirse eventos fuente verificables, identidad idempotente, reversión de check-ins, zona horaria, reconciliación offline y recalculabilidad de saldos. No se fijan valores de puntos ni niveles todavía.
