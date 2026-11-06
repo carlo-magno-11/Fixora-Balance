@@ -425,3 +425,11 @@ El run de GitHub Actions `42308655770` finalizó con éxito en sus dos trabajos:
 ## 22. Inicio/Hoy dinámico y accesibilidad de la paleta — 6 de noviembre de 2026
 
 Inicio/Hoy ahora consulta los resúmenes reales de hábitos y objetivos desde SQLite cada vez que la pantalla recupera foco y cuando se completa una sesión. Muestra hasta dos objetivos y dos hábitos, con valores reales, barras limitadas a 100% y estados de carga/error/reintento; no inventa estadísticas. La paleta añade accentGoldText (#8B632D) y oscurece textSecondary (#6E685F). El texto pequeño de eyebrow usa el token de texto, no el dorado ornamental. Se agregaron pruebas Vitest de contraste WCAG AA para doce combinaciones semánticas; 27 pruebas pasaron en run `42313449617`. El run también validó la corrección para refrescar el resumen después de persistir una sesión completada. La auditoría visual completa y pruebas físicas siguen pendientes.
+
+## 14. Puerta obligatoria de distribución Apple y Google Play
+
+La preparación de tiendas es una línea de trabajo transversal, no una tarea cosmética al final. La matriz [MATRIZ-CUMPLIMIENTO-APP-STORE-PLAY.md](MATRIZ-CUMPLIMIENTO-APP-STORE-PLAY.md) define los controles de privacidad, eliminación de cuenta, declaraciones Data safety/App Privacy, pagos, permisos, entitlements, fichas, pruebas beta y revisión final.
+
+No declarar listo para publicar hasta completar builds nativos, pruebas físicas, revisión de SDKs/permisos, política de privacidad y borrado de datos, compras sandbox cuando existan, metadatos reales y notas de revisión. Apple y Google toman la decisión final de aprobación; ningún CI ni auditoría interna la garantiza.
+
+**Primera ronda funcional:** generar artefactos instalables para Android y iOS y recorrer los flujos existentes (Hoy, Enfoque, Hábitos y Objetivos) en equipos físicos. Esta ronda precede a la implementación de capacidades sensibles de bloqueo, VPN/DNS o familia.
