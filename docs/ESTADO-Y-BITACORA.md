@@ -19,6 +19,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - No se ha comenzado la implementación de la aplicación.
 - No se han creado productos reales en App Store Connect, Google Play, Stripe, Mercado Pago o RevenueCat.
 - No se han creado migraciones ni tablas de facturación.
+- Se añadieron .gitignore y SECURITY.md.
 - No se ha verificado toda la configuración de GitHub Settings, Actions, secrets, reglas de rama o historial completo.
 
 ## 2. Documentos rectores
@@ -30,6 +31,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 5. [Seguridad del repositorio público](SEGURIDAD-REPOSITORIO-PUBLICO.md) — decisión de visibilidad y controles.
 6. [Registro de decisiones](REGISTRO-DE-DECISIONES.md) — decisiones, hipótesis y revisiones.
 7. [Puerta de preprogramación](PUERTA-PREPROGRAMACION.md) — bloqueos reales y secuencia para iniciar código.
+8. [Política de seguridad](../SECURITY.md) — reporte coordinado de vulnerabilidades.
 
 ## 3. Decisiones de trabajo vigentes
 
@@ -95,6 +97,7 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 - El responsable del producto aprobó los precios MXN propuestos como referencia inicial de trabajo, sujetos a revisión antes de publicación.
 - Confirmada la recomendación de MVP: Free + Plus Personal; Protección y Family continúan en la visión, pero quedan condicionados a prototipos nativos, permisos, políticas y revisión legal.
 - Creados ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md, MATRIZ-CATALOGO-ENTITLEMENTS.md, MATRIZ-CAPACIDADES-NATIVAS.md, MODELO-DATOS-Y-ARQUITECTURA.md, THREAT-MODEL-INICIAL.md y PUERTA-PREPROGRAMACION.md.
+- Añadidos .gitignore y SECURITY.md; no se añadió licencia ni workflow CI porque la licencia/estrategia de código y la estructura ejecutable siguen pendientes.
 - Actualizados README, PLAN-MAESTRO, MONETIZACION-Y-LICENCIAS, PROPUESTA-COMERCIAL-Y-PRECIOS, REGISTRO-DE-DECISIONES y ESTADO-Y-BITACORA para reflejar el nuevo estado.
 - Revisadas fuentes oficiales Apple Family Controls, Google Play VpnService y Supabase Production Security Checklist.
 
