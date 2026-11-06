@@ -150,3 +150,12 @@ Repositorios consultados el 6 de noviembre de 2026. Los conteos de estrellas son
 - [ ] Crear prototipo de Hábitos y Progreso con estados vacíos honestos.
 - [ ] Verificar contraste, tamaño táctil y Reduce Motion.
 - [ ] Pruebas visuales en iOS, Android y web.
+
+
+### Inspección de código fuente (no solo README)
+- [React Native Reusables — Button](https://github.com/founded-labs/react-native-reusables/blob/385834c2196f8a303cbc9057d1ac768f3bde0a3b/packages/registry/src/nativewind/components/ui/button.tsx): separar variantes visuales de la interacción y componer sobre `Pressable`. Adaptaremos el patrón con StyleSheet, sin importar su dependencia NativeWind.
+- [Shopify Restyle — Defining your theme](https://github.com/Shopify/restyle/blob/master/documentation/docs/fundamentals/defining-your-theme.md): definir colores y espaciado una sola vez y derivar el tipo del tema. Es el patrón adoptado en `src/theme/tokens.ts`.
+- [gluestack-ui — Button accessibility](https://github.com/gluestack/gluestack-ui/blob/main/src/components/ui/button/docs/index.mdx): documentar variantes, semántica y accesibilidad del control; aplicar labels, estados y pruebas multiplataforma a nuestros botones.
+- [gluestack-ui — Button composition](https://github.com/gluestack/gluestack-ui/blob/main/apps/website/app/ui/docs/components/button/index.mdx): composición de botón, texto e icono como piezas separadas; usarlo como referencia al extraer `PrimaryButton` y `SecondaryButton`.
+
+Esta revisión confirma que el mayor beneficio para Fixora Balance no es copiar el estilo de esos proyectos, sino reproducir sus buenas decisiones estructurales: tema central, variantes explícitas, componentes pequeños y accesibilidad documentada.
