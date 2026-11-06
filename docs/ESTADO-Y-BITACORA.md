@@ -310,6 +310,7 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 **Código añadido en main**
 - Dominio de hábitos con frecuencia diaria/semanal, metas semanales, validación de fecha y check-in con identidad idempotente.
 - Pruebas Vitest para creación, entradas inválidas, fecha calendario imposible, identidad de check-in y semana local iniciada en lunes.
+- Prueba aislada del DDL en SQLite 3.46.1: conserva tabla previa, valida check-in y unicidad, rechaza meta diaria inválida. No equivale a prueba de Expo SQLite ni dispositivo.
 - Migración SQLite local 002 para `habits` y `habit_completions`, con FK, constraints, índices y unicidad por hábito/día.
 - Repositorio SQLite para crear/listar, registrar cumplimiento idempotente y deshacer.
 - Ruta `/habits` con creación, selección de frecuencia, meta semanal, avance de semana y cumplimiento diario.
