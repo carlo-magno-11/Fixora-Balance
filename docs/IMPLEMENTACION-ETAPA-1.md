@@ -20,7 +20,7 @@ Archivos principales:
 - `src/infrastructure/local/focus-session-repository.ts`: persistencia local de sesiones.
 - `pnpm-lock.yaml`: resolución reproducible de dependencias.
 - `supabase/config.toml`: configuración local con PostgreSQL 17.
-- `.github/workflows/quality.yml`: TypeScript, pruebas de dominio, bundles Android/iOS y pruebas locales de Supabase/pgTAP.
+- `.github/workflows/quality.yml`: Expo Doctor (versión fijada 1.21.6), TypeScript, pruebas de dominio, bundles Android/iOS y pruebas locales de Supabase/pgTAP.
 - `supabase/migrations/20261106221629_harden_rls_event_trigger_permissions.sql`: primera migración remota para restringir permisos de una función de evento DDL.
 
 ## 2. Comportamiento de la primera vertical slice
@@ -42,7 +42,7 @@ El lockfile ya está generado y versionado. El workflow instala con `pnpm instal
 
 ## 4. Próximas tareas
 
-1. Ejecutar Expo Doctor y preparar builds nativos/dev clients.
+1. Expo Doctor se añadió al workflow `quality.yml` con versión fijada `1.21.6`; revisar el resultado de CI y corregir los hallazgos que reporte. Preparar builds nativos/dev clients.
 2. Probar migraciones SQLite v1→v3, background, reinicio y restauración en dispositivos físicos.
 3. Añadir pruebas de integración del repositorio SQLite y manejo de errores/migraciones fallidas.
 4. Revisar el historial local y agregados de objetivos con sesiones completadas.
