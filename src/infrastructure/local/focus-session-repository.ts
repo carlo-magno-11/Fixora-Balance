@@ -1,6 +1,14 @@
 import type { FocusSession } from "@/domain/focus/focus-session";
 import { getLocalDatabase } from "./database";
 
+let writeQueue: Promise<void> = Promise.resolve();
+
+function enqueueWrite<T>(operation: () => Promise<T>): Promise<T> {
+  const next = writeQueue.then(operation, operation);
+  writeQueue = next.then(() => undefined, () => undefined);
+  return next;
+}
+
 interface FocusSessionRow {
   id: string;
   started_at_ms: number;
@@ -21,26 +29,28 @@ function toDomain(row: FocusSessionRow): FocusSession {
   };
 }
 
-export async function saveFocusSession(session: FocusSession): Promise<void> {
-  const db = await getLocalDatabase();
-  await db.runAsync(
-    `INSERT INTO focus_sessions (
-      id, started_at_ms, duration_seconds, ends_at_ms,
-      remaining_seconds, status, updated_at_ms
-    ) VALUES (?, ?, ?, ?, ?, ?, ?)
-    ON CONFLICT(id) DO UPDATE SET
-      ends_at_ms = excluded.ends_at_ms,
-      remaining_seconds = excluded.remaining_seconds,
-      status = excluded.status,
-      updated_at_ms = excluded.updated_at_ms`,
-    session.id,
-    session.startedAt,
-    session.durationSeconds,
-    session.endsAt,
-    session.remainingSeconds,
-    session.status,
-    Date.now(),
-  );
+export function saveFocusSession(session: FocusSession): Promise<void> {
+  return enqueueWrite(async () => {
+    const db = await getLocalDatabase();
+    await db.runAsync(
+      `INSERT INTO focus_sessions (
+        id, started_at_ms, duration_seconds, ends_at_ms,
+        remaining_seconds, status, updated_at_ms
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        ends_at_ms = excluded.ends_at_ms,
+        remaining_seconds = excluded.remaining_seconds,
+        status = excluded.status,
+        updated_at_ms = excluded.updated_at_ms`,
+      session.id,
+      session.startedAt,
+      session.durationSeconds,
+      session.endsAt,
+      session.remainingSeconds,
+      session.status,
+      Date.now(),
+    );
+  });
 }
 
 export async function getLatestFocusSession(): Promise<FocusSession | null> {
@@ -56,7 +66,9 @@ export async function getLatestFocusSession(): Promise<FocusSession | null> {
   return row ? toDomain(row) : null;
 }
 
-export async function deleteFocusSession(id: string): Promise<void> {
-  const db = await getLocalDatabase();
-  await db.runAsync("DELETE FROM focus_sessions WHERE id = ?", id);
+export function deleteFocusSession(id: string): Promise<void> {
+  return enqueueWrite(async () => {
+    const db = await getLocalDatabase();
+    await db.runAsync("DELETE FROM focus_sessions WHERE id = ?", id);
+  });
 }
