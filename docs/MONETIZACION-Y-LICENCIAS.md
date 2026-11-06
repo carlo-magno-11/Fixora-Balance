@@ -421,3 +421,43 @@ No publicar precios ni activar cobros hasta cerrar los puntos que alteren margen
 - Paddle pricing: https://www.paddle.com/pricing
 
 Apple y Google actualizan sus políticas y programas por territorio. El diseño de compra debe revisarse para México y cada storefront objetivo antes de enviar la app a revisión.
+
+
+## 15. Precios piloto y catálogo recomendado — 6 de noviembre de 2026
+
+La propuesta comercial desarrollada se encuentra en [PROPUESTA-COMERCIAL-Y-PRECIOS.md](PROPUESTA-COMERCIAL-Y-PRECIOS.md). Como punto de partida para pruebas de mercado en México, no como precio definitivo:
+
+| Producto | Mensual | Anual |
+|---|---:|---:|
+| Plus Personal | $79 MXN | $799 MXN |
+| Protección Personal | $49 MXN | $499 MXN |
+| Family | $109 MXN | $1,099 MXN |
+| Balance Completo | $179 MXN | $1,799 MXN |
+| Extensión +3 dispositivos | $29 MXN | $299 MXN |
+
+Los módulos por separado suman $237/mes o $2,397/año; Balance Completo a $179/mes o $1,799/año representa aproximadamente 24.5 % y 24.9 % de descuento, respectivamente. Los límites piloto propuestos son tres dispositivos personales, tres perfiles infantiles y cinco dispositivos Family; deben validarse antes de mostrarse al público.
+
+### Prueba
+
+Una prueba de 14 días de Balance Completo, una vez por cuenta elegible y ecosistema de compra según las reglas de Apple/Google/proveedor. El usuario selecciona mensual o anual, ve el importe posterior y acepta expresamente la renovación. No se reinicia por comprar módulos, cambiar de dispositivo o modificar el plan. Solo incluir funciones efectivamente lanzadas y verificadas.
+
+### Selección de canal
+
+- Web: Stripe Billing es candidato principal; comparar con Mercado Pago en sandbox y seleccionar uno para el MVP web.
+- iOS: StoreKit / IAP; no desplegar módulos recurrentes acumulables hasta probar grupos de suscripción, upgrade, cancelación y ausencia de doble facturación.
+- Android: Google Play Billing; validar base plans, ofertas, grace period, reembolsos y restauración.
+- RevenueCat: evaluar como capa de integración, manteniendo el catálogo y ledger de dominio de Fixora.
+
+### Simulación de comisiones
+
+La propuesta comercial incluye simulaciones orientativas para Stripe y Mercado Pago. Las tarifas públicas observadas no son una cotización contractual y no incluyen todos los impuestos, reembolsos, contracargos, conversión, soporte e infraestructura. No usar estas simulaciones como contabilidad definitiva.
+
+### No negociables
+
+1. No conceder derechos premium por una señal del cliente o una URL de retorno.
+2. Verificar firma, origen e idempotencia de webhooks.
+3. Registrar eventos y movimientos de derechos con trazabilidad.
+4. Conciliar transacciones, reembolsos, disputas y liquidaciones.
+5. No cobrar dos veces por derechos equivalentes durante el mismo período sin consentimiento informado.
+6. No borrar datos del usuario al vencer la suscripción.
+7. No vender licencias lifetime para servicios con costes recurrentes antes de validar su sostenibilidad.
