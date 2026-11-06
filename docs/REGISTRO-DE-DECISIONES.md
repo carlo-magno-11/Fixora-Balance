@@ -63,3 +63,19 @@ Añadir una fila por decisión nueva o modificación. No borrar decisiones previ
 | FB-036 | Base móvil | Expo SDK 58, React Native 0.88, React 19.3, Expo Router 58, TypeScript 6 y SQLite local | SDK 58 es estable y alinea librerías nativas con iOS 27; dominio separado de infraestructura | Lockfile, Expo Doctor, CI, builds y pruebas físicas |
 | FB-037 | Primer vertical slice | Sesión de enfoque local con 15/25/50 min, pausa/reanudación y restauración SQLite | Validar el flujo central sin depender de permisos nativos ni backend | Pruebas reales de background, reinicio, errores y accesibilidad |
 | FB-038 | Seguridad del event trigger | Revocar EXECUTE de PUBLIC, anon y authenticated sobre `public.rls_auto_enable()`; mantener `ensure_rls` activo | Reduce superficie de permisos; el advisor ya no reporta warning y el trigger conserva función | Añadir la misma prueba a reconstrucción local y verificar en cada migración futura |
+
+
+## DEC-UX-001 — Sistema visual propio antes de adoptar una UI library
+
+**Fecha:** 6 de noviembre de 2026  
+**Estado:** aceptada para prototipo v0.1; pendiente de validación visual.
+
+**Contexto:** la pantalla inicial contenía colores definidos localmente y todavía no existía una especificación coherente de colorimetría, tipografía, espaciado, componentes y navegación.
+
+**Decisión:** establecer la dirección creativa “calma activa”; formalizar borgoña como firma de marca, verde bosque como acción primaria, crema como superficie y dorado como acento. Centralizar los valores en `src/theme/tokens.ts` y mantener componentes propios con React Native StyleSheet.
+
+**Investigación:** se consultaron react-native-reusables, gluestack-ui, Shopify Restyle y Wix React Native UI Lib (todos con más de 1,000 estrellas al momento de la revisión; licencias MIT verificadas en las referencias indicadas en el documento de diseño). Se adoptan patrones, no una dependencia completa.
+
+**Consecuencias:** no añadir NativeWind/Uniwind ni una UI library completa antes de probar compatibilidad, coste de migración y necesidad real. Los tokens son fuente de verdad para estilos; los componentes visuales no contendrán colores arbitrarios.
+
+**Validación pendiente:** contraste WCAG 2.2 AA, estados accesibles, tamaños táctiles, Reduce Motion y pruebas visuales iOS/Android/web. La paleta no se declara definitiva hasta completar estas pruebas.
