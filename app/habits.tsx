@@ -125,6 +125,7 @@ export default function HabitsScreen() {
         <Text style={styles.intro}>
           Elige acciones que tengan sentido para ti. Puedes ajustar tu ritmo sin perder tu progreso.
         </Text>
+        <Link href="/goals" style={styles.goalLink}>Ver mis objetivos semanales →</Link>
 
         <SurfaceCard style={styles.formCard}>
           <Text style={styles.formTitle}>Crear un hábito</Text>
@@ -261,6 +262,7 @@ const styles = StyleSheet.create({
   brand: { color: theme.colors.brandBurgundy, fontSize: 10, fontWeight: "900", letterSpacing: 1.5 },
   date: { color: theme.colors.textSecondary, fontSize: 13, textTransform: "capitalize" },
   intro: { color: theme.colors.textSecondary, fontSize: 14, lineHeight: 21, marginBottom: theme.spacing.xs },
+  goalLink: { color: theme.colors.primary, fontSize: 12, fontWeight: "800", minHeight: 32, textAlignVertical: "center" },
   formCard: { gap: theme.spacing.md },
   formTitle: { color: theme.colors.textPrimary, fontSize: 17, fontWeight: "800" },
   input: { minHeight: 48, borderWidth: 1, borderColor: theme.colors.border, borderRadius: theme.radius.control, paddingHorizontal: theme.spacing.md, color: theme.colors.textPrimary, fontSize: 14, backgroundColor: theme.colors.surfaceWarm },
