@@ -5,7 +5,7 @@
 
 ## 1. Objetivos
 
-Separar reglas de React Native, Supabase y APIs nativas; impedir que el cliente sea autoridad de licencias/permisos; mantener Free útil sin permisos especiales; desacoplar Protección y Family; poder cambiar proveedor de pagos; minimizar datos personales y procesar localmente cuando sea posible.
+Separar reglas de React Native, Supabase y APIs nativas; impedir que el cliente sea autoridad de licencias/permisos; mantener Free útil sin permisos especiales; desacoplar Protección y Family; poder cambiar proveedor de pagos; minimizar datos personales y procesar localmente cuando sea posible. Supabase/PostgreSQL será backend central y SQLite será persistencia local offline. El flujo migration-first y la separación de datos se detallan en [ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md](ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md).
 
 ## 2. Capas
 
@@ -50,6 +50,8 @@ Family y Protection requieren reglas RLS propias y no se añaden al MVP sin reso
 
 ## 5. Reglas de datos
 
+La base remota no debe convertirse en un registro exhaustivo de actividad del dispositivo. SQLite mantiene sesiones en curso, cola de sincronización, caché y datos offline; PostgreSQL recibe únicamente datos necesarios para sincronización, cuenta, catálogo y derechos. No se enviarán mensajes, pulsaciones, fotos ni historial completo de navegación.
+
 - UUID internos; timestamps UTC.
 - Importes en enteros de unidad menor y moneda ISO.
 - Separar estado del proveedor y estado del dominio.
@@ -76,7 +78,7 @@ Auth gestiona identidad; proveedor confirma cobro; backend verifica y traduce ev
 6. dispositivos/asignaciones.
 7. Family y Protection tras sus puertas técnicas y legales.
 
-Cada migración requiere pgTAP/RLS, índices, constraints, rollback y revisión de impacto. Usar un proyecto Supabase de desarrollo dedicado a Fixora, nunca EYESITE.
+Cada migración requiere pgTAP/RLS, índices, constraints, rollback y revisión de impacto. Usar un proyecto Supabase dedicado a Fixora Balance, nunca EYESITE ni otro producto. El archivo SQL se crea con Supabase CLI y se versiona antes de aplicar cambios a entornos compartidos. Consultar [ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md](ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md).
 
 ## 8. Seguridad de arquitectura
 
@@ -91,4 +93,4 @@ RLS deny-by-default; evitar políticas permisivas; funciones SECURITY DEFINER so
 
 ## 10. Pendientes antes de SQL
 
-Zona horaria/sincronización offline; beneficiario y límites de dispositivos; retención/borrado; canal/proveedor inicial; threat model; revisión del esquema y pruebas de autorización.
+Zona horaria/sincronización offline; beneficiario y límites de dispositivos; retención/borrado; canal/proveedor inicial; threat model; revisión del esquema y pruebas de autorización; crear proyecto remoto dedicado a Balance tras confirmar organización/coste.
