@@ -2,7 +2,7 @@
 
 **Versión:** 1.0  
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** arquitectura recomendada para aprobación técnica. No se ha creado un proyecto Supabase para Fixora Balance ni se ha ejecutado SQL.
+**Estado:** proyecto Supabase Free creado y auditado; una migración de hardening aplicada. El esquema de negocio sigue vacío.
 
 ## 1. Decisión de arquitectura
 
@@ -192,13 +192,19 @@ Los comandos definitivos se verificarán con supabase --help y la versión insta
 
 ## 10. Situación real a 6 de noviembre de 2026
 
-- Supabase recomendado como backend de Fixora Balance.
-- La organización conectada muestra proyectos de EYESITE; no se encontró un proyecto Fixora Balance.
-- No se ha creado un proyecto nuevo.
-- No se han ejecutado SQL, migraciones ni cambios en Supabase.
-- No existe aún directorio supabase/ en el repositorio de Balance según la inspección de archivos/rutas disponible.
-- No se ha creado estructura de aplicación.
-- Falta autorizar/confirmar la organización y cotizar cualquier coste antes de provisionar un proyecto remoto.
+- Organización: `Fixora-Balance`, ID `fnufjydflegirzatihec`, plan Free.
+- Proyecto: `emacfszktufyqtfgzunl`, región `us-east-1`, PostgreSQL 17.11, estado `ACTIVE_HEALTHY`.
+- Esquema public: cero tablas, cero vistas, cero políticas y una función de evento DDL.
+- Auth users: cero. Storage buckets: cero. Edge Functions: cero.
+- Historial remoto: una migración, versión `20261106221629`, nombre `20261106221623_harden_rls_event_trigger_permissions`.
+- Archivo de GitHub alineado por versión: `supabase/migrations/20261106221629_harden_rls_event_trigger_permissions.sql`.
+- La migración revoca EXECUTE de PUBLIC, anon y authenticated sobre `public.rls_auto_enable()`; se verificó que `ensure_rls` sigue registrado y que los permisos anon/authenticated son false.
+- Security, Performance y Health Advisors: cero hallazgos después de la migración.
+- Se inició scaffold Expo SDK 58 y primera vertical slice; ver [IMPLEMENTACION-ETAPA-1.md](IMPLEMENTACION-ETAPA-1.md).
+
+**Limitación operativa:** la primera migración se versionó desde la integración GitHub/Supabase porque no había un workspace local con CLI disponible. Se ajustó el nombre de archivo a la versión que devolvió el historial remoto. Las siguientes migraciones deberán generarse desde Supabase CLI local, reconstruirse en Docker, probarse con pgTAP y revisarse antes de aplicarse a remoto. No ejecutar `db push` hasta que el baseline y el historial hayan sido reconciliados por CLI.
+
+**No hacer todavía:** crear perfiles/usuarios sin trigger revisado; añadir catálogo de pagos; crear Family/Protection; activar funciones Edge sin caso de uso y threat model; tocar proyectos EYESITE.
 
 ## 11. Fuentes oficiales consultadas
 
