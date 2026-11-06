@@ -347,7 +347,7 @@ Nunca usar precio “por mes” como elemento principal si se cobra el año comp
 - family_seats: miembros/dispositivos asignados.
 - admin_adjustments: ajustes manuales con responsable y motivo.
 
-Las migraciones se diseñarán después de cerrar catálogo, flujos y proveedor. No crear tablas por intuición ni tocar una base de datos ajena al proyecto.
+La matriz SKU→entitlements está en [MATRIZ-CATALOGO-ENTITLEMENTS.md](MATRIZ-CATALOGO-ENTITLEMENTS.md). Las migraciones se diseñarán después de cerrar catálogo, flujos y proveedor. No crear tablas por intuición ni tocar una base de datos ajena al proyecto.
 
 ---
 
