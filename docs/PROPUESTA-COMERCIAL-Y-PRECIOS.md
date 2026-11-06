@@ -3,7 +3,7 @@
 **Versión:** 1.0  
 **Fecha:** 6 de noviembre de 2026  
 **Mercado inicial supuesto:** México, precios en MXN  
-**Estado:** propuesta para decisión; no crear productos ni cobrar todavía.
+**Estado:** precios piloto aceptados como base inicial de trabajo; no definitivos, no publicados y sin autorización para crear productos ni cobrar.
 
 ## 1. Recomendación ejecutiva
 
@@ -19,7 +19,7 @@ Propongo un catálogo con tres módulos comprables por separado, un paquete inte
 | Balance Completo | $179 | $1,799 | 16.2 % frente a 12 pagos mensuales |
 | Extensión +3 dispositivos | $29 | $299 | 14.1 % |
 
-Son precios de validación, no precios finales aprobados. Se deben probar con entrevistas, landing page, disposición de pago y análisis de costes reales. Mostrar siempre el total anual cobrado, no solo su equivalente mensual.
+Los importes han sido aceptados por el responsable del producto como precios piloto iniciales para diseño, simulaciones y validación. No son precios definitivos ni una autorización para publicarlos o cobrar. Antes del lanzamiento se probarán con entrevistas, landing page, disposición de pago y análisis de costes reales. Mostrar siempre el total anual cobrado, no solo su equivalente mensual.
 
 ### Por qué estos precios
 - Opal publica $99.99 USD al año y $19.99 USD al mes para Pro. Es un referente internacional, no una equivalencia directa para México.
@@ -212,7 +212,7 @@ No elegir proveedor solo por porcentaje de comisión. Medir aprobación, fraude,
 
 ## 9. Puertas de decisión antes de programar
 
-1. Aprobar o modificar los precios piloto.
+1. **Precios piloto:** aceptados como base de trabajo; recalcular antes de publicación con costes, impuestos, comisiones, margen y validación de usuarios.
 2. Confirmar si el lanzamiento inicial es Free + Plus, o si también sale Protección.
 3. Confirmar límites de 3 dispositivos personales, 3 perfiles infantiles y 5 dispositivos Family.
 4. Probar el catálogo real en App Store Connect Sandbox y Play Billing test.
