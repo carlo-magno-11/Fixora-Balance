@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { deleteFocusSession, getLatestFocusSession, saveFocusSession } from "@/infrastructure/local/focus-session-repository";
 import {
   Pressable,
   SafeAreaView,
@@ -39,6 +40,50 @@ export default function HomeScreen() {
   const [durationMinutes, setDurationMinutes] = useState<number>(25);
   const [session, setSession] = useState<FocusSession | null>(null);
   const [remainingSeconds, setRemainingSeconds] = useState(durationMinutes * 60);
+  const [storageReady, setStorageReady] = useState(false);
+  const [storageError, setStorageError] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    getLatestFocusSession()
+      .then(async (savedSession) => {
+        if (!mounted) return;
+        if (savedSession) {
+          let restored = savedSession;
+          if (savedSession.status === "running") {
+            const remaining = getRemainingSeconds(savedSession, Date.now());
+            setRemainingSeconds(remaining);
+            if (remaining === 0) {
+              const completed = completeFocusSession(savedSession, Date.now());
+              if (completed.ok) {
+                restored = completed.value;
+                await saveFocusSession(restored);
+              }
+            }
+          } else {
+            setRemainingSeconds(savedSession.remainingSeconds);
+          }
+          setSession(restored);
+        }
+        setStorageReady(true);
+      })
+      .catch(() => {
+        if (mounted) {
+          setStorageError(true);
+          setStorageReady(true);
+        }
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!storageReady || !session) return;
+    saveFocusSession(session).catch(() => setStorageError(true));
+  }, [session, storageReady]);
 
   useEffect(() => {
     if (!session || session.status !== "running") return;
@@ -164,7 +209,7 @@ export default function HomeScreen() {
                   accessibilityRole="button"
                   accessibilityState={{ selected: durationMinutes === minutes }}
                   key={minutes}
-                  onPress={() => handleDuration(minutes)}
+                  disabled={!storageReady}\n                  onPress={() => handleDuration(minutes)}
                   style={[
                     styles.durationOption,
                     durationMinutes === minutes && styles.durationOptionSelected,
@@ -185,7 +230,7 @@ export default function HomeScreen() {
 
           <View style={styles.actionRow}>
             {!session && (
-              <Pressable accessibilityRole="button" onPress={handleStart} style={styles.primaryButton}>
+              <Pressable accessibilityRole="button" disabled={!storageReady} onPress={handleStart} style={styles.primaryButton}>
                 <Text style={styles.primaryButtonText}>Comenzar sesión</Text>
                 <Text style={styles.buttonArrow}>→</Text>
               </Pressable>
