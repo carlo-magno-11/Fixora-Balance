@@ -353,4 +353,4 @@ La arquitectura comercial debe separar productos/SKUs, derechos atómicos, trans
 
 El alcance del primer MVP y sus criterios están en [ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md](ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md). La matriz SKU→derechos está en [MATRIZ-CATALOGO-ENTITLEMENTS.md](MATRIZ-CATALOGO-ENTITLEMENTS.md). La viabilidad por sistema operativo se documenta en [MATRIZ-CAPACIDADES-NATIVAS.md](MATRIZ-CAPACIDADES-NATIVAS.md); el diseño lógico en [MODELO-DATOS-Y-ARQUITECTURA.md](MODELO-DATOS-Y-ARQUITECTURA.md); y los riesgos en [THREAT-MODEL-INICIAL.md](THREAT-MODEL-INICIAL.md).
 
-La bitácora viva se mantiene en [ESTADO-Y-BITACORA.md](ESTADO-Y-BITACORA.md). Toda redirección sustancial debe actualizar este plan y el registro de decisiones antes de implementarse.
+La puerta de preparación y bloqueos previos al código se mantiene en [PUERTA-PREPROGRAMACION.md](PUERTA-PREPROGRAMACION.md). La bitácora viva se mantiene en [ESTADO-Y-BITACORA.md](ESTADO-Y-BITACORA.md). Toda redirección sustancial debe actualizar este plan y el registro de decisiones antes de implementarse.
