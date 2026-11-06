@@ -14,38 +14,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  bootstrap-supabase-config:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Set up Supabase CLI
-        uses: supabase/setup-cli@v3
-        with:
-          version: 3.0.0
-
-      - name: Generate local Supabase configuration
-        run: supabase init --force
-
-      - name: Set project identifier
-        run: sed -i 's/^project_id = .*/project_id = "fixora-balance"/' supabase/config.toml
-
-      - name: Commit configuration when changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add supabase/config.toml
-          if git diff --cached --quiet; then
-            echo "Supabase configuration is already current."
-            exit 0
-          fi
-          git commit -m "chore(db): add Supabase CLI project configuration"
-          git push
-
   database:
     name: Local Supabase migrations and pgTAP
     runs-on: ubuntu-latest
