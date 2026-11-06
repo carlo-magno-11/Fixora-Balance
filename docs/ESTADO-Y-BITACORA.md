@@ -93,6 +93,26 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 
 ## 6. Bitácora de sesiones
 
+### 2026-11-06 — Nueva referencia Supabase compartida; acceso aún no autorizado en la integración
+**Dato recibido**
+- El responsable compartió la URL de proyecto `https://emacfszktufyqtfgzunl.supabase.co`.
+- La referencia extraída de esa URL es `emacfszktufyqtfgzunl`; se registra como el destino propuesto para Fixora Balance, sin asumir que su nombre, organización, plan o configuración ya están verificados.
+
+**Verificación efectuada**
+- Se volvió a consultar la lista de organizaciones y proyectos a través de la integración Supabase conectada. Continúa mostrando únicamente la organización `carlo-magno-11's Org` y los proyectos EYESITE/eyesite-security-test ya documentados.
+- Se intentó consultar directamente el proyecto por la referencia `emacfszktufyqtfgzunl`; Supabase respondió `You do not have permission to perform this action`.
+- Por tanto, el enlace identifica un destino, pero la integración actual no tiene permiso verificable para leer sus detalles. No se puede afirmar todavía que el proyecto esté accesible desde esta conexión.
+
+**Límites de seguridad aplicados**
+- No se ejecutó SQL, no se consultaron tablas, no se leyeron claves, no se aplicaron migraciones y no se cambió configuración.
+- No se usaron ni modificaron los proyectos EYESITE.
+- No se pidió ni se debe compartir aquí una service_role key, secret key, contraseña de base de datos o token personal.
+
+**Siguiente paso necesario**
+- Reautorizar la integración Supabase con la cuenta/organización que contiene el proyecto y conceder permisos mínimos de lectura del proyecto y base de datos para poder auditarlo.
+- En Supabase, revisar el token de acceso de la integración y su alcance; la documentación actual permite tokens acotados por proyecto y permiso. No pegar tokens en el chat.
+- Una vez que la conexión pueda leer el proyecto, verificar nombre, organización, plan/estado, región, migraciones, tablas, extensiones, funciones y asesores de seguridad antes de diseñar o aplicar la primera migración de Fixora Balance.
+
 ### 2026-11-06 — Aprobación de precios piloto y cierre documental previo a programación
 **Trabajo realizado**
 - El responsable del producto aprobó los precios MXN propuestos como referencia inicial de trabajo, sujetos a revisión antes de publicación.
@@ -147,7 +167,7 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 ### 2026-11-06 — Decisión de arquitectura de datos y control de migraciones
 
 **Investigación y verificación**
-- Consultada la documentación oficial actual de Supabase sobre local development workflow, migrations, pgTAP, Auth, entornos remotos y backups.
+- Consultada la documentación oficial de Supabase sobre local development workflow, migrations, pgTAP, Auth, entornos remotos y backups.
 - Consultada la organización Supabase conectada: aparecen proyectos EYESITE, pero no existe un proyecto identificado como Fixora Balance.
 - No se consultó ni modificó el esquema de proyectos EYESITE.
 
