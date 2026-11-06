@@ -65,8 +65,11 @@ jobs:
           path.write_text(text[:start] + section.replace("enabled = false", "enabled = true", 1) + text[end:])
           PY
 
-      - name: Simulate hosted platform RLS event trigger
-        run: supabase db query --file supabase/fixtures/hosted_rls_event_trigger.sql
+      - name: Create local hosted RLS event-trigger function
+        run: supabase db query --file supabase/fixtures/hosted_rls_event_trigger_function.sql
+
+      - name: Register local hosted RLS event trigger
+        run: supabase db query --file supabase/fixtures/hosted_rls_event_trigger_registration.sql
 
       - name: Apply project migrations to the clean local database
         run: supabase migration up
