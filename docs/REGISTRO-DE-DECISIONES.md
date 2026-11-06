@@ -101,3 +101,15 @@ Se aprueba como alcance local inicial la creación de hábitos diarios/semanales
 ## FB-040 — Identidad idempotente de cumplimiento
 
 Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricción única en SQLite. Las operaciones de check-in no duplican eventos; deshacer es explícito. La futura sincronización debe preservar esta identidad y documentar reglas de timezone.
+
+
+## DEC-UX-003 — Progreso consciente, no punitivo
+
+**Fecha:** 6 de noviembre de 2026  
+**Estado:** aceptada como dirección de producto; fórmula de XP pendiente.
+
+**Decisión:** las omisiones y descansos no restan puntos ganados ni destruyen el historial. Las metas se evalúan contra la frecuencia que eligió el usuario. La gamificación será opcional y desactivable. Las recompensas se derivarán de eventos fuente verificables, nunca de aperturas, notificaciones o tiempo de uso de Fixora Balance.
+
+**Investigación:** se inspeccionaron patrones de Loop Habit Tracker (GPL-3.0) y Habitica (NOASSERTION). No se copiará código ni assets; consultar `docs/INVESTIGACION-HABITOS-PROGRESO.md`.
+
+**Pendiente:** definir eventos, idempotencia, reversión, zona horaria, reconciliación offline, puntos, niveles y pruebas antiabuso antes de implementar XP.
