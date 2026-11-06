@@ -113,3 +113,15 @@ Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricció
 **Investigación:** se inspeccionaron patrones de Loop Habit Tracker (GPL-3.0) y Habitica (NOASSERTION). No se copiará código ni assets; consultar `docs/INVESTIGACION-HABITOS-PROGRESO.md`.
 
 **Pendiente:** definir eventos, idempotencia, reversión, zona horaria, reconciliación offline, puntos, niveles y pruebas antiabuso antes de implementar XP.
+
+
+## DEC-UX-004 — Objetivos semanales derivados de datos fuente
+
+**Fecha:** 6 de noviembre de 2026  
+**Estado:** implementada localmente; pendiente CI final y prueba física.
+
+**Decisión:** distinguir objetivo (resultado semanal medible), hábito (acción repetible) y sesión de enfoque (bloque de concentración). La primera versión mide sesiones completadas o check-ins de hábitos. El progreso se calcula desde SQLite, no se edita manualmente.
+
+**Consecuencias:** objetivos semanales empiezan lunes local; meta de 1–100. No se añade XP ni sincronización. Los objetivos se mantienen independientes de hábitos hasta que pruebas UX justifiquen una relación explícita.
+
+**Validación:** CI, migración SQLite v1→v3 con datos previos, instalación limpia y pruebas físicas Android/iOS.
