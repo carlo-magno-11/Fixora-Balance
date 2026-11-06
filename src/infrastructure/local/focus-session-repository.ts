@@ -1,14 +1,8 @@
 import type { FocusSession } from "@/domain/focus/focus-session";
 import { getLocalDatabase } from "./database";
+import { createWriteQueue } from "./write-queue";
 
-let writeQueue: Promise<void> = Promise.resolve();
-
-function enqueueWrite<T>(operation: () => Promise<T>): Promise<T> {
-  const next = writeQueue.then(operation, operation);
-  writeQueue = next.then(() => undefined, () => undefined);
-  return next;
-}
-
+const enqueueWrite = createWriteQueue();
 interface FocusSessionRow {
   id: string;
   started_at_ms: number;
