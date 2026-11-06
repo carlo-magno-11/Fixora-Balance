@@ -31,13 +31,39 @@ jobs:
         run: supabase init --force
 
       - name: Defer project migrations until hosted-platform fixture is installed
-        run: sed -i '/^\\[db.migrations\\]/,/^\\[/{s/^enabled = true$/enabled = false/;}' supabase/config.toml
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path("supabase/config.toml")
+          text = path.read_text()
+          start = text.index("[db.migrations]")
+          end = text.find("\\n[", start + 1)
+          if end == -1:
+              end = len(text)
+          section = text[start:end]
+          if "enabled = true" not in section:
+              raise SystemExit("Could not find db.migrations.enabled = true")
+          path.write_text(text[:start] + section.replace("enabled = true", "enabled = false", 1) + text[end:])
+          PY
 
       - name: Start local Supabase stack
         run: supabase start -x studio,mailpit,storage-api,imgproxy,edge-runtime,analytics,vector
 
       - name: Enable project migrations after stack startup
-        run: sed -i '/^\\[db.migrations\\]/,/^\\[/{s/^enabled = false$/enabled = true/;}' supabase/config.toml
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path("supabase/config.toml")
+          text = path.read_text()
+          start = text.index("[db.migrations]")
+          end = text.find("\\n[", start + 1)
+          if end == -1:
+              end = len(text)
+          section = text[start:end]
+          if "enabled = false" not in section:
+              raise SystemExit("Could not find db.migrations.enabled = false")
+          path.write_text(text[:start] + section.replace("enabled = false", "enabled = true", 1) + text[end:])
+          PY
 
       - name: Simulate hosted platform RLS event trigger
         run: supabase db query --file supabase/tests/fixtures/hosted_rls_event_trigger.sql
