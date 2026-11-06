@@ -100,6 +100,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Expo Doctor
+        run: pnpm dlx expo-doctor@1.21.6
+
       - name: TypeScript
         run: pnpm typecheck
 
