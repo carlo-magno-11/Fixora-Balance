@@ -376,3 +376,16 @@ La colorimetría v0.1 formaliza los colores ya presentes en el prototipo: borgo�
 La investigación de componentes open source recomienda adoptar patrones y arquitectura de tokens de react-native-reusables, gluestack-ui, Shopify Restyle y Wix React Native UI Lib, pero evitar una migración de estilo o dependencia completa en esta etapa. La implementación inicial seguirá con React Native StyleSheet y componentes propios, sin sumar NativeWind/Uniwind por ahora.
 
 **Siguiente puerta UX:** separar componentes reutilizables, rediseñar Inicio/Hoy, definir navegación solo para módulos con contenido real y probar accesibilidad/contraste antes de ampliar el alcance funcional.
+
+
+---
+
+## 17. Implementación etapa 2 — hábitos locales — 6 de noviembre de 2026
+
+Se añadió la primera vertical slice de hábitos locales, documentada en [IMPLEMENTACION-ETAPA-2-HABITOS.md](IMPLEMENTACION-ETAPA-2-HABITOS.md). El usuario puede crear hábitos diarios o semanales, definir metas de 1–7 cumplimientos semanales, marcar/deshacer el cumplimiento de hoy y consultar el conteo de la semana. Los datos permanecen en SQLite y no se sincronizan todavía.
+
+La base local avanza de versión 1 a 2 con migración incremental; la migración nueva crea tablas `habits` y `habit_completions`, constraints, índices y unicidad por hábito/día. Se añadieron reglas puras y pruebas Vitest, primeros componentes compartidos con tokens y acceso desde Inicio.
+
+Se corrigió además el reinicio de una sesión de enfoque para eliminar su fila persistida, evitando que reaparezca al reabrir la aplicación.
+
+**Límites:** no hay XP, rachas, insignias, objetivos ni sincronización remota en esta etapa. La ejecución CI posterior a estos cambios y la prueba SQLite en dispositivo aún deben confirmarse. La siguiente puerta es validar CI y migración local desde instalaciones existentes antes de avanzar a progreso/recompensas o diseñar la migración Supabase con RLS.
