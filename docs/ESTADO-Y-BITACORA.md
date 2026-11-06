@@ -414,3 +414,13 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Run `42313449617` terminó success en ambos jobs: pnpm install --frozen-lockfile, Expo Doctor 20/20, TypeScript, 27 pruebas Vitest, bundles Android/iOS, Supabase local y pgTAP.
 - Actions directas fijadas por SHA; checkouts con persist-credentials false; permisos de workflow contents: read.
 - Sin build nativo ni pruebas físicas. Sin migraciones de negocio ni cambios remotos en Supabase.
+
+## 8. Revisión de tiendas y plan de pruebas — 6 de noviembre de 2026
+
+- El CI más reciente, run [42313750778](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42313750778), terminó con ambos jobs en success: TypeScript/Vitest/Expo Doctor/bundles Android+iOS y Supabase local/pgTAP.
+- Se creó [MATRIZ-CUMPLIMIENTO-APP-STORE-PLAY.md](MATRIZ-CUMPLIMIENTO-APP-STORE-PLAY.md), con puertas de Apple App Store y Google Play, requisitos de privacidad/cuenta, pagos, permisos, pruebas beta y prepublicación.
+- Se revisaron las directrices Apple actualizadas el 16 de octubre de 2026 y la política de Google Play consultada el 6 de noviembre de 2026. La matriz debe revalidarse antes de cada envío.
+- No hay EAS build profiles, builds nativos ni artefactos instalables verificados en el repositorio en esta revisión. Tampoco hay prueba en teléfono físico ni aprobación de tienda.
+- Primera prueba prevista: Fase B de la matriz, después de generar un build Android instalable y un build iOS de simulador/TestFlight con cuentas/firma disponibles. Recorreremos Hoy, Enfoque, Hábitos y Objetivos y verificaremos persistencia SQLite, background, cierre/reinicio, accesibilidad y estados de error.
+- CI puede cubrir TypeScript, unitarias, integración local, pgTAP, bundles, análisis y parte de E2E. Instalación nativa, batería, permisos, segundo plano, fabricantes, VoiceOver/TalkBack y compras Sandbox requieren dispositivos y cuentas reales. El equipo puede preparar y ejecutar parte del proceso, pero no sustituye al titular de las cuentas ni puede garantizar aprobación de Apple/Google.
+- Próxima prioridad: preparar y verificar la ruta de development builds; después ejecutar la primera ronda física antes de ampliar a Auth/sync o funciones nativas de protección.
