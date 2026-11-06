@@ -363,3 +363,16 @@ Se inició la primera vertical slice en `main`: scaffold Expo SDK 58/React Nativ
 El proyecto Supabase dedicado ya existe en la organización Free `Fixora-Balance`, ref `emacfszktufyqtfgzunl`, región `us-east-1`, PostgreSQL 17.11. El esquema de negocio público está vacío. Se aplicó una migración de hardening de permisos al event trigger automático de RLS; el Security Advisor quedó sin hallazgos después de verificar permisos y registro del event trigger.
 
 **No está terminada la etapa:** faltan instalación/lockfile, ejecución de typecheck y pruebas, Expo Doctor, builds y validación en dispositivos físicos. Auth, perfiles, sincronización, hábitos, recompensas y compras siguen pendientes. Family/Protection y bloqueo nativo siguen fuera del MVP hasta validar APIs, permisos y requisitos legales.
+
+
+---
+
+## 16. Dirección visual y experiencia de usuario — 6 de noviembre de 2026
+
+Se incorpora [SISTEMA-DISENO-UX.md](SISTEMA-DISENO-UX.md) como guía de diseño del producto. La dirección propuesta es **calma activa**: superficies cálidas, jerarquía editorial, acciones claras, progreso no punitivo y una identidad propia.
+
+La colorimetría v0.1 formaliza los colores ya presentes en el prototipo: borgoña como firma de marca, verde bosque como acción principal, crema como base y dorado como acento de reconocimiento. Se añadieron tokens TypeScript y la pantalla inicial empezó a consumirlos. Esta propuesta no se considera identidad final hasta validar contraste, accesibilidad y pruebas visuales en dispositivos.
+
+La investigación de componentes open source recomienda adoptar patrones y arquitectura de tokens de react-native-reusables, gluestack-ui, Shopify Restyle y Wix React Native UI Lib, pero evitar una migración de estilo o dependencia completa en esta etapa. La implementación inicial seguirá con React Native StyleSheet y componentes propios, sin sumar NativeWind/Uniwind por ahora.
+
+**Siguiente puerta UX:** separar componentes reutilizables, rediseñar Inicio/Hoy, definir navegación solo para módulos con contenido real y probar accesibilidad/contraste antes de ampliar el alcance funcional.
