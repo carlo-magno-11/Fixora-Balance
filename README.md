@@ -7,7 +7,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 
 **Estado: prototipo técnico inicial.**
 
-La experiencia inicial de enfoque, la pantalla de hábitos y los objetivos semanales están implementados localmente. El CI de GitHub Actions run `42308655770` pasó: TypeScript, Vitest, bundles JavaScript Android/iOS, reconstrucción Supabase local y pgTAP. No está lista para usuarios: faltan Expo Doctor, builds nativos, pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
+La experiencia inicial de enfoque, la pantalla de hábitos y los objetivos semanales están implementados localmente. El CI de GitHub Actions run `42308655770` pasó: TypeScript, Vitest, bundles JavaScript Android/iOS, reconstrucción Supabase local y pgTAP. No está lista para usuarios: falta confirmar el resultado de Expo Doctor (ya incorporado al CI), además de builds nativos, pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
 
 ## Documento rector
 - [Plan maestro del producto](docs/PLAN-MAESTRO.md)
