@@ -7,7 +7,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 
 **Estado: prototipo técnico inicial.**
 
-La primera experiencia de enfoque ya está escrita y pasa TypeScript, pruebas de dominio y exportación JavaScript para Android/iOS en GitHub Actions. No está lista para usuarios: faltan pruebas locales de migraciones, dispositivos físicos, autenticación, sincronización, hábitos, recompensas, notificaciones y compras.
+La experiencia inicial de enfoque y la primera pantalla de hábitos están escritas. TypeScript, Vitest, reconstrucción Supabase/pgTAP y exportación JavaScript Android/iOS han pasado en CI hasta el commit de diseño; la etapa de hábitos requiere su propia ejecución CI. No está lista para usuarios: faltan pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
 
 ## Documento rector
 - [Plan maestro del producto](docs/PLAN-MAESTRO.md)
@@ -28,7 +28,7 @@ La primera experiencia de enfoque ya está escrita y pasa TypeScript, pruebas de
 
 ## Implementación actual
 
-Consulta [Implementación etapa 1](docs/IMPLEMENTACION-ETAPA-1.md) para conocer los archivos creados, el comportamiento ya escrito y las pruebas que faltan. El lockfile ya está versionado. TypeScript, Vitest y bundles Android/iOS pasaron en CI. La validación local de Supabase/pgTAP sigue en ajuste; no hay builds nativos ni pruebas físicas.
+Consulta las implementaciones [etapa 1](docs/IMPLEMENTACION-ETAPA-1.md) y [etapa 2](docs/IMPLEMENTACION-ETAPA-2-HABITOS.md). La etapa 1 pasó TypeScript, Vitest, bundles Android/iOS y CI local Supabase/pgTAP. La etapa 2 de hábitos requiere CI propio y pruebas físicas; no hay builds nativos ni pruebas físicas declaradas.
 
 ## Principios
 1. Bienestar antes que tiempo de pantalla: distinguir uso útil de uso problemático.
@@ -42,12 +42,13 @@ Consulta [Implementación etapa 1](docs/IMPLEMENTACION-ETAPA-1.md) para conocer 
 ## Estado actual
 - Repositorio: carlo-magno-11/Fixora-Balance (público; decisión documentada y sujeta a revisión de seguridad/IP).
 - Rama principal confirmada: main
-- Fase: primera vertical slice de implementación; validación técnica todavía pendiente.
+- Fase: núcleo local de enfoque y primera vertical slice de hábitos; CI de hábitos y validación física pendientes.
 - Existe scaffold Expo SDK 58 / React Native 0.88 / React 19.3 / TypeScript 6 / Expo Router 58.
-- La pantalla inicial contiene un temporizador de enfoque funcional con pausa/reanudación y persistencia local SQLite.
+- La pantalla inicial contiene un temporizador de enfoque con pausa/reanudación y persistencia SQLite.
+- La pantalla Hábitos permite crear hábitos diarios/semanales y registrar cumplimiento local; la sincronización no está implementada.
 - `pnpm-lock.yaml` está versionado y CI usa instalación frozen.
 - TypeScript, Vitest y exportación JS Android/iOS han pasado en GitHub Actions.
-- El workflow de Supabase local/pgTAP se está ajustando para simular un event trigger que existe en hosted, pero no en el contenedor local por defecto.
+- El workflow local Supabase/pgTAP reconstruye la migración remota y prueba el event trigger hosted mediante fixtures; la ejecución más reciente para la etapa 1 pasó.
 - Proyecto Supabase dedicado: `emacfszktufyqtfgzunl`, organización Free `Fixora-Balance`, región `us-east-1`, PostgreSQL 17.11, estado `ACTIVE_HEALTHY`.
 - Primera migración remota aplicada y alineada con el historial: `20261106221629_harden_rls_event_trigger_permissions`.
 - No hay todavía tablas de negocio, perfiles ni usuarios; Auth, sincronización y compras no están implementados.
