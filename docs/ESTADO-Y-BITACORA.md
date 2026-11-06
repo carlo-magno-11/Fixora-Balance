@@ -357,3 +357,9 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Prueba física de migración SQLite desde v1/v2 y creación/avance de objetivos.
 - Edición/archivo de objetivos y asociación directa a hábitos siguen fuera de esta primera versión.
 - XP, niveles, rachas, insignias, Auth y sincronización remota siguen pendientes.
+
+
+**Corrección adicional de consistencia local**
+- Se detectó posible carrera entre el guardado asíncrono de una sesión y su eliminación al terminarla anticipadamente.
+- Se añadió una cola de escrituras serializada, con pruebas de orden y recuperación tras error, y se conectó al repositorio de sesiones.
+- Las sesiones completadas se conservan para que objetivos semanales puedan medirlas; las sesiones canceladas se eliminan después de cualquier guardado anterior en cola.
