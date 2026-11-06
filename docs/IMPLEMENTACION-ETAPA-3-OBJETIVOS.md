@@ -20,6 +20,7 @@ La primera versión ofrece dos métricas verificables: sesiones de enfoque compl
 - `src/infrastructure/local/migrations/003_create_goals.ts`: tercera migración SQLite, con tabla, constraints e índice.
 - `src/infrastructure/local/database.ts`: migración incremental local a versión 3.
 - `src/infrastructure/local/goal-repository.ts`: creación y resumen semanal calculado desde datos fuente.
+- `src/infrastructure/local/write-queue.ts` y su prueba: serialización de escrituras y eliminaciones de sesiones para evitar que un guardado asíncrono vuelva a insertar una sesión terminada antes de tiempo.
 - `app/goals.tsx`: pantalla para crear objetivos y consultar progreso real.
 - `app/index.tsx`: acceso a objetivos desde Inicio.
 - `app/habits.tsx`: navegación entre hábitos y objetivos.
@@ -39,6 +40,7 @@ La primera versión ofrece dos métricas verificables: sesiones de enfoque compl
 - SQL parametrizado.
 - Constraints de título, métrica, rango y timestamps.
 - El progreso se deriva de sesiones/check-ins persistidos.
+- Guardados y eliminaciones de sesiones se ejecutan en orden de invocación; un fallo no bloquea escrituras posteriores.
 - La finalización de una sesión se reconoce por el estado de dominio `completed`; sesiones pausadas o descartadas no cuentan.
 - No se añade una migración remota ni tablas de negocio a Supabase.
 - La futura sincronización debe resolver identidad de usuario, zona horaria, duplicados, reversión y RLS antes de habilitar datos remotos.
