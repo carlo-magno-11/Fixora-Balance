@@ -38,7 +38,7 @@ Archivos principales:
 
 Esta entrega no significa que la app esté lista para usuarios o tiendas. TypeScript, Vitest y exportación JavaScript Android/iOS sí se ejecutaron en GitHub Actions y pasaron. No se ha ejecutado Expo Doctor, build nativo ni pruebas físicas. La conexión a Supabase se ha auditado, pero Auth, perfiles, sincronización y permisos de usuario aún no están implementados.
 
-El lockfile ya está generado y versionado. El workflow instala con `pnpm install --frozen-lockfile`. La reconstrucción local de Supabase y pgTAP pasó en GitHub Actions para la etapa 1. La etapa 2 debe volver a pasar el mismo workflow.
+El lockfile ya está generado y versionado. El workflow instala con `pnpm install --frozen-lockfile`. La reconstrucción local de Supabase y pgTAP pasó en GitHub Actions para las etapas 1, 2 y 3; el run `42308655770` confirmó éxito de TypeScript, Vitest, bundles JS Android/iOS y pgTAP. El workflow ahora incluye Expo Doctor `1.21.6`; su resultado posterior al cambio debe verificarse por separado.
 
 ## 4. Próximas tareas
 
