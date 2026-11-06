@@ -400,3 +400,14 @@ Se incorpora [INVESTIGACION-HABITOS-PROGRESO.md](INVESTIGACION-HABITOS-PROGRESO.
 La decisión de producto es evitar una mecánica punitiva de rachas. Un descanso no resta puntos ya ganados; las metas se evalúan contra el objetivo elegido por el usuario; XP debe ser opcional y desactivable.
 
 Antes de programar XP/insignias deben definirse eventos fuente verificables, identidad idempotente, reversión de check-ins, zona horaria, reconciliación offline y recalculabilidad de saldos. No se fijan valores de puntos ni niveles todavía.
+
+
+---
+
+## 19. Implementación etapa 3 — objetivos semanales — 6 de noviembre de 2026
+
+Se añade [IMPLEMENTACION-ETAPA-3-OBJETIVOS.md](IMPLEMENTACION-ETAPA-3-OBJETIVOS.md). Un objetivo se define como resultado semanal medible, distinto de un hábito (acción repetible) y de una sesión de enfoque (bloque de concentración).
+
+La primera versión permite medir sesiones completadas o check-ins de hábitos. El progreso se calcula desde registros SQLite y no se puede editar manualmente. Se añadió dominio, pruebas, migración local 003, repositorio, pantalla `/goals` y accesos desde Inicio y Hábitos. La base local pasa a versión 3 sin borrar sesiones ni hábitos.
+
+No se implementan XP, rachas, insignias ni sincronización remota. La siguiente puerta es CI y prueba física de actualización SQLite v1→v3; después se diseña historial/eventos antes de gamificación.
