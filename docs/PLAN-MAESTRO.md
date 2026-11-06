@@ -337,3 +337,18 @@ Cada decisión importante debe registrarse en REGISTRO-DE-DECISIONES.md.
 - RevenueCat products and offerings: https://www.revenuecat.com/docs/projects/configuring-products
 
 Las políticas y tarifas cambian. Volver a verificar fuentes oficiales antes de implementar o publicar.
+
+
+## 15. Actualización comercial y decisión de repositorio — 6 de noviembre de 2026
+
+La propuesta de precios piloto se encuentra en [PROPUESTA-COMERCIAL-Y-PRECIOS.md](PROPUESTA-COMERCIAL-Y-PRECIOS.md). Valores propuestos para validar en México: Plus Personal $79 MXN/mes o $799/año; Protección Personal $49/mes o $499/año; Family $109/mes o $1,099/año; Balance Completo $179/mes o $1,799/año; extensión de tres dispositivos $29/mes o $299/año. **No son precios aprobados ni publicados.** Requieren validar disposición de pago, coste real, impuestos, tarifas de proveedor y límites técnicos.
+
+La prueba recomendada es una sola prueba de 14 días de Balance Completo por cuenta elegible y canal de compra, con método de pago cuando el proveedor lo requiera, consentimiento explícito de renovación, precio posterior visible y sin reinicios por añadir módulos.
+
+La arquitectura comercial debe separar productos/SKUs, derechos atómicos, transacciones, suscripciones y asignación a cuentas/dispositivos. El backend mantiene el ledger y verifica eventos del proveedor. El cliente nunca concede acceso premium.
+
+**Restricción multiplataforma:** no asumir que la venta modular recurrente se implementa igual en web, iOS y Android. Apple limita a una suscripción activa por grupo y requiere diseño de niveles; las combinaciones modulares deben probarse en Sandbox para evitar dobles cobros. Google Play Billing también debe probarse con su ciclo de vida. La web puede ofrecer el catálogo más flexible, sujeto a políticas de tienda al mostrar/permitir compras externas.
+
+**Repositorio:** se mantiene público por ahora para aprovechar runners estándar gratuitos de GitHub Actions y facilitar revisiones. Esto solo es aceptable mientras se publique contenido no sensible, se decida la licencia y se verifiquen escaneo de secretos, dependencias, permisos de Actions y protección de ramas. La política está en [SEGURIDAD-REPOSITORIO-PUBLICO.md](SEGURIDAD-REPOSITORIO-PUBLICO.md). No se ha auditado aún toda la configuración de Settings.
+
+La bitácora viva se mantiene en [ESTADO-Y-BITACORA.md](ESTADO-Y-BITACORA.md). Toda redirección sustancial debe actualizar este plan y el registro de decisiones antes de implementarse.
