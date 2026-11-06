@@ -44,8 +44,8 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 ## 4. Pendientes que bloquean comenzar la implementación funcional
 
 ### Producto y negocio
-- [ ] Aprobar/modificar precios piloto.
-- [ ] Confirmar alcance del primer lanzamiento: Free + Plus, y si Protección entra en MVP.
+- [x] Aceptar precios piloto como base inicial de trabajo; revisar y ajustar antes de publicación.
+- [x] Definir recomendación de MVP: Free + Plus Personal; Protección y Family quedan en fases posteriores hasta validar APIs, permisos, políticas y riesgos.
 - [ ] Confirmar límites: tres dispositivos personales, tres perfiles infantiles, cinco dispositivos Family.
 - [ ] Definir exactamente qué incluye cada módulo y qué no.
 - [ ] Validar demanda/disposición de pago con usuarios reales.
@@ -78,11 +78,11 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 ## 5. Próxima secuencia recomendada
 
 1. Resolver las decisiones de catálogo y límites.
-2. Hacer matriz de precios/derechos y escenarios de upgrades/downgrades por canal.
+2. Revisar matriz SKU/derechos y escenarios de upgrades/downgrades por canal; resolver límites de dispositivos y beneficiarios.
 3. Probar técnicamente las compras Sandbox sin cobros reales.
 4. Validar APIs nativas críticas de iOS/Android.
 5. Cerrar seguridad, privacidad y licencia.
-6. Aprobar la arquitectura y el esquema de datos.
+6. Revisar y aprobar la arquitectura y el esquema de datos antes de crear migraciones.
 7. Solo entonces iniciar el código de la aplicación y las migraciones de desarrollo.
 
 ## 6. Bitácora de sesiones
