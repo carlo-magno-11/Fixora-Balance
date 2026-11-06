@@ -106,8 +106,10 @@ Antes de publicar el código de la app, decidir una licencia. Si el objetivo es 
 - GitHub muestra Fixora-Balance como público.
 - La rama por defecto observada es main.
 - Los cuatro documentos base existen y se pudieron leer.
-- No se encontraron .github/workflows/ci.yml, .github/workflows/ci.yaml, .gitignore ni SECURITY.md en las rutas comprobadas. Esto no demuestra que no existan workflows con otros nombres.
+- Se añadieron .gitignore y SECURITY.md con reglas de exclusión y reporte privado de vulnerabilidades.
+- No se encontraron workflows en las rutas comunes .github/workflows/ci.yml, ci.yaml, test.yml y security.yml ni en la búsqueda de código realizada. Esto no demuestra que no existan otros workflows o controles configurados.
 - No se ha auditado Settings, secrets, historial completo, reglas de rama ni permisos de Actions.
+- No se ha confirmado si GitHub Private Vulnerability Reporting está habilitado; la política SECURITY.md condiciona el reporte a que la función esté disponible.
 - Por tanto, no se declara activado ningún control de seguridad hasta verificarlo.
 
 ## 9. Referencias oficiales
