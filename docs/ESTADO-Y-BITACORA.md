@@ -2,7 +2,7 @@
 
 **Última actualización:** 6 de noviembre de 2026  
 **Rama:** main  
-**Fase:** preparación técnica; inicio de implementación condicionado por acceso verificable a Supabase y decisión de publicación del código.
+**Fase:** primera vertical slice de implementación; ejecución local/CI y pruebas físicas pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -16,9 +16,12 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - Los documentos principales se consultaron en GitHub antes de actualizarlos.
 - Se añadieron la propuesta comercial/precios piloto y la política de seguridad del repositorio público.
 - Se actualizaron README, plan maestro, monetización y registro de decisiones.
-- No se ha comenzado la implementación de la aplicación.
+- Scaffold Expo SDK 58 y primera experiencia de enfoque escritos en `main`.
+- Dominio de sesiones con pruebas Vitest añadidas; todavía no ejecutadas.
+- Persistencia SQLite con migración local versionada añadida; todavía no probada en dispositivo.
+- Workflow inicial de GitHub Actions añadido; ejecución pendiente de confirmar.
 - No se han creado productos reales en App Store Connect, Google Play, Stripe, Mercado Pago o RevenueCat.
-- No se han creado migraciones ni tablas de facturación.
+- No existen todavía tablas de negocio, perfiles ni usuarios en Supabase.
 - Se añadieron .gitignore y SECURITY.md.
 - No se ha verificado toda la configuración de GitHub Settings, Actions, secrets, reglas de rama o historial completo.
 
@@ -30,7 +33,8 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 4. [Propuesta comercial y precios](PROPUESTA-COMERCIAL-Y-PRECIOS.md) — precios piloto, simulaciones y proveedores.
 5. [Seguridad del repositorio público](SEGURIDAD-REPOSITORIO-PUBLICO.md) — decisión de visibilidad y controles.
 6. [Registro de decisiones](REGISTRO-DE-DECISIONES.md) — decisiones, hipótesis y revisiones.
-7. [Puerta de preprogramación](PUERTA-PREPROGRAMACION.md) — bloqueos reales y secuencia para iniciar código.
+7. [Puerta de preprogramación](PUERTA-PREPROGRAMACION.md) — bloqueos reales y secuencia de ejecución.
+10. [Implementación etapa 1](IMPLEMENTACION-ETAPA-1.md) — primera vertical slice y validaciones pendientes.
 9. [Estrategia Supabase y migraciones](ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md) — PostgreSQL, SQLite, entornos y regla migration-first.
 8. [Política de seguridad](../SECURITY.md) — reporte coordinado de vulnerabilidades.
 
@@ -214,3 +218,44 @@ La lista de bloqueos y criterio exacto de salida está en [PUERTA-PREPROGRAMACIO
 ## 7. Regla de continuidad
 
 No afirmar que algo está implementado solo porque está descrito. No modificar ramas, visibilidad, servicios de pago, bases de datos o configuración de producción sin inspección previa y autorización adecuada. Cada cambio sustancial debe actualizar este archivo, el plan maestro y el registro de decisiones.
+
+
+### 2026-11-06 — Conexión correcta, auditoría Supabase y primera implementación
+
+**Conexión correcta**
+- Se detectaron dos cuentas Supabase conectadas; la primera, identificador de cuenta `link_6aa4ee94be90819186074001d683a997`, es la que tiene la organización `Fixora-Balance`. La segunda no tenía permisos para este proyecto. No se debe confundir la cuenta elegida con la organización Pro anterior.
+- Organización `Fixora-Balance`, ID `fnufjydflegirzatihec`, plan Free.
+- Proyecto `emacfszktufyqtfgzunl`, nombre actual `carlo-magno-11's Project`, región `us-east-1`, PostgreSQL 17.11, estado `ACTIVE_HEALTHY`.
+
+**Auditoría de solo lectura previa**
+- Esquema `public`: cero tablas base, cero vistas, cero políticas y una función.
+- `auth.users`: cero filas. Storage buckets: cero. Edge Functions: cero.
+- Historial remoto inicial: cero migraciones.
+- Extensiones instaladas: cinco (incluyendo pgcrypto, uuid-ossp, pg_stat_statements, supabase_vault y plpgsql).
+- Hay siete event triggers de plataforma; `ensure_rls` usa `public.rls_auto_enable()`.
+- Security Advisor encontró dos warnings por permisos EXECUTE de anon/authenticated en esa función SECURITY DEFINER, aunque es de tipo event_trigger. Se comprobó que no puede invocarse como función normal por PostgREST debido al tipo de retorno; aun así, se endurecieron permisos explícitamente.
+
+**Migración remota de hardening**
+- Se creó y guardó primero el SQL en GitHub: `supabase/migrations/20261106221629_harden_rls_event_trigger_permissions.sql`.
+- Se aplicó mediante el mecanismo de migraciones Supabase, no mediante SQL Editor.
+- La API registró versión remota `20261106221629`; el archivo local se alineó a esa versión. El nombre descriptivo almacenado por la API conserva la cadena enviada originalmente, pero la versión coincide.
+- Verificación posterior: anon EXECUTE=false, authenticated EXECUTE=false, service_role EXECUTE=true; event trigger `ensure_rls` continúa registrado.
+- Security, Performance y Health Advisors devuelven cero hallazgos después de la corrección.
+- Nota de proceso: esta primera migración se creó desde la integración GitHub/Supabase porque no había un workspace local con Supabase CLI disponible. A partir de la preparación del workspace, las siguientes migraciones deberán generarse y probarse con Supabase CLI local antes de aplicar a remoto.
+
+**Implementación escrita**
+- Se añadió scaffold Expo SDK 58, Expo Router, TypeScript y scripts.
+- Se añadió pantalla inicial de enfoque con sesiones de 15/25/50 minutos, pausa/reanudación/finalización.
+- Se añadió dominio puro y pruebas Vitest.
+- Se añadió migración SQLite local versionada y repositorio para restaurar/guardar sesiones.
+- Se añadió workflow GitHub Actions para typecheck y pruebas.
+- Se creó [IMPLEMENTACION-ETAPA-1.md](IMPLEMENTACION-ETAPA-1.md).
+
+**Pendiente de verificación**
+- No se ha ejecutado pnpm install ni generado lockfile.
+- No se han ejecutado TypeScript, Vitest, Expo Doctor, build nativo ni pruebas físicas; no declarar CI verde hasta leer la ejecución real.
+- Revisar dependencias/peer versions del SDK 58, corregir cualquier incompatibilidad y generar pnpm-lock.yaml.
+- Revisar permisos y configuración GitHub Settings; el repo sigue público y sin decisión de licencia.
+- Implementar objetivos/hábitos, manejo de errores SQLite, Auth/perfiles y primera migración de usuario con RLS.
+- No implementar pagos ni permisos Family/Protection todavía.
+
