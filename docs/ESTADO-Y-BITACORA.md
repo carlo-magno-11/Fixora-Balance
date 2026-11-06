@@ -326,3 +326,12 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Probar actualización SQLite v1→v2 conservando sesiones existentes y desde instalación limpia.
 - Probar creación/check-in/deshacer/reinicio en dispositivos físicos.
 - No hay XP, rachas, insignias, objetivos, Auth, sincronización ni tablas remotas de negocio implementadas.
+
+
+### 2026-11-06 — Investigación de progreso y recompensas
+
+- Inspeccionados en GitHub Loop Habit Tracker (10,395 estrellas, GPL-3.0) y Habitica (14,294 estrellas, licencia NOASSERTION).
+- Se revisaron modelos de frecuencia, score, hábito y tipos de tarea. La investigación se limita a patrones conceptuales; no se copió código ni assets.
+- Creado `docs/INVESTIGACION-HABITOS-PROGRESO.md`.
+- Decisión propuesta: progreso no punitivo; descansos y omisiones no borran puntos ganados; XP opcional y desactivable.
+- No se implementa XP todavía. Faltan eventos fuente, idempotencia, reversión, zona horaria y reglas offline.
