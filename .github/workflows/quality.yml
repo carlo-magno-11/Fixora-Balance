@@ -100,6 +100,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Inspect regenerated lockfile diff (temporary)
+        run: git diff -- pnpm-lock.yaml
+
       - name: Expo Doctor
         run: pnpm dlx expo-doctor@1.21.6
 
