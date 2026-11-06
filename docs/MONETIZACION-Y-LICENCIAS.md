@@ -383,7 +383,7 @@ No activar producción hasta pasar pruebas sandbox y conciliación de punta a pu
 
 ---
 
-## 13. Preguntas que deben cerrarse antes de definir precios
+## 13. Preguntas que deben cerrarse antes de publicar precios y habilitar cobros
 
 - ¿Cuál es el límite base de dispositivos y miembros de Family?
 - ¿Family incluye Plus Personal para el administrador y todos los miembros?
@@ -397,7 +397,7 @@ No activar producción hasta pasar pruebas sandbox y conciliación de punta a pu
 - ¿Qué política de reembolso se publicará?
 - ¿Qué condiciones permiten una concesión promocional?
 
-No publicar precios ni activar cobros hasta cerrar los puntos que alteren margen, obligaciones legales o experiencia de compra.
+Los precios piloto ya están aceptados como referencia interna. No publicarlos ni activar cobros hasta cerrar los puntos que alteren margen, obligaciones legales o experiencia de compra.
 
 ---
 
