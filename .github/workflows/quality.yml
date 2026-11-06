@@ -65,8 +65,11 @@ jobs:
       - name: Start local Supabase stack
         run: supabase start
 
-      - name: Rebuild local database from migrations
-        run: supabase db reset
+      - name: Simulate hosted platform RLS event trigger
+        run: supabase db query --file supabase/tests/fixtures/hosted_rls_event_trigger.sql
+
+      - name: Apply project migrations to the clean local database
+        run: supabase migration up
 
       - name: Run pgTAP tests
         run: supabase test db
