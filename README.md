@@ -7,7 +7,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 
 **Estado: prototipo técnico inicial.**
 
-La experiencia local de enfoque, hábitos y objetivos está implementada. El run `42313449617` pasó con instalación `pnpm install --frozen-lockfile`: Expo Doctor (20/20), TypeScript, 27 pruebas Vitest, bundles JavaScript Android/iOS y Supabase local/pgTAP; sin avisos de peer dependencies. Inicio/Hoy muestra ahora progreso real desde SQLite. No está lista para usuarios: faltan builds nativos, pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras.
+La experiencia local de enfoque, hábitos y objetivos está implementada. El run `42313750778` pasó con instalación `pnpm install --frozen-lockfile`: Expo Doctor (20/20), TypeScript, 27 pruebas Vitest, bundles JavaScript Android/iOS y Supabase local/pgTAP; sin avisos de peer dependencies. Inicio/Hoy muestra ahora progreso real desde SQLite. No está lista para usuarios: faltan builds nativos, pruebas físicas, Auth, sincronización, recompensas, notificaciones y compras. La puerta de cumplimiento de Apple App Store y Google Play ya está documentada; aún no hay envío ni aprobación de tienda.
 
 ## Documento rector
 - [Plan maestro del producto](docs/PLAN-MAESTRO.md)
@@ -23,6 +23,7 @@ La experiencia local de enfoque, hábitos y objetivos está implementada. El run
 - [Alcance MVP y criterios de aceptación](docs/ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md)
 - [Catálogo y matriz de derechos](docs/MATRIZ-CATALOGO-ENTITLEMENTS.md)
 - [Capacidades nativas iOS/Android](docs/MATRIZ-CAPACIDADES-NATIVAS.md)
+- [Puerta de cumplimiento Apple App Store / Google Play](docs/MATRIZ-CUMPLIMIENTO-APP-STORE-PLAY.md)
 - [Arquitectura y modelo de datos](docs/MODELO-DATOS-Y-ARQUITECTURA.md)
 - [Estrategia Supabase y migraciones](docs/ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md)
 - [Threat model inicial](docs/THREAT-MODEL-INICIAL.md)
