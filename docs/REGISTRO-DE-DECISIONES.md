@@ -39,7 +39,7 @@ Añadir una fila por decisión nueva o modificación. No borrar decisiones previ
 
 
 | FB-019 | Repositorio público | Mantener público durante la fase documental y de prototipo no sensible | Runners estándar públicos de Actions son gratuitos; permite revisiones | Decidir licencia y verificar secretos, Actions, reglas de rama antes de código sensible |
-| FB-020 | Precios piloto | Plus $79/$799; Protección $49/$499; Family $109/$1,099; Completo $179/$1,799; +3 dispositivos $29/$299 MXN (mensual/anual) | Propuesta inicial competitiva y paquete completo ~25 % inferior a módulos separados | Validar disposición de pago, costes, impuestos y comisiones; no son precios finales |
+| FB-020 | Precios piloto | Sustituido por FB-027: los importes quedan aceptados como base de trabajo, no definitivos | Propuesta inicial competitiva y paquete completo ~25 % inferior a módulos separados | Validar disposición de pago, costes, impuestos y comisiones antes de publicación |
 | FB-021 | Prueba | 14 días de Balance Completo, una vez por cuenta elegible y canal | Experiencia integral y menor abuso que pruebas repetidas por módulo | Verificar ofertas introductorias, requisitos de pago y elegibilidad de tiendas |
 | FB-022 | Web billing | Stripe Billing candidato principal; Mercado Pago alternativa a comparar | API, prorrateo y métodos locales | Sandbox comparativo; elegir un único procesador web para MVP |
 | FB-023 | Compras móviles modulares | No asumir catálogo apilable idéntico a web; validar grupos de suscripción Apple y Google Play Billing | Evitar doble cobro y derechos duplicados | Prototipo Sandbox antes de fijar catálogo de tiendas |
