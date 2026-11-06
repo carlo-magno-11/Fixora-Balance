@@ -217,3 +217,12 @@ Los comandos definitivos se verificarán con supabase --help y la versión insta
 - Production maturity model: https://supabase.com/docs/guides/deployment/maturity-model
 - Database backups: https://supabase.com/docs/guides/platform/backups
 - Supabase security product guide: https://supabase.com/docs/guides/security/product-security
+
+
+## 12. Reproducibilidad local y fixture de plataforma
+
+El proyecto ahora incluye `supabase/config.toml` generado con Supabase CLI 3.0.0 y `db.major_version = 17`. El proyecto hosted tiene una función de evento DDL `public.rls_auto_enable()` y el event trigger `ensure_rls`, pero el contenedor local estándar no los instala automáticamente. La migración remota de hardening ya está aplicada y no debe editarse.
+
+Para probar la migración localmente, CI desactiva temporalmente la aplicación automática de migraciones al iniciar el stack, crea el helper hosted mediante dos fixtures SQL separados (una sentencia por llamada a `supabase db query --file`), vuelve a habilitar migraciones, ejecuta `supabase migration up` y luego `supabase test db`. Los fixtures viven en `supabase/fixtures/`, fuera del directorio que pgTAP descubre. El fixture nunca se despliega a hosted.
+
+La primera ejecución encontró que `supabase db query --file` no admite varias sentencias en una misma llamada; se dividió la creación de función y la creación del event trigger en archivos separados. La siguiente ejecución debe confirmar que la migración y pgTAP pasan de extremo a extremo.
