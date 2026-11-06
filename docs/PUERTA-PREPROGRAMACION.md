@@ -73,7 +73,8 @@ Por lo tanto:
 ### P1 — Preparación técnica
 - [ ] Crear estructura del monorepo solo después de revisar convenciones y stack final.
 - [ ] Definir contratos de dominio y adaptadores.
-- [ ] Crear proyecto Supabase de desarrollo exclusivo para Fixora; verificar ref/proyecto antes de cualquier migración.
+- [ ] Crear proyecto Supabase remoto exclusivo para Fixora Balance, después de confirmar organización y coste; verificar ref/proyecto antes de cualquier migración.
+- [x] Definir estrategia Supabase + PostgreSQL remoto + SQLite local y política migration-first en ESTRATEGIA-SUPABASE-Y-MIGRACIONES.md.
 - [ ] Definir ambientes local, staging y producción.
 - [ ] Configurar CI con permisos mínimos, SHA completo y sin secretos en PR externos.
 - [ ] Definir estrategia de pruebas unitarias, integración, E2E y dispositivos físicos.
@@ -90,7 +91,7 @@ Por lo tanto:
 
 ## 6. Criterio para declarar “listos para programar”
 
-La fase documental queda cerrada cuando los seis puntos P0 estén decididos, la licencia/visibilidad esté resuelta, el stack y las versiones mínimas estén fijados, el proyecto Supabase de desarrollo esté identificado sin ambigüedad y el esquema de datos pase revisión de autorización.
+La fase documental queda cerrada cuando los seis puntos P0 estén decididos, la licencia/visibilidad esté resuelta, el stack y las versiones mínimas estén fijados, el proyecto Supabase remoto de desarrollo esté identificado sin ambigüedad, el stack local pueda reconstruir el esquema y el esquema de datos pase revisión de autorización. Todas las migraciones deberán estar versionadas y probadas localmente.
 
 La primera tarea de código será un spike vertical pequeño y verificable, no construir toda la app de golpe: iniciar app, probar navegación, persistencia local, sesión de enfoque y pruebas automatizadas; después revisar en Android/iOS antes de ampliar alcance.
 
