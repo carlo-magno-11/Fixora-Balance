@@ -20,7 +20,7 @@ Este documento es la lista de control final para convertir el plan en ejecución
 | Privacidad | Principios definidos | Minimización; no mensajes, teclas, fotos ni historial completo |
 | Repositorio | Estado observado | Público, rama main; no hay decisión de licencia ni auditoría completa de Settings |
 
-## 2. Bloqueos que sí requieren decisión antes de iniciar el código de producto
+## 2. Bloqueos que sí requieren decisión antes de cerrar el MVP y publicarlo
 
 | Bloqueo | Recomendación de trabajo | Por qué importa |
 |---|---|---|
@@ -79,7 +79,9 @@ Por lo tanto:
 - [x] Crear scaffold inicial Expo SDK 58 y dominio de enfoque.
 - [x] Añadir persistencia local SQLite versionada para sesiones de enfoque.
 - [x] Añadir workflow inicial de calidad.
-- [ ] Generar lockfile, ejecutar CI y validar en dispositivos físicos.
+- [x] Generar lockfile y ejecutar TypeScript, Vitest y bundles Android/iOS en CI.
+- [ ] Completar CI local de Supabase/pgTAP.
+- [ ] Ejecutar Expo Doctor, builds nativos y validar en dispositivos físicos.
 - [ ] Preparar Supabase CLI/Docker local y reconstrucción de esquema.
 - [ ] Configurar CI con permisos mínimos, SHA completo y sin secretos en PR externos.
 - [ ] Definir estrategia de pruebas unitarias, integración, E2E y dispositivos físicos.
@@ -98,7 +100,7 @@ Por lo tanto:
 
 La fase de planificación permitió iniciar una primera vertical slice, pero no se considera cerrada para lanzamiento. El proyecto Supabase remoto está identificado y tiene una primera migración de hardening; el stack local aún debe generar lockfile, reconstruir esquema y ejecutar pruebas. La licencia/visibilidad, versiones mínimas, canal comercial y política de sincronización siguen abiertos. Todas las migraciones deberán estar versionadas y probadas localmente.
 
-La primera tarea de código será un spike vertical pequeño y verificable, no construir toda la app de golpe: iniciar app, probar navegación, persistencia local, sesión de enfoque y pruebas automatizadas; después revisar en Android/iOS antes de ampliar alcance.
+La primera vertical slice ya está escrita y pasa TypeScript, pruebas de dominio y bundles Android/iOS. La siguiente puerta es completar pgTAP local, validar SQLite en dispositivos y después ampliar a hábitos/recompensas. No se habilitarán bloqueos nativos ni compras antes de sus pruebas específicas.
 
 ## 7. Fuentes de seguridad base
 
