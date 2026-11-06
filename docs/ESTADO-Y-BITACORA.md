@@ -272,3 +272,28 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Se creó `supabase/seed.sql` vacío intencionalmente para que el flujo local sea reproducible sin datos inventados.
 - CI local ya consigue arrancar Supabase; está pendiente terminar de aplicar el fixture como sentencias separadas, ejecutar migraciones y pgTAP.
 
+
+
+### 2026-11-06 — Dirección visual y tokens de diseño v0.1
+
+**Inspección real**
+- Confirmado repositorio público `carlo-magno-11/Fixora-Balance`, rama por defecto `main`; solo se encontró esa rama.
+- Revisado el código actual de `app/index.tsx`: la pantalla principal concentra la UI y mantenía la paleta dentro del archivo.
+- Confirmado en Supabase proyecto `emacfszktufyqtfgzunl`: una migración remota, cero tablas de negocio y cero hallazgos en Security, Performance y Health Advisors.
+- La ejecución GitHub Actions más reciente consultada antes del refactor fue exitosa para el commit `47020ecca9b702b1cdc99509d9331bcc58c4a54f`. Los cambios visuales posteriores todavía requieren su propia ejecución CI.
+
+**Investigación open source**
+- Revisados react-native-reusables (8.7k estrellas, MIT), gluestack-ui (5.3k, MIT), Shopify Restyle (3.4k, MIT) y Wix React Native UI Lib (7.1k, MIT).
+- Decisión: no incorporar una librería completa ni añadir NativeWind/Uniwind en esta fase. Adoptar tokens semánticos y componentes propios con React Native StyleSheet; consultar las librerías como referencia selectiva.
+
+**Trabajo guardado en GitHub/main**
+- Creado `docs/SISTEMA-DISENO-UX.md` con dirección creativa, colorimetría, tipografía, escala, navegación, componentes, accesibilidad y referencias open source.
+- Creado `src/theme/tokens.ts` como fuente tipada de colores, espaciado, radios, tipografía y tiempos de movimiento.
+- Refactorizada la pantalla inicial para consumir tokens, retirar colores hexadecimales locales y usar verde bosque como acción principal, manteniendo borgoña como firma de marca.
+- Añadido el enlace al sistema visual en README.
+
+**Pendiente de verificación**
+- Esperar CI de los cambios de tema y pantalla; no declarar TypeScript/tests/build validados para estos commits hasta leer el run correspondiente.
+- Validar contraste WCAG 2.2 AA, estados y tamaño táctil; revisar visualmente iOS, Android y web.
+- Separar componentes compartidos y dividir Inicio/Enfoque cuando el flujo funcional y navegación estén definidos.
+- El sistema visual v0.1 es una dirección de prototipo, no un bloqueo definitivo de marca.
