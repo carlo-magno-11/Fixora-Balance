@@ -161,14 +161,14 @@ Ejemplo de tarjeta nacional, usando 3.6 % + $3 de Payments y 0.7 % de Stripe Bil
 
 | Producto | Precio | Neto aproximado antes de impuestos y costes operativos |
 |---|---:|---:|
-| Plus mensual | $79 | $72.80 |
-| Protección mensual | $49 | $44.90 |
-| Family mensual | $109 | $100.10 |
-| Completo mensual | $179 | $164.50 |
-| Plus anual | $799 | $762.20 |
-| Protección anual | $499 | $475.80 |
-| Family anual | $1,099 | $1,049.60 |
-| Completo anual | $1,799 | $1,718.40 |
+| Plus mensual | $79 | $72.60 |
+| Protección mensual | $49 | $43.89 |
+| Family mensual | $109 | $101.31 |
+| Completo mensual | $179 | $168.30 |
+| Plus anual | $799 | $761.64 |
+| Protección anual | $499 | $474.54 |
+| Family anual | $1,099 | $1,048.74 |
+| Completo anual | $1,799 | $1,718.64 |
 
 Cálculo ilustrativo: precio menos 3.6 % y $3 de procesamiento, menos 0.7 % de Billing. No es cotización ni payout garantizado. No incluye IVA/impuestos, conversión, reembolsos, contracargos, soporte, infraestructura ni otros métodos.
 
