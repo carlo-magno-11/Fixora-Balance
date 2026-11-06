@@ -98,6 +98,7 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - Comprobados los cuatro documentos anteriores antes de actualizarlos.
 - Creados PROPUESTA-COMERCIAL-Y-PRECIOS.md y SEGURIDAD-REPOSITORIO-PUBLICO.md.
 - Actualizados README, PLAN-MAESTRO, MONETIZACION-Y-LICENCIAS y REGISTRO-DE-DECISIONES.
+- Corregidas las simulaciones netas de Stripe tras revisar la aritmética de las comisiones.
 
 **Decisiones**
 - Mantener público por ahora con política estricta de no secretos.
