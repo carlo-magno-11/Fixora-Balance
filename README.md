@@ -12,6 +12,7 @@ Fixora Balance busca ayudar a las personas a recuperar atención, construir háb
 - [Modelo comercial, paquetes, pruebas y pagos](docs/MONETIZACION-Y-LICENCIAS.md)
 - [Propuesta comercial y precios piloto](docs/PROPUESTA-COMERCIAL-Y-PRECIOS.md)
 - [Seguridad del repositorio público](docs/SEGURIDAD-REPOSITORIO-PUBLICO.md)
+- [Política de reporte de vulnerabilidades](SECURITY.md)
 - [Estado y bitácora del proyecto](docs/ESTADO-Y-BITACORA.md)
 - [Registro de decisiones](docs/REGISTRO-DE-DECISIONES.md)
 - [Alcance MVP y criterios de aceptación](docs/ALCANCE-MVP-Y-CRITERIOS-ACEPTACION.md)
