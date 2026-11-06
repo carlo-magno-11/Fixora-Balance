@@ -49,15 +49,16 @@ Observado mediante GitHub al 6 de noviembre de 2026:
 - Repositorio público y rama por defecto main.
 - Solo se confirmó main como rama listada.
 - Búsqueda de código para package.json, Expo/React Native, migraciones Supabase y workflows no devolvió archivos.
-- Las rutas comunes .github/workflows/ci.yml, ci.yaml, test.yml, security.yml, .github/dependabot.yml, SECURITY.md, LICENSE, CODE_OF_CONDUCT.md y .gitignore devolvieron 404.
-- No se encontró evidencia de workflow CI en las búsquedas efectuadas.
+- Las rutas comunes .github/workflows/ci.yml, ci.yaml, test.yml, security.yml, .github/dependabot.yml, LICENSE y CODE_OF_CONDUCT.md devolvieron 404 en la inspección.
+- Después de esa inspección se añadieron SECURITY.md y .gitignore.
+- No se encontró evidencia de workflow CI en las búsquedas efectuadas; aún no existe evidencia de CI ejecutándose.
 - No se pudo inspeccionar desde las acciones disponibles la configuración privada de GitHub Settings, secrets, reglas de protección, Actions permissions ni el historial completo.
 
 Por lo tanto:
 - No declarar activos Secret Scanning, Push Protection, Dependabot, CodeQL, reglas de main ni permisos mínimos de Actions.
 - Los runners públicos gratuitos no generan ahorro mientras no exista workflow que ejecute CI.
 - No subir secretos ni datos reales.
-- Antes de fuente ejecutable, decidir licencia/visibilidad, agregar SECURITY.md, .gitignore y workflows seguros, y verificar Settings directamente en GitHub.
+- Antes de fuente ejecutable, decidir licencia/visibilidad, agregar workflows seguros y verificar Settings directamente en GitHub. SECURITY.md y .gitignore ya están añadidos.
 
 ## 5. Orden exacto de preparación para programar
 
