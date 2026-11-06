@@ -2,7 +2,7 @@
 
 **Fecha:** 6 de noviembre de 2026  
 **Rama:** main  
-**Estado:** TypeScript, Vitest y bundles Android/iOS pasan en GitHub Actions; persistencia SQLite aún requiere prueba física. La validación local de Supabase/pgTAP está en ajuste.
+**Estado:** CI de la etapa 1 aprobado en GitHub Actions (TypeScript, Vitest, bundles Android/iOS, migraciones locales y pgTAP); persistencia SQLite aún requiere prueba física.
 
 ## 1. Alcance entregado en el repositorio
 
@@ -38,11 +38,11 @@ Archivos principales:
 
 Esta entrega no significa que la app esté lista para usuarios o tiendas. TypeScript, Vitest y exportación JavaScript Android/iOS sí se ejecutaron en GitHub Actions y pasaron. No se ha ejecutado Expo Doctor, build nativo ni pruebas físicas. La conexión a Supabase se ha auditado, pero Auth, perfiles, sincronización y permisos de usuario aún no están implementados.
 
-El lockfile ya está generado y versionado. El workflow instala con `pnpm install --frozen-lockfile`. La validación de Supabase local se mantiene separada y todavía no está verde.
+El lockfile ya está generado y versionado. El workflow instala con `pnpm install --frozen-lockfile`. La reconstrucción local de Supabase y pgTAP pasó en GitHub Actions para la etapa 1. La etapa 2 debe volver a pasar el mismo workflow.
 
 ## 4. Próximas tareas
 
-1. Completar la prueba local de migraciones y pgTAP usando el fixture hosted-only.
+1. CI de reconstrucción local, migraciones y pgTAP completado correctamente para el commit `aff85cd`.
 2. Ejecutar Expo Doctor y preparar builds nativos/dev clients.
 3. Probar SQLite, background y restauración en dispositivos físicos.
 4. Añadir manejo de errores/migraciones locales y pruebas de reinicio/background.
