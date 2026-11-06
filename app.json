@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Fixora Balance",
+    "slug": "fixora-balance",
+    "scheme": "fixorabal",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-router",
+      "expo-sqlite"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fixoradynamics.balance"
+    },
+    "android": {
+      "package": "com.fixoradynamics.balance",
+      "edgeToEdgeEnabled": true
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
