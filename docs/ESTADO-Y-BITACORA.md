@@ -2,7 +2,7 @@
 
 **Última actualización:** 6 de noviembre de 2026  
 **Rama:** main  
-**Fase:** núcleo local de enfoque, hábitos y objetivos semanales implementado; CI de etapa 2 aprobado; CI final de etapa 3 pendiente; pruebas físicas y Expo Doctor pendientes.
+**Fase:** núcleo local de enfoque, hábitos y objetivos semanales implementado; CI de etapas 2 y 3 aprobado; Expo Doctor, builds nativos y pruebas físicas pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -17,12 +17,12 @@ Este archivo es la bitácora resumida para retomar el proyecto sin confundir pla
 - Se añadieron la propuesta comercial/precios piloto y la política de seguridad del repositorio público.
 - Se actualizaron README, plan maestro, monetización y registro de decisiones.
 - Scaffold Expo SDK 58 y primera experiencia de enfoque escritos en `main`.
-- Dominio de sesiones, hábitos y objetivos con pruebas Vitest; TypeScript y Vitest pasaron para la etapa 2; la etapa 3 y la cola de escrituras esperan CI final.
+- Dominio de sesiones, hábitos y objetivos con pruebas Vitest; CI de etapa 2 y CI final de etapa 3 aprobados en GitHub Actions (run `42308655770`).
 - Exportación JavaScript para Android e iOS pasa en GitHub Actions; no equivale a build nativo ni prueba física.
 - Persistencia SQLite local con migraciones versionadas 001–003: sesiones, hábitos y objetivos; actualización v1→v3 aún pendiente de prueba física.
 - `pnpm-lock.yaml` generado y versionado; CI usa `pnpm install --frozen-lockfile`.
 - `supabase/config.toml` y workflow Supabase CLI 3.0.0 añadidos.
-- CI local Supabase/pgTAP pasó en GitHub Actions para las etapas 1 y 2; el workflow reconstruye la migración y prueba el event trigger mediante fixtures hosted-only.
+- CI local Supabase/pgTAP pasó en GitHub Actions; el run `42308655770` reconstruyó el stack local y ejecutó pgTAP correctamente.
 - No se han creado productos reales en App Store Connect, Google Play, Stripe, Mercado Pago o RevenueCat.
 - Supabase remoto sigue sin tablas de negocio, perfiles ni usuarios; no se aplicaron migraciones de hábitos/objetivos al proyecto remoto.
 - Se añadieron .gitignore y SECURITY.md.
@@ -366,3 +366,4 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Se detectó posible carrera entre el guardado asíncrono de una sesión y su eliminación al terminarla anticipadamente.
 - Se añadió una cola de escrituras serializada, con pruebas de orden y recuperación tras error, y se conectó al repositorio de sesiones.
 - Las sesiones completadas se conservan para que objetivos semanales puedan medirlas; las sesiones canceladas se eliminan después de cualquier guardado anterior en cola.
+\n\n### 2026-11-06 — CI aprobado para etapas 2 y 3\n\n**Verificación GitHub Actions**\n- Se consultó el run `42308655770` del repositorio `carlo-magno-11/Fixora-Balance`.\n- `TypeScript and domain tests`: `completed / success`; completó TypeScript, Vitest y bundles JavaScript Android/iOS.\n- `Local Supabase migrations and pgTAP`: `completed / success`; arrancó Supabase local, aplicó migraciones a una base limpia y ejecutó pgTAP.\n- Ambos trabajos reportaron `success`.\n\n**Estado y límites**\n- Las etapas locales de hábitos y objetivos tienen CI aprobado. La cola FIFO de escrituras quedó incluida en el conjunto validado.\n- No se ha acreditado Expo Doctor, build nativo, migración SQLite real dentro de Expo, E2E ni prueba física.\n- Supabase remoto no recibió tablas de negocio ni sincronización de hábitos/objetivos.\n- La rama de trabajo sigue siendo únicamente `main`; HEAD observado al revisar fue `2a88636e7427008a0afa3dacb1674c0acaa87fae`.\n\n**Siguiente paso**\n- Ejecutar Expo Doctor y preparar development builds para validar en dispositivos reales la migración v1→v3 y los flujos de enfoque, hábitos y objetivos.\n
