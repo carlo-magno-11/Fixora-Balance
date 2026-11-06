@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
   actionRow: { flexDirection: "row", gap: 10 },
   primaryButton: { flex: 1, minHeight: 50, backgroundColor: COLORS.green, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 12, paddingHorizontal: 14 },
   primaryButtonText: { color: COLORS.white, fontSize: 13, fontWeight: "800" },
-  buttonArrow: { color: "#FFFFFF", fontSize: 17, fontWeight: "700" },
+  buttonArrow: { color: COLORS.white, fontSize: 17, fontWeight: "700" },
   secondaryButton: { minHeight: 50, borderRadius: 15, borderWidth: 1, borderColor: COLORS.line, paddingHorizontal: 17, alignItems: "center", justifyContent: "center" },
   secondaryButtonText: { color: COLORS.muted, fontSize: 12, fontWeight: "700" },
   focusFootnote: { color: COLORS.muted, fontSize: 10, lineHeight: 16, textAlign: "center", marginTop: 13 },
