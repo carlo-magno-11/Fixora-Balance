@@ -297,3 +297,31 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Validar contraste WCAG 2.2 AA, estados y tamaño táctil; revisar visualmente iOS, Android y web.
 - Separar componentes compartidos y dividir Inicio/Enfoque cuando el flujo funcional y navegación estén definidos.
 - El sistema visual v0.1 es una dirección de prototipo, no un bloqueo definitivo de marca.
+
+
+### 2026-11-06 — Etapa 2: hábitos locales y continuidad UX
+
+**Revalidación antes de escribir**
+- Confirmada rama única `main` y commit base de diseño `aff85cd867047b85355e025bb7ec4d57896a8ae0`.
+- GitHub Actions del commit de diseño terminó con éxito: TypeScript, Vitest, export Android/iOS y reconstrucción Supabase local con pgTAP.
+- Supabase dedicado `emacfszktufyqtfgzunl` consultado en modo lectura: estado `ACTIVE_HEALTHY`, PostgreSQL 17.11, una migración remota `20261106221629`, cero tablas públicas de negocio y cero lints en Security, Performance y Health.
+- No se aplicaron cambios SQL al proyecto remoto.
+
+**Código añadido en main**
+- Dominio de hábitos con frecuencia diaria/semanal, metas semanales, validación de fecha y check-in con identidad idempotente.
+- Pruebas Vitest para creación, entradas inválidas, fecha calendario imposible, identidad de check-in y semana local iniciada en lunes.
+- Migración SQLite local 002 para `habits` y `habit_completions`, con FK, constraints, índices y unicidad por hábito/día.
+- Repositorio SQLite para crear/listar, registrar cumplimiento idempotente y deshacer.
+- Ruta `/habits` con creación, selección de frecuencia, meta semanal, avance de semana y cumplimiento diario.
+- Componentes compartidos `SurfaceCard`, `PrimaryButton`, `SectionHeading` y `EmptyState` que consumen los tokens de diseño.
+- Inicio enlaza a Hábitos. El reinicio/cambio de duración de una sesión elimina la fila SQLite anterior para evitar restaurar una sesión que el usuario terminó.
+
+**Documentación**
+- Creado `docs/IMPLEMENTACION-ETAPA-2-HABITOS.md`.
+- Actualizados README, Plan Maestro, Implementación etapa 1, esta bitácora y registro de decisiones.
+
+**Validación pendiente**
+- CI de la etapa 2 aún debe terminar para confirmar TypeScript, Vitest, bundles Android/iOS y pgTAP.
+- Probar actualización SQLite v1→v2 conservando sesiones existentes y desde instalación limpia.
+- Probar creación/check-in/deshacer/reinicio en dispositivos físicos.
+- No hay XP, rachas, insignias, objetivos, Auth, sincronización ni tablas remotas de negocio implementadas.
