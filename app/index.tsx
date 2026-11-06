@@ -141,7 +141,7 @@ export default function HomeScreen() {
   };
 
   const handleReset = () => {
-    if (session) {
+    if (session && session.status !== "completed") {
       deleteFocusSession(session.id).catch(() => setStorageError(true));
     }
     setSession(null);
@@ -275,7 +275,7 @@ export default function HomeScreen() {
           </View>
           <Text style={styles.focusFootnote}>
             {isCompleted
-              ? "Tómate un respiro. Tu progreso se guardará cuando activemos el historial."
+              ? "Tu sesión completada queda registrada en este dispositivo. Tómate un respiro."
               : "Puedes pausar cuando lo necesites. Tu bienestar no es una competencia."}
           </Text>
         </View>
