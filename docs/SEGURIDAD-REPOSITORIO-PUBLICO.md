@@ -119,3 +119,11 @@ Antes de publicar el código de la app, decidir una licencia. Si el objetivo es 
 - GitHub security and analysis settings: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository
 - GitHub Push Protection: https://docs.github.com/en/code-security/concepts/secret-security/push-protection
 - GitHub Actions security hardening: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions
+
+
+## 10. Actualización de CI — 7 de noviembre de 2026
+
+- Se añadió `pnpm audit --audit-level high` al job de calidad en `.github/workflows/quality.yml` (commit `5a95b2c271ba49c1952eb35e595be516b6f1bb88`).
+- El control consulta advisories de dependencias declaradas y transitivas y falla ante severidad High/Critical.
+- La primera ejecución está pendiente; no declarar todavía el árbol de dependencias libre de vulnerabilidades.
+- Este control no sustituye CodeQL, Secret Scanning, Push Protection, revisión de GitHub Settings, escaneo histórico de secretos ni pruebas OWASP. La activación de los controles de Settings continúa sin verificarse.
