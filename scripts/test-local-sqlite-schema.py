@@ -1,5 +1,4 @@
 from pathlib import Path
-import re
 import sqlite3
 
 
@@ -13,10 +12,14 @@ MIGRATIONS = (
 
 def migration_sql(path: Path) -> str:
     source = path.read_text(encoding="utf-8")
-    match = re.search(r"db\\.execAsync\\(\x60([\\s\\S]*?)\x60\\);", source)
-    if match is None:
+    start_marker = "db.execAsync(\x60"
+    end_marker = "\x60);"
+    if start_marker not in source:
         raise AssertionError(f"No se encontró el bloque execAsync en {path}")
-    return match.group(1)
+    remainder = source.split(start_marker, 1)[1]
+    if end_marker not in remainder:
+        raise AssertionError(f"No se encontró el cierre execAsync en {path}")
+    return remainder.split(end_marker, 1)[0]
 
 
 def expect_integrity_error(connection: sqlite3.Connection, sql: str, params: tuple) -> None:
