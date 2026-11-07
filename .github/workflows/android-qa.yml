@@ -79,33 +79,37 @@ jobs:
 
       - name: Boot Android emulator
         run: |
+          ADB="$ANDROID_HOME/platform-tools/adb"
+          test -x "$ADB"
           "$ANDROID_HOME/emulator/emulator" -avd fixora-qa -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -wipe-data > "$RUNNER_TEMP/fixora-emulator.log" 2>&1 &
-          timeout 300 adb wait-for-device
+          timeout 300 "$ADB" wait-for-device
           for attempt in $(seq 1 90); do
-            if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; then
+            if [ "$("$ADB" shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; then
               break
             fi
             sleep 5
           done
-          test "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1"
-          adb shell input keyevent 82
+          test "$("$ADB" shell getprop sys.boot_completed | tr -d '\r')" = "1"
+          "$ADB" shell input keyevent 82
 
       - name: Install, launch, and capture Android app
         run: |
+          ADB="$ANDROID_HOME/platform-tools/adb"
+          test -x "$ADB"
           APK="android/app/build/outputs/apk/release/app-release.apk"
-          adb logcat -c
-          adb install -r "$APK"
-          adb shell monkey -p com.fixoradynamics.balance 1
+          "$ADB" logcat -c
+          "$ADB" install -r "$APK"
+          "$ADB" shell monkey -p com.fixoradynamics.balance 1
           sleep 12
-          if ! adb shell pidof com.fixoradynamics.balance; then
-            adb logcat -d -t 3000
+          if ! "$ADB" shell pidof com.fixoradynamics.balance; then
+            "$ADB" logcat -d -t 3000
             exit 1
           fi
-          if adb logcat -d -t 3000 | grep -E "No script URL provided|Unable to load script|FATAL EXCEPTION|ReactNativeJS.*(Error|Exception)"; then
+          if "$ADB" logcat -d -t 3000 | grep -E "No script URL provided|Unable to load script|FATAL EXCEPTION|ReactNativeJS.*(Error|Exception)"; then
             exit 1
           fi
-          adb shell screencap -p /sdcard/fixora-home-android.png
-          adb pull /sdcard/fixora-home-android.png "$RUNNER_TEMP/fixora-home-android.png"
+          "$ADB" shell screencap -p /sdcard/fixora-home-android.png
+          "$ADB" pull /sdcard/fixora-home-android.png "$RUNNER_TEMP/fixora-home-android.png"
           test -s "$RUNNER_TEMP/fixora-home-android.png"
 
       - name: Upload Android QA APK and first screen
