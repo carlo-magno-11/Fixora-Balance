@@ -1,0 +1,74 @@
+name: Android QA Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/android-qa.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android-debug-apk:
+    name: Android debug APK
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+        with:
+          version: 10.20.0
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: 22.13.0
+          cache: pnpm
+
+      - name: Set up Java
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install JavaScript dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Accept Android SDK licenses in ephemeral CI runner
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+
+      - name: Install Android SDK 37.0 preview, build tools, and NDK
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --channel=3 "platform-tools" "platforms;android-37.0" "build-tools;37.0.0" "ndk;27.1.12297006"
+
+      - name: Generate Android native project
+        run: pnpm exec expo prebuild --platform android --no-install
+
+      - name: Build debug APK
+        run: |
+          cd android
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Verify APK artifact
+        run: test -s android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload Android QA APK
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: fixora-balance-android-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
