@@ -112,7 +112,52 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Dependency security audit
-        run: pnpm audit --audit-level high
+        run: |
+          set +e
+          pnpm audit --json > "$RUNNER_TEMP/pnpm-audit.json"
+          audit_status=$?
+          set -e
+          python3 - "$RUNNER_TEMP/pnpm-audit.json" "$audit_status" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          audit_status = int(sys.argv[2])
+          advisories = report.get("advisories")
+          if not isinstance(advisories, dict):
+              raise SystemExit("Unexpected pnpm audit JSON schema; security audit cannot be interpreted safely.")
+
+          counts = report.get("metadata", {}).get("vulnerabilities", {})
+          rank = {"info": 0, "low": 1, "moderate": 2, "high": 3, "critical": 4}
+          blocking = []
+          print("Dependency advisory report:")
+          for advisory_id, advisory in sorted(advisories.items(), key=lambda item: str(item[0])):
+              severity = advisory.get("severity", "unknown")
+              module = advisory.get("module_name", "unknown-package")
+              print(
+                  f"- {severity.upper()} {module} "
+                  f"(advisory {advisory_id}; affected {advisory.get('vulnerable_versions', 'unknown')}; "
+                  f"patched {advisory.get('patched_versions') or 'no published fix'})"
+              )
+              if advisory.get("url"):
+                  print(f"  reference: {advisory['url']}")
+              for finding in advisory.get("findings", []):
+                  print(f"  installed: {finding.get('version', 'unknown')}")
+                  for path in finding.get("paths", []):
+                      print(f"  dependency path: {path}")
+              if rank.get(severity, 0) >= rank["high"]:
+                  blocking.append(f"{severity}: {module} ({advisory_id})")
+
+          print("Severity totals:", json.dumps(counts, sort_keys=True))
+          if blocking:
+              raise SystemExit("High/Critical dependency advisories found: " + "; ".join(blocking))
+          if audit_status not in (0, 1):
+              raise SystemExit(f"pnpm audit failed unexpectedly with exit code {audit_status}")
+          if audit_status == 1 and not advisories:
+              raise SystemExit("pnpm audit returned failure without a parseable advisory; fail closed.")
+          print("No High/Critical advisories. Lower-severity findings are reported for explicit triage.")
+          PY
 
       - name: Expo Doctor
         run: pnpm dlx expo-doctor@1.21.6
