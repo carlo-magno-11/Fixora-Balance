@@ -448,3 +448,32 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - App Store y Google Play siguen siendo puertas independientes: compilación y simulador no equivalen a aprobación de tienda.
 
 **Siguiente paso:** ejecutar el workflow actualizado y comprobar que el build Release contiene el bundle JS, que la captura iOS muestra Inicio/Hoy sin pantalla de error y que el APK Android Release se genera con el identificador correcto. Después añadir/ejecutar pruebas de emulador y continuar con la primera matriz funcional. La ejecución física requiere teléfonos reales.
+
+
+### 2026-11-07 — QA nativo Release y diagnóstico de arranque Android
+
+**Rama:** `main`. Workflow de diagnóstico: commit `e89bd40b61fb0ed81c858d842e299c61ff422e07`.
+
+**Evidencia confirmada**
+- Run nativo [42400815021](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42400815021): iOS Simulator Release compiló, verificó el bundle de la app, la instaló, la abrió y capturó la pantalla; todos los pasos del job iOS finalizaron en success.
+- En el mismo run, Android Release generó un APK y verificó el applicationId `com.fixoradynamics.balance`; el job de empaquetado terminó success. Esto acredita generación y metadatos del APK, no instalación ni arranque Android.
+- Run de calidad [42402767905](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42402767905): TypeScript, pruebas de dominio, Expo Doctor, bundles Android/iOS y Supabase local/pgTAP terminaron success.
+- Run Android QA [42402768006](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42402768006): la compilación Release y verificación de APK terminaron success; creación del AVD terminó success; el paso de arranque falló al vencer el timeout de ADB de 300 segundos. Instalación, apertura y captura no se ejecutaron.
+- El error ya no es la ruta de `adb`: el binario explícito `$ANDROID_HOME/platform-tools/adb` existe y se ejecuta. El dispositivo no llegó a exponerse en ADB durante la ventana de espera.
+
+**Cambio aplicado**
+- Se actualizó `.github/workflows/android-qa.yml` para elevar la espera de conexión a 600 segundos, guardar salida detallada del emulador, comprobar el proceso, listar dispositivos ADB y emitir registros del emulador si falla la conexión o el arranque del sistema.
+- Se añadió carga del artefacto `fixora-balance-android-emulator-diagnostics` con `if: always()`, de modo que el registro de arranque se conserve incluso cuando el smoke test falle.
+- El workflow está comprometido en `main`; el nuevo run debe producir evidencia diagnóstica antes de atribuir el fallo a la app o cambiar el sistema de emulación.
+
+**Estado de plataformas**
+- iOS Simulator Release: compilación, instalación, lanzamiento y captura automatizados aprobados en CI.
+- Android Release: APK generado y applicationId verificado; instalación/arranque aún no verificados.
+- Dispositivos físicos: no probados.
+- Supabase remoto: sin cambios de esquema ni datos. La validación Supabase corresponde a una instancia local limpia en CI.
+- Tiendas: no enviado ni aprobado.
+
+**Siguiente paso**
+- Inspeccionar el artefacto de diagnóstico del siguiente run Android.
+- Corregir la causa raíz del arranque AVD con evidencia; después ejecutar instalación, lanzamiento, revisión de logcat y captura.
+- Continuar con la matriz funcional FOC/HAB/GOA/HOM y persistencia SQLite; mantener explícita la separación entre CI, simuladores y dispositivos físicos.
