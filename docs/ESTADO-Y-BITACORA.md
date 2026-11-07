@@ -513,3 +513,15 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Se sustituyó ese paso por verificación de que el archivo versionado existe y se puede parsear con TOML. El job de base de datos ya no destruye ni reemplaza la configuración Auth específica del proyecto antes de iniciar el stack local.
 - La corrección está en el workflow de calidad y debe pasar una ejecución completa de Supabase local/pgTAP para considerarse validada.
 - Referencia: https://supabase.com/docs/reference/cli/introduction.
+
+
+### 2026-11-07 — CI integral aprobado y auditoría remota de Supabase
+
+**Commit validado:** `f0b7521cb10c`. **Run:** [42414804114](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42414804114).
+
+- Ambos trabajos de calidad terminaron `success`: TypeScript/domain tests y Supabase local/pgTAP.
+- Pasaron pnpm audit con umbral High, Expo Doctor, validación EAS, configuración pública Expo, baseline Auth local, TypeScript, Vitest, prueba de esquema SQLite, bundles Android/iOS, arranque Supabase local, migraciones y pgTAP.
+- Se confirmó que CI conserva `supabase/config.toml` versionado en vez de sobrescribirlo con `supabase init --force`.
+- Auditoría remota de solo lectura del proyecto Fixora Balance `emacfszktufyqtfgzunl`: ACTIVE_HEALTHY, PostgreSQL 17, una migración, cero tablas de negocio públicas, cero Edge Functions y cero lints de Security/Performance/Health. La ausencia de tablas limita el alcance de los asesores; RLS de negocio sigue pendiente.
+- No se aplicaron migraciones ni cambios de datos al proyecto remoto.
+- Android QA [42413044893](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42413044893) ya generó y verificó APK Release y creó el emulador; el arranque Android sigue en ejecución. Instalación, lanzamiento y captura aún no se consideran aprobados.

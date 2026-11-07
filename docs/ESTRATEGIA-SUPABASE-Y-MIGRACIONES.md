@@ -261,3 +261,15 @@ La auditoría del workflow detectó que `supabase init --force` sobrescribe `sup
 La comprobación de seguridad Auth y la ejecución de Supabase local son validaciones separadas: el job de verificación comprueba explícitamente los valores de Auth; el job de base de datos conserva esa configuración al iniciar el stack. La prueba real de flujos de Auth (envío/confirmación de correo, recuperación y cambio de contraseña) sigue pendiente, ya que todavía no hay integración Auth en la app.
 
 Referencia: https://supabase.com/docs/reference/cli/introduction (la opción `--force` sobrescribe el archivo de configuración).
+
+
+## 15. Auditoría de solo lectura del proyecto hosted — 7 de noviembre de 2026
+
+Se verificó el proyecto Fixora Balance `emacfszktufyqtfgzunl` por el conector Supabase, sin escrituras:
+- `ACTIVE_HEALTHY`, PostgreSQL 17, región `us-east-1`.
+- Una migración registrada.
+- Cero tablas de negocio en `public`.
+- Cero Edge Functions.
+- Asesores Security, Performance y Health: cero lints en el estado actual.
+
+La lectura confirma que el backend de negocio todavía no ha comenzado. Los cero lints no son una certificación de seguridad: al no existir tablas públicas, aún no se han ejercitado políticas RLS multiusuario. El proyecto remoto permanece sin cambios.

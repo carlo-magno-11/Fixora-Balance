@@ -125,5 +125,19 @@ Antes de publicar el código de la app, decidir una licencia. Si el objetivo es 
 
 - Se añadió `pnpm audit --audit-level high` al job de calidad en `.github/workflows/quality.yml` (commit `5a95b2c271ba49c1952eb35e595be516b6f1bb88`).
 - El control consulta advisories de dependencias declaradas y transitivas y falla ante severidad High/Critical.
-- La primera ejecución está pendiente; no declarar todavía el árbol de dependencias libre de vulnerabilidades.
+- Run de calidad `42414804114` (commit `f0b7521cb10c`) completó `pnpm audit --audit-level high` con éxito: no se encontraron advisories High/Critical que superen el umbral configurado. Esto no demuestra ausencia de advisories Low/Moderate ni sustituye CodeQL, Secret Scanning, revisión histórica o pentest.
 - Este control no sustituye CodeQL, Secret Scanning, Push Protection, revisión de GitHub Settings, escaneo histórico de secretos ni pruebas OWASP. La activación de los controles de Settings continúa sin verificarse.
+
+
+## 11. Revisión remota de Supabase y baseline local Auth — 7 de noviembre de 2026
+
+Auditoría de solo lectura del proyecto dedicado Fixora Balance `emacfszktufyqtfgzunl`:
+- Estado `ACTIVE_HEALTHY`, PostgreSQL 17, región `us-east-1`.
+- Una migración registrada; ninguna tabla de negocio en el esquema `public`.
+- No hay Edge Functions desplegadas.
+- Los asesores Security, Performance y Health devolvieron cero lints. Como el esquema público está vacío, esto no certifica la seguridad de tablas/RLS que aún no existen.
+- No se aplicaron cambios al proyecto remoto.
+
+La configuración Auth local se endureció y se validó en CI: confirmación de email, cambios de correo con doble confirmación, cambio de contraseña seguro, mínimo 15 caracteres sin composición obligatoria, rotación de refresh tokens, JWT de una hora, acceso anónimo deshabilitado y callback móvil allow-listed. No equivale a Auth implementado ni configura el proyecto hosted.
+
+Run [42414804114](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42414804114) pasó ambos trabajos: calidad y Supabase local/pgTAP. La ejecución incluyó la prueba de configuración Auth, auditoría de dependencias, TypeScript, Vitest, SQLite DDL smoke tests y bundles Android/iOS.
