@@ -2,7 +2,7 @@
 
 **Versión:** 1.0  
 **Fecha:** 6 de noviembre de 2026  
-**Estado:** prototipo local de enfoque/hábitos/objetivos implementado; CI integral aprobado en `42313449617` con lockfile congelado, Expo Doctor 20/20 y 27 pruebas Vitest; builds nativos y pruebas físicas aún pendientes. No autoriza beta ni lanzamiento.
+**Estado:** prototipo local de enfoque/hábitos/objetivos implementado; CI de calidad/Supabase local aprobado en `42402767905`; iOS Simulator Release compilado, instalado, abierto y capturado (`42400815021`); APK Android Release generado y verificado (`42402768006`), con arranque AVD pendiente por timeout. No autoriza beta ni lanzamiento.
 
 Este documento es la lista de control final para convertir el plan en ejecución. Distingue decisiones ya aceptadas, recomendaciones de trabajo y bloqueos reales.
 
