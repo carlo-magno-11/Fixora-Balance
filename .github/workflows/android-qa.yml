@@ -15,8 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  android-debug-apk:
-    name: Android debug APK
+  android-release-qa-apk:
+    name: Android release QA APK
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -47,7 +47,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Accept Android SDK licenses in ephemeral CI runner
-        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+        run: |
+          set +o pipefail
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+          sdkmanager_status=${PIPESTATUS[1]}
+          set -o pipefail
+          exit "$sdkmanager_status"
 
       - name: Install Android SDK 37.0 preview, build tools, and NDK
         run: |
@@ -56,19 +61,22 @@ jobs:
       - name: Generate Android native project
         run: pnpm exec expo prebuild --platform android --no-install
 
-      - name: Build debug APK
+      - name: Build release QA APK
         run: |
           cd android
           chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleRelease --no-daemon
 
-      - name: Verify APK artifact
-        run: test -s android/app/build/outputs/apk/debug/app-debug.apk
+      - name: Verify Android release QA APK
+        run: |
+          APK="android/app/build/outputs/apk/release/app-release.apk"
+          test -s "$APK"
+          "$ANDROID_HOME/build-tools/37.0.0/aapt" dump badging "$APK" | grep -F "package: name='com.fixoradynamics.balance'"
 
       - name: Upload Android QA APK
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: fixora-balance-android-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: fixora-balance-android-release-qa-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 14
