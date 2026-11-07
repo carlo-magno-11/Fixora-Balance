@@ -96,3 +96,16 @@ La paleta v0.1 es borgoña #6E0D25, verde bosque #315C4B, crema #F6F3ED y dorado
 ## 6. Límite de esta revisión
 
 Esta auditoría confirma lectura y contraste documental con el estado observado en GitHub y Supabase. No sustituye pruebas físicas, revisión legal, auditoría completa de GitHub Settings, análisis histórico de secretos, pentest ni aprobación de publicación.
+
+
+## 7. Actualización de evidencia nativa — 7 de noviembre de 2026
+
+El inventario actual de `docs/` contiene 21 archivos Markdown. La revisión base del 6 de noviembre cubrió los 18 documentos rectores enumerados en la sección 1; los documentos añadidos después se integran a la bitácora y al protocolo de QA, sin reescribir retrospectivamente aquella revisión.
+
+- [Run nativo 42400815021](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42400815021): iOS Simulator Release compilado, verificado, instalado, abierto y capturado; Android Release APK compilado y applicationId verificado. El job Android de ese run solo cubría empaquetado, no instalación/arranque en emulador.
+- [Run Android QA 42402768006](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42402768006): compilación y verificación del APK aprobadas; el AVD se creó, pero no apareció un dispositivo ADB dentro de 300 segundos. No se ejecutaron instalación, lanzamiento ni captura Android.
+- [CI de calidad y base local 42402767905](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42402767905): TypeScript, Vitest, Expo Doctor, bundles Android/iOS y migraciones Supabase locales/pgTAP aprobados.
+- El workflow Android se actualizó en commit `e89bd40` para ampliar el timeout ADB a 600 segundos, conservar logs detallados y cargar un artefacto diagnóstico incluso si el arranque falla. El run de esa corrección está pendiente de resultado.
+- El proyecto Supabase remoto permanece sin tablas de negocio; no se aplicaron migraciones ni se modificaron datos remotos.
+
+La distinción de estados queda fijada: build nativo iOS no equivale a prueba funcional completa; APK Android generado no equivale a instalación/arranque; CI local no equivale a Supabase remoto; simulador no equivale a dispositivo físico; ninguno equivale a aprobación de tienda.
