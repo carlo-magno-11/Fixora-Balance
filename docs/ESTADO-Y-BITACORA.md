@@ -1,8 +1,8 @@
 # Fixora Balance — Estado y bitácora del proyecto
 
-**Última actualización:** 6 de noviembre de 2026  
+**Última actualización:** 7 de noviembre de 2026  
 **Rama:** main  
-**Fase:** núcleo local de enfoque, hábitos y objetivos implementado; run `42312724248` aprobó Expo Doctor 20/20, TypeScript, Vitest, bundles JS Android/iOS y Supabase/pgTAP con `pnpm install --frozen-lockfile`; builds nativos y pruebas físicas pendientes.
+**Fase:** núcleo local de enfoque, hábitos y objetivos implementado; CI integral aprobado; compilación y bundle iOS de simulador verificados, primer arranque Debug falló por falta de bundle JS; corrección Release comprometida y pendiente de nueva ejecución; APK Android y pruebas físicas pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -426,14 +426,24 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Próxima prioridad: enlazar el proyecto con EAS cuando haya cuenta disponible, generar primero APK Android y build iOS de simulador; después ejecutar la primera ronda física antes de ampliar a Auth/sync o funciones nativas de protección.
 
 
-## 7 de noviembre de 2026 — Builds nativos y primera ronda QA
+## 7 de noviembre de 2026 — Builds nativos, captura y corrección de arranque
 
-**Rama:** main. Último commit documental inicial: `0b65d11` (protocolo de pruebas).
+**Rama:** main. Último commit de workflow de QA: `6224fa6`; último commit documental de esta actualización: `d6dfb86`.
 
 - CI integral de calidad/DB: run [42398660364](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660364), aprobado.
-- Build nativo inicial: run [42398660326](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660326). Android falló antes de compilar por licencias del SDK Preview no aceptadas; no se generó APK en ese intento. iOS superó prebuild, CocoaPods y resolución del esquema de la app; la compilación de la app seguía en curso en la última inspección. No declarar artefacto iOS ni lanzamiento en simulador hasta verificar los pasos posteriores y el artefacto.
-- Se añadió `.github/workflows/android-qa.yml` (commit `2baf8e4`) para aceptar las licencias necesarias en el runner efímero y generar APK de QA en un flujo independiente. Resultado de este nuevo flujo pendiente de verificación.
-- Se añadió [Protocolo de primera ronda](PROTOCOLO-PRIMERA-RONDA.md), con casos funcionales, migraciones SQLite, accesibilidad, estabilidad y matriz de dispositivos. Todos los casos manuales permanecen pendientes hasta obtener evidencia.
+- Run nativo [42398660326](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660326):
+  - iOS prebuild, CocoaPods, selección del esquema real de la app, compilación Xcode y verificación de `com.fixoradynamics.balance`: aprobados.
+  - La app se instaló y el comando de lanzamiento tuvo éxito en iOS Simulator.
+  - Se descargó el artefacto `fixora-balance-ios-simulator-qa` (artifact ID `13585352643`, 46,410,196 bytes). El SHA-256 del ZIP calculado localmente coincide con el digest de GitHub: `11734f2256f29c299a346baff64861b8525e70052822c9850ff91978e55dec0d`.
+  - La captura real mostró `No script URL provided`: el build Debug no tenía bundle JavaScript integrado y no había servidor Metro. Por tanto, la prueba de arranque funcional **falló**, aunque la compilación nativa sí pasó.
+  - La captura se conserva como evidencia de la incidencia; no se considera una pantalla funcional aprobada.
+- Corrección registrada en `.github/workflows/native-builds.yml`:
+  - Aceptar licencias Android SDK solo en runner efímero, con autorización del responsable.
+  - Generar APK Android Release para QA, comprobar archivo y applicationId.
+  - Generar app iOS Release para simulador, exigir `main.jsbundle` y volver a instalar/abrir/capturar.
+  - Los nuevos pasos aún necesitan un run ejecutado y artefactos verificados. No declarar corregido hasta revisar una nueva captura.
+- Se actualizó [Protocolo de primera ronda](PROTOCOLO-PRIMERA-RONDA.md): BLD-02 aprobado (bundle iOS válido), BLD-03 fallido en el primer intento y con corrección Release pendiente, BLD-04 integridad del ZIP verificada; APK Android pendiente.
 - No se aplicaron migraciones de negocio ni cambios de esquema a Supabase remoto. No se realizaron cargos, compras ni publicaciones en tiendas.
+- App Store y Google Play siguen siendo puertas independientes: compilación y simulador no equivalen a aprobación de tienda.
 
-**Siguiente paso:** cerrar el build iOS/simulador, verificar el nuevo build Android y actualizar esta bitácora con artefactos reales. Después comenzar las pruebas funcionales de enfoque, hábitos, objetivos y persistencia.
+**Siguiente paso:** ejecutar el workflow actualizado y comprobar que el build Release contiene el bundle JS, que la captura iOS muestra Inicio/Hoy sin pantalla de error y que el APK Android Release se genera con el identificador correcto. Después añadir/ejecutar pruebas de emulador y continuar con la primera matriz funcional. La ejecución física requiere teléfonos reales.
