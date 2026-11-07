@@ -4,7 +4,7 @@
 **Fecha:** 6 de noviembre de 2026  
 **Marca matriz:** Fixora Dynamics  
 **Repositorio:** carlo-magno-11/Fixora-Balance  
-**Estado:** núcleo local de enfoque, hábitos y objetivos implementado; CI de TypeScript, 27 pruebas Vitest, bundles Android/iOS, Expo Doctor y Supabase/pgTAP aprobado en run `42313750778` con lockfile congelado; perfiles EAS de QA/producción documentados; builds nativos y pruebas físicas pendientes.
+**Estado:** núcleo local de enfoque, hábitos y objetivos implementado; CI de calidad/Supabase local aprobado en run `42402767905`; iOS Simulator Release compilado, instalado, abierto y capturado en run `42400815021`; Android Release APK generado y verificado, pero el AVD no arrancó en run `42402768006`. Pruebas funcionales completas, persistencia SQLite en dispositivos y pruebas físicas siguen pendientes.
 
 ---
 
