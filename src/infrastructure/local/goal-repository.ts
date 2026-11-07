@@ -3,6 +3,7 @@ import {
   type GoalMetric,
 } from "@/domain/goals/goal";
 import { getLocalDatabase } from "./database";
+import { enqueueLocalWrite } from "./write-queue";
 
 export interface GoalSummary {
   id: string;
@@ -30,17 +31,19 @@ export async function createLocalGoal(input: {
   const result = createGoal(input);
   if (!result.ok) throw new Error(result.error);
 
-  const db = await getLocalDatabase();
-  await db.runAsync(
-    `INSERT INTO goals (
-      id, title, metric, target_per_week, created_at_ms, archived_at_ms
-    ) VALUES (?, ?, ?, ?, ?, NULL)`,
-    result.value.id,
-    result.value.title,
-    result.value.metric,
-    result.value.targetPerWeek,
-    result.value.createdAt,
-  );
+  await enqueueLocalWrite(async () => {
+    const db = await getLocalDatabase();
+    await db.runAsync(
+      `INSERT INTO goals (
+        id, title, metric, target_per_week, created_at_ms, archived_at_ms
+      ) VALUES (?, ?, ?, ?, ?, NULL)`,
+      result.value.id,
+      result.value.title,
+      result.value.metric,
+      result.value.targetPerWeek,
+      result.value.createdAt,
+    );
+  });
 }
 
 export async function getGoalSummaries(input: {

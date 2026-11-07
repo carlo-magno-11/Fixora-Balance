@@ -1,8 +1,6 @@
 import type { FocusSession } from "@/domain/focus/focus-session";
 import { getLocalDatabase } from "./database";
-import { createWriteQueue } from "./write-queue";
-
-const enqueueWrite = createWriteQueue();
+import { enqueueLocalWrite } from "./write-queue";
 interface FocusSessionRow {
   id: string;
   started_at_ms: number;
@@ -24,7 +22,7 @@ function toDomain(row: FocusSessionRow): FocusSession {
 }
 
 export function saveFocusSession(session: FocusSession): Promise<void> {
-  return enqueueWrite(async () => {
+  return enqueueLocalWrite(async () => {
     const db = await getLocalDatabase();
     await db.runAsync(
       `INSERT INTO focus_sessions (
@@ -61,7 +59,7 @@ export async function getLatestFocusSession(): Promise<FocusSession | null> {
 }
 
 export function deleteFocusSession(id: string): Promise<void> {
-  return enqueueWrite(async () => {
+  return enqueueLocalWrite(async () => {
     const db = await getLocalDatabase();
     await db.runAsync("DELETE FROM focus_sessions WHERE id = ?", id);
   });

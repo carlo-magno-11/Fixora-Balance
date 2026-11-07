@@ -7,3 +7,14 @@ export function createWriteQueue() {
     return result;
   };
 }
+
+
+const enqueueLocalDatabaseWrite = createWriteQueue();
+
+/**
+ * Serializes mutations that share the local SQLite connection.
+ * Keep this queue at the infrastructure boundary across repositories.
+ */
+export function enqueueLocalWrite<T>(operation: () => Promise<T>): Promise<T> {
+  return enqueueLocalDatabaseWrite(operation);
+}

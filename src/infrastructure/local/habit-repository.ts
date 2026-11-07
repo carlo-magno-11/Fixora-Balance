@@ -4,6 +4,7 @@ import {
   type HabitFrequency,
 } from "@/domain/habits/habit";
 import { getLocalDatabase } from "./database";
+import { enqueueLocalWrite } from "./write-queue";
 
 export interface HabitSummary {
   id: string;
@@ -33,17 +34,19 @@ export async function createLocalHabit(input: {
   const result = createHabit(input);
   if (!result.ok) throw new Error(result.error);
 
-  const db = await getLocalDatabase();
-  await db.runAsync(
-    `INSERT INTO habits (
-      id, title, frequency, target_per_week, created_at_ms, archived_at_ms
-    ) VALUES (?, ?, ?, ?, ?, NULL)`,
-    result.value.id,
-    result.value.title,
-    result.value.frequency,
-    result.value.targetPerWeek,
-    result.value.createdAt,
-  );
+  await enqueueLocalWrite(async () => {
+    const db = await getLocalDatabase();
+    await db.runAsync(
+      `INSERT INTO habits (
+        id, title, frequency, target_per_week, created_at_ms, archived_at_ms
+      ) VALUES (?, ?, ?, ?, ?, NULL)`,
+      result.value.id,
+      result.value.title,
+      result.value.frequency,
+      result.value.targetPerWeek,
+      result.value.createdAt,
+    );
+  });
 }
 
 export async function getHabitSummaries(
@@ -89,29 +92,33 @@ export async function completeHabitToday(input: {
   const result = createHabitCompletion(input);
   if (!result.ok) throw new Error(result.error);
 
-  const db = await getLocalDatabase();
-  const inserted = await db.runAsync(
-    `INSERT OR IGNORE INTO habit_completions (
-      id, habit_id, day_key, occurred_at_ms
-    ) VALUES (?, ?, ?, ?)`,
-    result.value.id,
-    result.value.habitId,
-    result.value.dayKey,
-    result.value.occurredAt,
-  );
+  return enqueueLocalWrite(async () => {
+    const db = await getLocalDatabase();
+    const inserted = await db.runAsync(
+      `INSERT OR IGNORE INTO habit_completions (
+        id, habit_id, day_key, occurred_at_ms
+      ) VALUES (?, ?, ?, ?)`,
+      result.value.id,
+      result.value.habitId,
+      result.value.dayKey,
+      result.value.occurredAt,
+    );
 
-  return inserted.changes > 0;
+    return inserted.changes > 0;
+  });
 }
 
 export async function undoHabitCompletion(
   habitId: string,
   dayKey: string,
 ): Promise<boolean> {
-  const db = await getLocalDatabase();
-  const result = await db.runAsync(
-    "DELETE FROM habit_completions WHERE habit_id = ? AND day_key = ?",
-    habitId,
-    dayKey,
-  );
-  return result.changes > 0;
+  return enqueueLocalWrite(async () => {
+    const db = await getLocalDatabase();
+    const result = await db.runAsync(
+      "DELETE FROM habit_completions WHERE habit_id = ? AND day_key = ?",
+      habitId,
+      dayKey,
+    );
+    return result.changes > 0;
+  });
 }
