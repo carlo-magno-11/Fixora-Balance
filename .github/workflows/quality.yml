@@ -121,14 +121,19 @@ jobs:
           print("EAS preview, iOS simulator, and production profiles are valid")
           PY
 
-      - name: Resolve Android preview build configuration
-        run: pnpm dlx eas-cli@27.5.0 config --platform android --profile preview --json
-
-      - name: Resolve iOS simulator build configuration
-        run: pnpm dlx eas-cli@27.5.0 config --platform ios --profile ios-simulator --json
-
-      - name: Resolve production build configuration
-        run: pnpm dlx eas-cli@27.5.0 config --platform android --profile production --json
+      - name: Resolve Expo app configuration without account credentials
+        run: |
+          pnpm exec expo config --type public --json > "$RUNNER_TEMP/expo-public-config.json"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          config = json.loads(Path("$RUNNER_TEMP/expo-public-config.json").read_text())
+          assert config["slug"] == "fixora-balance"
+          assert config["scheme"] == "fixorabal"
+          assert config["ios"]["bundleIdentifier"] == "com.fixoradynamics.balance"
+          assert config["android"]["package"] == "com.fixoradynamics.balance"
+          print("Expo public app configuration is valid")
+          PY
 
       - name: TypeScript
         run: pnpm typecheck
