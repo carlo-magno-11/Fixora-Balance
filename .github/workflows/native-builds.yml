@@ -52,6 +52,14 @@ jobs:
       - name: Install JavaScript dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Accept Android SDK licenses in ephemeral CI runner
+        run: |
+          set +o pipefail
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+          sdkmanager_status=${PIPESTATUS[1]}
+          set -o pipefail
+          exit "$sdkmanager_status"
+
       - name: Install Android SDK 37.0 preview, build tools, and NDK
         run: |
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --channel=3 "platform-tools" "platforms;android-37.0" "build-tools;37.0.0" "ndk;27.1.12297006"
@@ -63,16 +71,19 @@ jobs:
         run: |
           cd android
           chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleRelease --no-daemon
 
-      - name: Verify APK artifact
-        run: test -s android/app/build/outputs/apk/debug/app-debug.apk
+      - name: Verify Android release QA APK
+        run: |
+          APK="android/app/build/outputs/apk/release/app-release.apk"
+          test -s "$APK"
+          "$ANDROID_HOME/build-tools/37.0.0/aapt" dump badging "$APK" | grep -F "package: name='com.fixoradynamics.balance'"
 
       - name: Upload Android QA APK
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: fixora-balance-android-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: fixora-balance-android-release-qa-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -145,7 +156,7 @@ jobs:
           xcodebuild \
             -workspace "${{ steps.xcode.outputs.workspace }}" \
             -scheme "${{ steps.xcode.outputs.scheme }}" \
-            -configuration Debug \
+            -configuration Release \
             -sdk iphonesimulator \
             -destination "generic/platform=iOS Simulator" \
             -derivedDataPath "$RUNNER_TEMP/FixoraDerivedData" \
@@ -153,13 +164,14 @@ jobs:
 
       - name: Verify iOS Simulator app artifact
         run: |
-          APP_PATH="$(find "$RUNNER_TEMP/FixoraDerivedData/Build/Products/Debug-iphonesimulator" -maxdepth 4 -type d -name '*.app' -print -quit)"
+          APP_PATH="$(find "$RUNNER_TEMP/FixoraDerivedData/Build/Products/Release-iphonesimulator" -maxdepth 4 -type d -name '*.app' -print -quit)"
           if [ -z "$APP_PATH" ]; then
             find "$RUNNER_TEMP/FixoraDerivedData/Build/Products/Debug-iphonesimulator" -maxdepth 4 -print
             exit 1
           fi
           BUNDLE_ID=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP_PATH/Info.plist")
           test "$BUNDLE_ID" = "com.fixoradynamics.balance"
+          test -s "$APP_PATH/main.jsbundle"
           ditto "$APP_PATH" "$RUNNER_TEMP/FixoraBalance-iOS-Simulator.app"
 
       - name: Launch app on iOS Simulator and capture screen
