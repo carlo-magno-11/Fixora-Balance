@@ -141,3 +141,10 @@ No marcar "Listo para App Store/Google Play" hasta que todas las listas obligato
 - Google Play account deletion: https://support.google.com/googleplay/android-developer/answer/13327111
 
 **Nota:** las políticas son dinámicas. Esta matriz es una puerta interna de trabajo, no asesoría legal ni garantía de aprobación.
+
+
+## 6. Actualización de ejecución — 7 de noviembre de 2026
+
+La puerta Fase A continúa aprobada en CI. Se añadieron workflows nativos para generar APK Android de QA y app iOS para simulador. El primer intento Android quedó bloqueado por licencias del SDK antes de generar APK; se autorizó su aceptación en un runner efímero y se creó un flujo Android separado. La compilación iOS superó prebuild, CocoaPods y resolución del esquema de la app, pero el resultado final de build, instalación, lanzamiento y captura seguía pendiente en la última comprobación.
+
+El protocolo de ejecución está en [PROTOCOLO-PRIMERA-RONDA.md](PROTOCOLO-PRIMERA-RONDA.md). La matriz de pruebas sigue pendiente hasta que cada caso tenga evidencia real. Los builds de CI, aun cuando pasen, no constituyen aprobación de Apple App Review ni Google Play review; se mantienen las listas de privacidad, metadatos, permisos, compras, firma, TestFlight e internal testing.
