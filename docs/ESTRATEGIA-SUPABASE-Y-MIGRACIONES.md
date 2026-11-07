@@ -240,7 +240,7 @@ Se endureció `supabase/config.toml` como configuración **del entorno local**, 
 - Rotación de refresh tokens habilitada; JWT de una hora.
 - Acceso anónimo deshabilitado.
 - Límite mínimo de un minuto entre solicitudes de correo.
-- Callback móvil exacto `fixorabal://auth/callback) incluido en la allowlist local.
+- Callback móvil exacto `fixorabal://auth/callback` incluido en la allowlist local.
 
 La decisión de longitud y ausencia de reglas de composición sigue la guía de autenticación OWASP: recomienda mínimo de 15 caracteres sin MFA, permitir passphrases y no imponer combinaciones obligatorias de mayúsculas, números o símbolos. Supabase documenta que `config.toml` controla el proyecto local y que los cambios requieren reiniciar el stack.
 

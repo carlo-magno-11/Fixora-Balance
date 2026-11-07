@@ -6,7 +6,7 @@ CONFIG_PATH = Path("supabase/config.toml")
 
 
 def duration_seconds(value: str) -> int:
-    match = re.fullmatch(r"(\\d+)(s|m|h|d)", value)
+    match = re.fullmatch(r"(\d+)(s|m|h|d)", value)
     if not match:
         raise AssertionError(f"Unsupported duration format: {value!r}")
     amount = int(match.group(1))
