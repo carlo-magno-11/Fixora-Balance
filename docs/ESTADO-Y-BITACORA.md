@@ -505,3 +505,11 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Se añadió `scripts/test-supabase-auth-config.py` y un paso de CI para validar los controles de configuración.
 - Esta es preparación del entorno local, no autenticación integrada en la app. El SDK de Supabase, pantallas de acceso, recuperación, almacenamiento seguro de sesión, perfil, RLS de negocio y pruebas E2E siguen pendientes.
 - El archivo `config.toml` controla el stack local. **El proyecto Supabase remoto no fue modificado**; SMTP, redirects hosted y políticas remotas deberán configurarse y verificarse por separado antes de beta.
+
+
+### 2026-11-07 — Corrección de inicialización Supabase en CI
+
+- La revisión de la documentación oficial del CLI reveló que `supabase init --force` sobrescribe `supabase/config.toml`.
+- Se sustituyó ese paso por verificación de que el archivo versionado existe y se puede parsear con TOML. El job de base de datos ya no destruye ni reemplaza la configuración Auth específica del proyecto antes de iniciar el stack local.
+- La corrección está en el workflow de calidad y debe pasar una ejecución completa de Supabase local/pgTAP para considerarse validada.
+- Referencia: https://supabase.com/docs/reference/cli/introduction.

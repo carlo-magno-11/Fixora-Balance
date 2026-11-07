@@ -252,3 +252,12 @@ Referencias:
 - Supabase CLI config: https://supabase.com/docs/guides/local-development/cli/config
 - Supabase redirect URLs: https://supabase.com/docs/guides/auth/redirect-urls
 - OWASP Authentication Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
+
+
+## 14. Preservación de la configuración local en CI — 7 de noviembre de 2026
+
+La auditoría del workflow detectó que `supabase init --force` sobrescribe `supabase/config.toml` según la referencia oficial de Supabase CLI. Eso habría reemplazado los ajustes locales de Auth por defaults durante el job de base de datos. Se sustituyó por una comprobación de existencia y parseo TOML; CI utiliza ahora la configuración versionada y no la regenera.
+
+La comprobación de seguridad Auth y la ejecución de Supabase local son validaciones separadas: el job de verificación comprueba explícitamente los valores de Auth; el job de base de datos conserva esa configuración al iniciar el stack. La prueba real de flujos de Auth (envío/confirmación de correo, recuperación y cambio de contraseña) sigue pendiente, ya que todavía no hay integración Auth en la app.
+
+Referencia: https://supabase.com/docs/reference/cli/introduction (la opción `--force` sobrescribe el archivo de configuración).

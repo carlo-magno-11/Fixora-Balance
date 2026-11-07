@@ -29,8 +29,15 @@ jobs:
         with:
           version: 3.0.0
 
-      - name: Initialize local configuration
-        run: supabase init --force
+      - name: Verify committed local Supabase configuration
+        run: |
+          test -s supabase/config.toml
+          python3 - <<'PY'
+          import tomllib
+          from pathlib import Path
+          tomllib.loads(Path("supabase/config.toml").read_text(encoding="utf-8"))
+          print("Committed Supabase configuration is present and valid; preserving project-specific settings.")
+          PY
 
       - name: Defer project migrations until hosted-platform fixture is installed
         run: |
