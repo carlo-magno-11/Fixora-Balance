@@ -82,12 +82,12 @@ jobs:
           "$ANDROID_HOME/emulator/emulator" -avd fixora-qa -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -wipe-data > "$RUNNER_TEMP/fixora-emulator.log" 2>&1 &
           timeout 300 adb wait-for-device
           for attempt in $(seq 1 90); do
-            if [ "$(adb shell getprop sys.boot_completed | tr -d '\\r')" = "1" ]; then
+            if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; then
               break
             fi
             sleep 5
           done
-          test "$(adb shell getprop sys.boot_completed | tr -d '\\r')" = "1"
+          test "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1"
           adb shell input keyevent 82
 
       - name: Install, launch, and capture Android app
