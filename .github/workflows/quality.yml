@@ -145,6 +145,9 @@ jobs:
       - name: Domain tests
         run: pnpm test
 
+      - name: Local SQLite schema smoke tests
+        run: python3 scripts/test-local-sqlite-schema.py
+
       - name: Android JavaScript bundle
         run: pnpm exec expo export --platform android --output-dir /tmp/fixora-balance-android
 
