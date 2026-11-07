@@ -26,10 +26,10 @@ No marcar un caso como aprobado solo porque el código compila o porque el test 
 
 | ID | Verificación | Criterio de salida | Estado |
 |---|---|---|---|
-| BLD-01 | APK Android debug | Archivo no vacío, instalable y con applicationId esperado | **Pendiente** — intento inicial detenido por licencia SDK; workflow Android con aceptación autorizada preparado, falta evidencia de ejecución |
+| BLD-01 | APK Android QA | APK Release no vacío, instalable y con applicationId esperado | **Pendiente** — workflow actualizado para aceptar licencia SDK en runner temporal y generar APK Release; falta un run verificable |
 | BLD-02 | App iOS Simulator | Bundle .app válido con bundle identifier esperado | **Aprobado** — run 42398660326; bundle ID `com.fixoradynamics.balance` verificado |
-| BLD-03 | Inicio iOS Simulator | La app se instala, abre y genera captura de pantalla | **En curso** — run 42398660326; paso de instalación/lanzamiento/captura aún activo |
-| BLD-04 | Integridad de artefactos | Descarga de artefactos desde GitHub Actions y hash registrado | Pendiente |
+| BLD-03 | Inicio iOS Simulator | La app se instala, abre y genera captura de pantalla funcional | **Fallido en primer intento** — run 42398660326 instaló y lanzó el build Debug, pero la captura mostró `No script URL provided` porque no había bundle JS ni Metro. Workflow corregido a Release con verificación de `main.jsbundle`; falta repetir el run y revisar nueva captura |
+| BLD-04 | Integridad de artefactos | Descarga de artefactos desde GitHub Actions y hash registrado | **Aprobado para el artefacto iOS Debug** — ZIP descargado y SHA-256 local coincide con el digest publicado por GitHub (`11734f2256f29c299a346baff64861b8525e70052822c9850ff91978e55dec0d`). La captura se conserva como evidencia del fallo de arranque JS, no como aceptación funcional |
 
 ## 3. Pruebas funcionales del núcleo
 
