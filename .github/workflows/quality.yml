@@ -107,6 +107,20 @@ jobs:
       - name: Expo Doctor
         run: pnpm dlx expo-doctor@1.21.6
 
+      - name: Validate EAS build profiles
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          config = json.loads(Path("eas.json").read_text())
+          profiles = config["build"]
+          assert profiles["preview"]["distribution"] == "internal"
+          assert profiles["preview"]["android"]["buildType"] == "apk"
+          assert profiles["ios-simulator"]["ios"]["simulator"] is True
+          assert profiles["production"]["autoIncrement"] is True
+          print("EAS preview, iOS simulator, and production profiles are valid")
+          PY
+
       - name: TypeScript
         run: pnpm typecheck
 
