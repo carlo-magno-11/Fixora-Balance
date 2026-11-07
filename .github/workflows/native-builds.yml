@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   android-debug-apk:
-    name: Android debug APK
+    name: Android release QA APK
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -67,7 +67,7 @@ jobs:
       - name: Generate Android native project
         run: pnpm exec expo prebuild --platform android --no-install
 
-      - name: Build debug APK
+      - name: Build release QA APK
         run: |
           cd android
           chmod +x ./gradlew
@@ -166,7 +166,7 @@ jobs:
         run: |
           APP_PATH="$(find "$RUNNER_TEMP/FixoraDerivedData/Build/Products/Release-iphonesimulator" -maxdepth 4 -type d -name '*.app' -print -quit)"
           if [ -z "$APP_PATH" ]; then
-            find "$RUNNER_TEMP/FixoraDerivedData/Build/Products/Debug-iphonesimulator" -maxdepth 4 -print
+            find "$RUNNER_TEMP/FixoraDerivedData/Build/Products/Release-iphonesimulator" -maxdepth 4 -print
             exit 1
           fi
           BUNDLE_ID=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP_PATH/Info.plist")
