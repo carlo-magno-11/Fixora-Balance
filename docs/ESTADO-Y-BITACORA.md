@@ -495,3 +495,13 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - El workflow `.github/workflows/quality.yml` ejecuta el script como paso `Local SQLite schema smoke tests` después de Vitest.
 - Commits: script `301e0d8` (extracción simplificada en `e0d5e2a`), integración CI `8de7378`.
 - El primer resultado CI del nuevo paso está pendiente. Esta prueba ejecuta el DDL real con SQLite del runner, pero no sustituye la prueba del adaptador Expo SQLite, transacciones de migración, background ni persistencia en dispositivos.
+
+
+### 2026-11-07 — Baseline local de autenticación Supabase
+
+- Se endureció `supabase/config.toml` para el entorno local: confirmación de correo, doble confirmación de cambio de correo, cambio de contraseña seguro, longitud mínima de 15 caracteres sin reglas de composición, rotación de refresh tokens, JWT de una hora, acceso anónimo deshabilitado y espera de un minuto entre correos.
+- Se incorporó el callback móvil exacto `fixorabal://auth/callback` a la allowlist local.
+- Se eligió una passphrase larga sin composición obligatoria siguiendo OWASP; no se fuerza el uso de símbolos, números o mayúsculas.
+- Se añadió `scripts/test-supabase-auth-config.py` y un paso de CI para validar los controles de configuración.
+- Esta es preparación del entorno local, no autenticación integrada en la app. El SDK de Supabase, pantallas de acceso, recuperación, almacenamiento seguro de sesión, perfil, RLS de negocio y pruebas E2E siguen pendientes.
+- El archivo `config.toml` controla el stack local. **El proyecto Supabase remoto no fue modificado**; SMTP, redirects hosted y políticas remotas deberán configurarse y verificarse por separado antes de beta.

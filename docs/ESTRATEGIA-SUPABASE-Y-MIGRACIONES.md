@@ -226,3 +226,29 @@ El proyecto ahora incluye `supabase/config.toml` generado con Supabase CLI 3.0.0
 Para probar la migración localmente, CI desactiva temporalmente la aplicación automática de migraciones al iniciar el stack, crea el helper hosted mediante dos fixtures SQL separados (una sentencia por llamada a `supabase db query --file`), vuelve a habilitar migraciones, ejecuta `supabase migration up` y luego `supabase test db`. Los fixtures viven en `supabase/fixtures/`, fuera del directorio que pgTAP descubre. El fixture nunca se despliega a hosted.
 
 La primera ejecución encontró que `supabase db query --file` no admite varias sentencias en una misma llamada; se dividió la creación de función y la creación del event trigger en archivos separados. Los runs 42308655770, 42312021727, 42312724248 y 42313449617 confirmaron reconstrucción local, aplicación de migraciones y pgTAP de extremo a extremo. El run 42312021727 también validó Expo Doctor 20/20, TypeScript, Vitest y bundles JS. El lockfile actualizado está versionado y la instalación frozen pasó en CI runs 42312724248 y 42313449617.
+
+
+## 13. Baseline local de Supabase Auth — 7 de noviembre de 2026
+
+Se endureció `supabase/config.toml` como configuración **del entorno local**, antes de implementar pantallas o integrar el SDK Auth:
+
+- Confirmación de correo obligatoria.
+- Confirmación doble al cambiar correo.
+- Cambio de contraseña con reautenticación/contraseña actual.
+- Longitud mínima de contraseña de 15 caracteres mientras MFA no esté desplegado.
+- Sin reglas artificiales de composición; se permiten frases de contraseña y caracteres diversos.
+- Rotación de refresh tokens habilitada; JWT de una hora.
+- Acceso anónimo deshabilitado.
+- Límite mínimo de un minuto entre solicitudes de correo.
+- Callback móvil exacto `fixorabal://auth/callback) incluido en la allowlist local.
+
+La decisión de longitud y ausencia de reglas de composición sigue la guía de autenticación OWASP: recomienda mínimo de 15 caracteres sin MFA, permitir passphrases y no imponer combinaciones obligatorias de mayúsculas, números o símbolos. Supabase documenta que `config.toml` controla el proyecto local y que los cambios requieren reiniciar el stack.
+
+**Límite importante:** esto no configura automáticamente el proyecto hosted ni constituye Auth implementado. No se modificó el Dashboard ni la configuración remota de Supabase. Antes de habilitar usuarios reales habrá que aplicar y comprobar por separado la política en el proyecto remoto, configurar SMTP/plantillas, revisar redirect URLs de producción y probar confirmación, recuperación, revocación y RLS.
+
+Se añadió `scripts/test-supabase-auth-config.py` y un paso dedicado en CI para evitar que estos valores regresen silenciosamente a defaults débiles.
+
+Referencias:
+- Supabase CLI config: https://supabase.com/docs/guides/local-development/cli/config
+- Supabase redirect URLs: https://supabase.com/docs/guides/auth/redirect-urls
+- OWASP Authentication Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html

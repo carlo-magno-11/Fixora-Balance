@@ -139,6 +139,9 @@ jobs:
           print("Expo public app configuration is valid")
           PY
 
+      - name: Validate local Supabase Auth security defaults
+        run: python3 scripts/test-supabase-auth-config.py
+
       - name: TypeScript
         run: pnpm typecheck
 
