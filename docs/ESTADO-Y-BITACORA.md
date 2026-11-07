@@ -477,3 +477,12 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Inspeccionar el artefacto de diagnóstico del siguiente run Android.
 - Corregir la causa raíz del arranque AVD con evidencia; después ejecutar instalación, lanzamiento, revisión de logcat y captura.
 - Continuar con la matriz funcional FOC/HAB/GOA/HOM y persistencia SQLite; mantener explícita la separación entre CI, simuladores y dispositivos físicos.
+
+
+### 2026-11-07 — Auditoría de dependencias integrada al CI
+
+- Se añadió al job `verify` de `.github/workflows/quality.yml` el paso `pnpm audit --audit-level high`, inmediatamente después de la instalación congelada.
+- El control cubre dependencias declaradas y transitivas según el registro de advisories consultado por pnpm; un hallazgo High/Critical hará fallar el job.
+- Commit del workflow: `5a95b2c271ba49c1952eb35e595be516b6f1bb88`.
+- El resultado de la primera ejecución de este nuevo control está pendiente. No afirmar todavía que el árbol de dependencias esté libre de vulnerabilidades.
+- Esto complementa, pero no sustituye, CodeQL, Secret Scanning, revisión de permisos GitHub, auditoría de configuración, OWASP MASVS/MASTG ni pentest.
