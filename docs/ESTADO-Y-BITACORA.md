@@ -535,13 +535,13 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - La documentación Android define `ANDROID_AVD_HOME` como la ruta de AVDs y especifica que el emulador la consulta primero. Se adopta una ruta explícita y compartida para ambos pasos.
 
 **Corrección versionada**
-- Crear y arrancar el AVD con `ANDROID_AVD_HOME=$HOME/.android/avd`.
+- Crear y arrancar el AVD con `ANDROID_AVD_HOME=$HOME/.android/avd`; pasar también `--path "$ANDROID_AVD_HOME/fixora-qa.avd"` al creador para evitar la resolución de ruta afectada por XDG.
 - Verificar `fixora-qa.ini`, el directorio `fixora-qa.avd` y el listado de AVDs antes de intentar arrancar.
 - Mantener la captura de logs si el arranque falla.
-- Corregir el filtro de ejecución Android QA: ahora incluye cambios de app, configuración Expo/Metro/Babel, dependencias y scripts relevantes en `main`; no se dispara por cambios aislados del propio workflow.
+- Corregir el filtro de ejecución Android QA: incluye cambios de app, configuración Expo/Metro/Babel, dependencias, scripts y el propio workflow en `main`, para que las modificaciones del pipeline disparen su validación.
 
 **Límites**
-- La corrección todavía requiere una nueva ejecución CI. No afirmar que Android instala, abre o renderiza correctamente hasta que se completen ADB, instalación, lanzamiento, comprobación de proceso y captura.
+- La primera corrección requiere validación en una nueva ejecución Android QA; el ajuste explícito `--path` se incorpora para que creación y búsqueda compartan la misma ruta. No afirmar que Android instala, abre o renderiza correctamente hasta que se completen ADB, instalación, lanzamiento, comprobación de proceso y captura.
 - El APK validado tiene applicationId `com.fixoradynamics.balance`, versionName `0.1.0`; esto acredita empaquetado, no funcionamiento en dispositivo.
 - No hubo cambios en Supabase remoto ni datos de usuarios.
 
@@ -549,3 +549,12 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Android Emulator environment variables: https://developer.android.com/tools/variables
 - Android AVD Manager: https://developer.android.com/tools/avdmanager
 - GitHub runner-images issue #11482: https://github.com/actions/runner-images/issues/11482
+
+
+### 2026-11-07 — Refuerzo del AVD y protección del temporizador ante cambios de reloj
+- La creación AVD ahora recibe una ruta explícita con `--path` además de `ANDROID_AVD_HOME`; el arranque verifica que el propio ejecutable Emulator liste `fixora-qa` antes de iniciarlo.
+- El filtro Android QA incluye el workflow para que cambios del pipeline puedan probarse en CI; también conserva filtros de código/configuración para no ejecutar QA por documentación general.
+- Se corrigió el dominio de sesiones: IDs vacíos devuelven `invalid_id`; los timestamps deben ser enteros seguros; el tiempo restante se limita a la duración original si el reloj retrocede o hay un valor persistido fuera de rango; la reanudación vuelve a validar el final calculado.
+- Se agregaron pruebas Vitest para ID vacío, retroceso del reloj y valor persistido fuera de rango.
+- La ejecución [42416788136](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42416788136) pasó los dos jobs de calidad en el commit anterior a estos cambios; este commit necesita su propia ejecución.
+- No se aplicaron cambios al proyecto Supabase remoto. No se afirma aún que Android QA haya instalado o abierto la app.

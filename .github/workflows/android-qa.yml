@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths:
+      - ".github/workflows/android-qa.yml"
       - "app/**"
       - "src/**"
       - "assets/**"
@@ -93,7 +94,7 @@ jobs:
           export ANDROID_AVD_HOME="$HOME/.android/avd"
           mkdir -p "$ANDROID_AVD_HOME"
           echo "Android AVD directory: $ANDROID_AVD_HOME"
-          echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --force --name fixora-qa --package "system-images;android-36;google_apis;x86_64" --device "pixel_2"
+          echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --force --name fixora-qa --package "system-images;android-36;google_apis;x86_64" --device "pixel_2" --path "$ANDROID_AVD_HOME/fixora-qa.avd"
           "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" list avd -c
           test -s "$ANDROID_AVD_HOME/fixora-qa.ini"
           test -d "$ANDROID_AVD_HOME/fixora-qa.avd"
@@ -109,6 +110,7 @@ jobs:
           "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" list avd -c
           test -x "$ADB"
           test -x "$EMULATOR"
+          "$EMULATOR" -list-avds | grep -Fx "fixora-qa"
           "$EMULATOR" -avd fixora-qa -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -wipe-data -no-metrics -verbose -show-kernel > "$RUNNER_TEMP/fixora-emulator.log" 2>&1 &
           EMULATOR_PID=$!
           if ! timeout 600 "$ADB" wait-for-device; then

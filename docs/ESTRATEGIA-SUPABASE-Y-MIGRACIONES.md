@@ -289,3 +289,14 @@ Fuentes:
 - https://developer.android.com/tools/variables
 - https://developer.android.com/tools/avdmanager
 - https://github.com/actions/runner-images/issues/11482
+
+
+## 17. Endurecimiento del temporizador local y AVD — 7 de noviembre de 2026
+
+El dominio de enfoque ahora limita el tiempo restante a la duración original cuando el reloj del dispositivo retrocede, o cuando se encuentra un valor pausado persistido superior a la duración. Esto evita escribir un valor que exceda el CHECK de SQLite `remaining_seconds BETWEEN 0 AND 28800`. Los timestamps de sesión se validan como enteros seguros y un ID vacío devuelve `invalid_id`.
+
+La suite de dominio incluye casos para retroceso del reloj, valor persistido fuera de rango e ID vacío. Estos tests prueban reglas puras; no sustituyen la prueba de persistencia real de Expo SQLite en dispositivo.
+
+Para Android CI se añadió `--path "$ANDROID_AVD_HOME/fixora-qa.avd"` al comando de creación y `emulator -list-avds` como verificación previa al arranque. Esta decisión complementa `ANDROID_AVD_HOME`: el issue #11482 documenta el problema de resolución XDG en Ubuntu 24.04 y comentarios posteriores muestran la opción `--path` como workaround explícito.
+
+La corrección Android necesita ejecución propia de CI antes de considerarse validada.

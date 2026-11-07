@@ -13,14 +13,19 @@ export type FocusSessionError =
   | "invalid_duration"
   | "invalid_timestamp"
   | "session_not_running"
-  | "session_not_paused";
+  | "session_not_paused"
+  | "invalid_id";
 
 export type FocusSessionResult =
   | { readonly ok: true; readonly value: FocusSession }
   | { readonly ok: false; readonly error: FocusSessionError };
 
 const isValidTimestamp = (value: number): boolean =>
-  Number.isFinite(value) && value >= 0;
+  Number.isSafeInteger(value) && value >= 0;
+
+function clampRemainingSeconds(value: number, durationSeconds: number): number {
+  return Math.min(durationSeconds, Math.max(0, Math.ceil(value)));
+}
 
 export function startFocusSession(input: {
   id: string;
@@ -38,7 +43,12 @@ export function startFocusSession(input: {
   }
 
   if (id.trim().length === 0) {
-    return { ok: false, error: "invalid_duration" };
+    return { ok: false, error: "invalid_id" };
+  }
+
+  const endsAt = now + durationSeconds * 1000;
+  if (!isValidTimestamp(endsAt)) {
+    return { ok: false, error: "invalid_timestamp" };
   }
 
   return {
@@ -47,7 +57,7 @@ export function startFocusSession(input: {
       id,
       durationSeconds,
       startedAt: now,
-      endsAt: now + durationSeconds * 1000,
+      endsAt,
       remainingSeconds: durationSeconds,
       status: "running",
     },
@@ -66,9 +76,9 @@ export function pauseFocusSession(
     return { ok: false, error: "invalid_timestamp" };
   }
 
-  const remainingSeconds = Math.max(
-    0,
-    Math.ceil((session.endsAt - now) / 1000),
+  const remainingSeconds = clampRemainingSeconds(
+    (session.endsAt - now) / 1000,
+    session.durationSeconds,
   );
 
   if (remainingSeconds === 0) {
@@ -101,18 +111,28 @@ export function resumeFocusSession(
     return { ok: false, error: "invalid_timestamp" };
   }
 
-  if (session.remainingSeconds <= 0) {
+  const remainingSeconds = clampRemainingSeconds(
+    session.remainingSeconds,
+    session.durationSeconds,
+  );
+  if (remainingSeconds === 0) {
     return {
       ok: true,
       value: { ...session, remainingSeconds: 0, endsAt: null, status: "completed" },
     };
   }
 
+  const endsAt = now + remainingSeconds * 1000;
+  if (!isValidTimestamp(endsAt)) {
+    return { ok: false, error: "invalid_timestamp" };
+  }
+
   return {
     ok: true,
     value: {
       ...session,
-      endsAt: now + session.remainingSeconds * 1000,
+      remainingSeconds,
+      endsAt,
       status: "running",
     },
   };
@@ -123,12 +143,14 @@ export function getRemainingSeconds(
   now: number,
 ): number {
   if (session.status === "completed") return 0;
-  if (session.status === "paused") return session.remainingSeconds;
-  if (session.endsAt === null || !isValidTimestamp(now)) {
-    return session.remainingSeconds;
+  if (session.status === "paused" || session.endsAt === null || !isValidTimestamp(now)) {
+    return clampRemainingSeconds(session.remainingSeconds, session.durationSeconds);
   }
 
-  return Math.max(0, Math.ceil((session.endsAt - now) / 1000));
+  return clampRemainingSeconds(
+    (session.endsAt - now) / 1000,
+    session.durationSeconds,
+  );
 }
 
 export function completeFocusSession(

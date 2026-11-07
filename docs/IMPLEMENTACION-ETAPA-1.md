@@ -74,3 +74,12 @@ Referencias:
 - React Native se alineó a 0.88.1; react-native-safe-area-context a ~5.11.1; @react-native/metro-config a 0.88.1 como devDependency/override para resolver el peer dependency.
 - Expo Doctor 20/20 pasó sin issues y pnpm install no reportó peer dependency warnings en run 42312021727.
 - El lockfile actualizado se incorpora al commit actual. CI run 42312724248 confirmó pnpm install --frozen-lockfile con lockfile up to date.
+
+
+## Protección ante cambios del reloj del dispositivo — 7 de noviembre de 2026
+
+El dominio de sesiones limita el tiempo restante a la duración original cuando el reloj del dispositivo retrocede o cuando un registro pausado contiene un valor superior al permitido por la duración. La reanudación valida el nuevo timestamp final y los identificadores vacíos producen un error específico. Se añadieron pruebas unitarias para estos límites.
+
+**Qué prueba esto:** reglas puras del dominio y protección contra valores que podrían violar el CHECK de SQLite.
+
+**Qué no prueba:** la transacción real de Expo SQLite, persistencia tras reinicio, suspensión prolongada, cambios de zona horaria o funcionamiento en un teléfono físico. Esas verificaciones siguen pendientes.

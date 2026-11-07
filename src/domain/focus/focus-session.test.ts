@@ -82,3 +82,51 @@ describe("focus session domain", () => {
     expect(pauseFocusSession(paused.value, 40_000).ok).toBe(false);
   });
 });
+
+
+  it("rejects a blank session identifier with a specific domain error", () => {
+    expect(startFocusSession({ id: "  ", durationSeconds: 60, now: 1 })).toEqual({
+      ok: false,
+      error: "invalid_id",
+    });
+  });
+
+  it("does not extend a session when the device clock moves backwards", () => {
+    const started = startFocusSession({
+      id: "clock-rollback",
+      durationSeconds: 600,
+      now: 100_000,
+    });
+    expect(started.ok).toBe(true);
+    if (!started.ok) return;
+
+    expect(getRemainingSeconds(started.value, 0)).toBe(600);
+
+    const paused = pauseFocusSession(started.value, 0);
+    expect(paused.ok).toBe(true);
+    if (!paused.ok) return;
+    expect(paused.value.remainingSeconds).toBe(600);
+    expect(paused.value.status).toBe("paused");
+  });
+
+  it("caps an out-of-range persisted remaining value before resuming", () => {
+    const started = startFocusSession({
+      id: "clock-rollback-resume",
+      durationSeconds: 600,
+      now: 1_000,
+    });
+    expect(started.ok).toBe(true);
+    if (!started.ok) return;
+
+    const inconsistentPaused = {
+      ...started.value,
+      endsAt: null,
+      remainingSeconds: 900,
+      status: "paused" as const,
+    };
+    const resumed = resumeFocusSession(inconsistentPaused, 5_000);
+    expect(resumed.ok).toBe(true);
+    if (!resumed.ok) return;
+    expect(resumed.value.remainingSeconds).toBe(600);
+    expect(resumed.value.endsAt).toBe(605_000);
+  });
