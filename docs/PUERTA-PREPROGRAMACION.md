@@ -109,3 +109,16 @@ La siguiente puerta es validar builds nativos y SQLite v1→v3 en dispositivos f
 - OWASP MASVS/MASTG: https://mas.owasp.org/
 - OWASP ASVS: https://owasp.org/www-project-application-security-verification-standard/
 
+
+
+## 8. Actualización 7 de noviembre de 2026 — Evidencia de builds nativos
+
+- [x] Crear workflow de build nativo iOS y Android para QA.
+- [x] Crear workflow Android separado con aceptación de licencias del SDK dentro del runner temporal, autorizada por el responsable.
+- [x] Preparar protocolo de primera ronda: [PROTOCOLO-PRIMERA-RONDA.md](PROTOCOLO-PRIMERA-RONDA.md).
+- [x] CI integral run [42398660364](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660364) aprobado.
+- [ ] Run [42398660326](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660326): build iOS de simulador aún no verificado como completo; Android de ese run falló por licencias antes de compilar.
+- [ ] Nuevo workflow Android: confirmar APK y su artefacto antes de marcar build Android aprobado.
+- [ ] Instalar y ejecutar en simuladores; después repetir en teléfonos físicos.
+
+**Criterio:** la puerta de preprogramación no se cierra con el CI JS. Requiere artefactos nativos verificables, ejecución del app bundle, pruebas de persistencia/migración y validación física. Esta actualización no autoriza beta ni publicación.
