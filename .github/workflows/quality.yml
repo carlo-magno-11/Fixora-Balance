@@ -104,6 +104,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Dependency security audit
+        run: pnpm audit --audit-level high
+
       - name: Expo Doctor
         run: pnpm dlx expo-doctor@1.21.6
 
