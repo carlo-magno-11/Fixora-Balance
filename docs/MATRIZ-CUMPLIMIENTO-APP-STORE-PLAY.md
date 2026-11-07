@@ -108,6 +108,16 @@ Se inicia cuando haya un development build o una ruta de ejecución compatible y
 - [ ] Revisión final de metadatos y notas de revisión.
 - [ ] Aprobación explícita del responsable del producto.
 
+
+## 5A. Configuración de builds ya preparada
+
+El repositorio incluye eas.json con tres perfiles:
+- preview: distribución interna y APK instalable Android para QA.
+- ios-simulator: variante del perfil preview para simulador iOS.
+- production: perfil de distribución de tienda con incremento automático de versión.
+
+El workflow de calidad valida la estructura básica de estos perfiles. Esto no crea un build ni enlaza el repositorio con una cuenta EAS. Para ejecutar builds cloud se requiere iniciar sesión y enlazar el proyecto; para iOS físico/TestFlight se requieren credenciales y membresía/capacidades Apple correspondientes. No se debe subir ningún build a tienda desde esta fase.
+
 ## 6. Qué puede ejecutar el equipo de desarrollo y qué necesita hardware/cuentas
 
 Automatizable desde CI: TypeScript, unitarias, integración local, migraciones, pgTAP, exportación de bundles, análisis de dependencias, escaneo de secretos y parte de E2E.
