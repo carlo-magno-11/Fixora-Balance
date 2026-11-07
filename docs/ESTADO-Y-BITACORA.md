@@ -486,3 +486,12 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Commit del workflow: `5a95b2c271ba49c1952eb35e595be516b6f1bb88`.
 - El resultado de la primera ejecución de este nuevo control está pendiente. No afirmar todavía que el árbol de dependencias esté libre de vulnerabilidades.
 - Esto complementa, pero no sustituye, CodeQL, Secret Scanning, revisión de permisos GitHub, auditoría de configuración, OWASP MASVS/MASTG ni pentest.
+
+
+### 2026-11-07 — Pruebas automatizadas de esquema SQLite v1→v3
+
+- Se añadió `scripts/test-local-sqlite-schema.py`, sin dependencias externas: extrae y ejecuta el DDL directamente desde las tres migraciones TypeScript versionadas.
+- Las comprobaciones cubren conservación de sesiones v1 al aplicar v2/v3, constraints de hábitos y objetivos, idempotencia/único check-in por día, integridad referencial y cascada, e índices esperados.
+- El workflow `.github/workflows/quality.yml` ejecuta el script como paso `Local SQLite schema smoke tests` después de Vitest.
+- Commits: script `301e0d8` (extracción simplificada en `e0d5e2a`), integración CI `8de7378`.
+- El primer resultado CI del nuevo paso está pendiente. Esta prueba ejecuta el DDL real con SQLite del runner, pero no sustituye la prueba del adaptador Expo SQLite, transacciones de migración, background ni persistencia en dispositivos.
