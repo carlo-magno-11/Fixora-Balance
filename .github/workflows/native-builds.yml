@@ -121,8 +121,22 @@ jobs:
           WORKSPACE="$(find ios -maxdepth 1 -name '*.xcworkspace' -print -quit)"
           test -n "$WORKSPACE"
           xcodebuild -list -json -workspace "$WORKSPACE" > "$RUNNER_TEMP/xcode-project.json"
-          SCHEME="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["workspace"]["schemes"][0])' "$RUNNER_TEMP/xcode-project.json")"
+          SCHEME="$(python3 - "$RUNNER_TEMP/xcode-project.json" "$WORKSPACE" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          data = json.loads(Path(sys.argv[1]).read_text())
+          available = data["workspace"]["schemes"]
+          expected = Path(sys.argv[2]).stem
+          matches = [name for name in available if name.casefold() == expected.casefold()]
+          if not matches:
+              print(f"Expected app scheme {expected!r}; available schemes: {available}", file=sys.stderr)
+              raise SystemExit(1)
+          print(matches[0])
+          PY
+          )"
           test -n "$SCHEME"
+          echo "Resolved app scheme: $SCHEME"
           echo "workspace=$WORKSPACE" >> "$GITHUB_OUTPUT"
           echo "scheme=$SCHEME" >> "$GITHUB_OUTPUT"
 
@@ -139,14 +153,33 @@ jobs:
 
       - name: Verify iOS Simulator app artifact
         run: |
-          APP_PATH="$(find "$RUNNER_TEMP/FixoraDerivedData/Build/Products/Debug-iphonesimulator" -maxdepth 1 -name '*.app' -print -quit)"
-          test -n "$APP_PATH"
+          APP_PATH="$(find "$RUNNER_TEMP/FixoraDerivedData/Build/Products/Debug-iphonesimulator" -maxdepth 4 -type d -name '*.app' -print -quit)"
+          if [ -z "$APP_PATH" ]; then
+            find "$RUNNER_TEMP/FixoraDerivedData/Build/Products/Debug-iphonesimulator" -maxdepth 4 -print
+            exit 1
+          fi
+          BUNDLE_ID=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP_PATH/Info.plist")
+          test "$BUNDLE_ID" = "com.fixoradynamics.balance"
           ditto "$APP_PATH" "$RUNNER_TEMP/FixoraBalance-iOS-Simulator.app"
 
-      - name: Upload iOS Simulator app
+      - name: Launch app on iOS Simulator and capture screen
+        run: |
+          DEVICE_ID="$(xcrun simctl list devices available --json | python3 -c 'import json,sys; d=json.load(sys.stdin); devices=[x for group in d["devices"].values() for x in group if x.get("isAvailable") and x["name"].startswith("iPhone")]; print(next((x["udid"] for x in devices if x["state"] == "Booted"), devices[0]["udid"] if devices else ""))')"
+          test -n "$DEVICE_ID"
+          xcrun simctl boot "$DEVICE_ID" || true
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+          xcrun simctl install "$DEVICE_ID" "$RUNNER_TEMP/FixoraBalance-iOS-Simulator.app"
+          xcrun simctl launch "$DEVICE_ID" com.fixoradynamics.balance
+          sleep 8
+          xcrun simctl io "$DEVICE_ID" screenshot "$RUNNER_TEMP/fixora-home-ios.png"
+          test -s "$RUNNER_TEMP/fixora-home-ios.png"
+
+      - name: Upload iOS Simulator app and first screen
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: fixora-balance-ios-simulator-app
-          path: ${{ runner.temp }}/FixoraBalance-iOS-Simulator.app
+          name: fixora-balance-ios-simulator-qa
+          path: |
+            ${{ runner.temp }}/FixoraBalance-iOS-Simulator.app
+            ${{ runner.temp }}/fixora-home-ios.png
           if-no-files-found: error
           retention-days: 14
