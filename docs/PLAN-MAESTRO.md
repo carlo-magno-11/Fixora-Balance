@@ -4,7 +4,7 @@
 **Fecha:** 6 de noviembre de 2026  
 **Marca matriz:** Fixora Dynamics  
 **Repositorio:** carlo-magno-11/Fixora-Balance  
-**Estado:** núcleo local de enfoque, hábitos y objetivos implementado; CI de TypeScript, 27 pruebas Vitest, bundles Android/iOS, Expo Doctor y Supabase/pgTAP aprobado en run `42313449617` con lockfile congelado; builds nativos y pruebas físicas pendientes.
+**Estado:** núcleo local de enfoque, hábitos y objetivos implementado; CI de TypeScript, 27 pruebas Vitest, bundles Android/iOS, Expo Doctor y Supabase/pgTAP aprobado en run `42313750778` con lockfile congelado; perfiles EAS de QA/producción documentados; builds nativos y pruebas físicas pendientes.
 
 ---
 
