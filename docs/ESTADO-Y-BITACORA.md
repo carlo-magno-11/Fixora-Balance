@@ -2,7 +2,7 @@
 
 **Última actualización:** 7 de noviembre de 2026  
 **Rama:** main  
-**Fase:** núcleo local de enfoque, hábitos y objetivos implementado; CI integral aprobado; compilación y bundle iOS de simulador verificados, primer arranque Debug falló por falta de bundle JS; corrección Release comprometida y pendiente de nueva ejecución; APK Android y pruebas físicas pendientes.
+**Fase:** núcleo local de enfoque, hábitos y objetivos implementado; CI integral aprobado; compilación y bundle iOS de simulador verificados, primer arranque Debug falló por falta de bundle JS; corrección Release comprometida y pendiente de nueva ejecución; APK Android compilado pero QA de emulador bloqueado por resolución del AVD; pruebas físicas pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -524,4 +524,28 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Se confirmó que CI conserva `supabase/config.toml` versionado en vez de sobrescribirlo con `supabase init --force`.
 - Auditoría remota de solo lectura del proyecto Fixora Balance `emacfszktufyqtfgzunl`: ACTIVE_HEALTHY, PostgreSQL 17, una migración, cero tablas de negocio públicas, cero Edge Functions y cero lints de Security/Performance/Health. La ausencia de tablas limita el alcance de los asesores; RLS de negocio sigue pendiente.
 - No se aplicaron migraciones ni cambios de datos al proyecto remoto.
-- Android QA [42413044893](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42413044893) ya generó y verificó APK Release y creó el emulador; el arranque Android sigue en ejecución. Instalación, lanzamiento y captura aún no se consideran aprobados.
+- Android QA [42413044893](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42413044893) generó y verificó APK Release y creó el AVD, pero el arranque falló: `emulator` no encontró `fixora-qa.ini` en `$HOME/.android/avd`. La instalación, lanzamiento y captura se omitieron; no hay aprobación Android.
+
+
+### 2026-11-07 — Diagnóstico y corrección de resolución del AVD Android
+**Evidencia revisada**
+- La ejecución [42413044893](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42413044893) terminó con fallo en el paso `Boot Android emulator`; los pasos de compilación Release, verificación del APK y creación del AVD sí pasaron.
+- El log de Emulator muestra `Unknown AVD name [fixora-qa]` y ausencia de `$HOME/.android/avd/fixora-qa.ini`. ADB no llegó a registrar ningún dispositivo; por eso los pasos de instalación, apertura y captura se omitieron.
+- El diagnóstico coincide con el issue [actions/runner-images #11482](https://github.com/actions/runner-images/issues/11482), que documenta en Ubuntu 24.04 la divergencia entre la carpeta donde `avdmanager` crea AVDs (`~/.config/.android`) y la carpeta que `emulator` busca (`~/.android`).
+- La documentación Android define `ANDROID_AVD_HOME` como la ruta de AVDs y especifica que el emulador la consulta primero. Se adopta una ruta explícita y compartida para ambos pasos.
+
+**Corrección versionada**
+- Crear y arrancar el AVD con `ANDROID_AVD_HOME=$HOME/.android/avd`.
+- Verificar `fixora-qa.ini`, el directorio `fixora-qa.avd` y el listado de AVDs antes de intentar arrancar.
+- Mantener la captura de logs si el arranque falla.
+- Corregir el filtro de ejecución Android QA: ahora incluye cambios de app, configuración Expo/Metro/Babel, dependencias y scripts relevantes en `main`; no se dispara por cambios aislados del propio workflow.
+
+**Límites**
+- La corrección todavía requiere una nueva ejecución CI. No afirmar que Android instala, abre o renderiza correctamente hasta que se completen ADB, instalación, lanzamiento, comprobación de proceso y captura.
+- El APK validado tiene applicationId `com.fixoradynamics.balance`, versionName `0.1.0`; esto acredita empaquetado, no funcionamiento en dispositivo.
+- No hubo cambios en Supabase remoto ni datos de usuarios.
+
+**Fuentes**
+- Android Emulator environment variables: https://developer.android.com/tools/variables
+- Android AVD Manager: https://developer.android.com/tools/avdmanager
+- GitHub runner-images issue #11482: https://github.com/actions/runner-images/issues/11482

@@ -4,7 +4,21 @@ on:
   push:
     branches: [main]
     paths:
-      - ".github/workflows/android-qa.yml"
+      - "app/**"
+      - "src/**"
+      - "assets/**"
+      - "plugins/**"
+      - "modules/**"
+      - "scripts/**"
+      - "app.json"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "eas.json"
+      - "tsconfig.json"
+      - "expo-env.d.ts"
+      - ".env.example"
+      - "babel.config.*"
+      - "metro.config.*"
   workflow_dispatch:
 
 permissions:
@@ -75,13 +89,24 @@ jobs:
 
       - name: Create Android QA emulator
         run: |
+          set -Eeuo pipefail
+          export ANDROID_AVD_HOME="$HOME/.android/avd"
+          mkdir -p "$ANDROID_AVD_HOME"
+          echo "Android AVD directory: $ANDROID_AVD_HOME"
           echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --force --name fixora-qa --package "system-images;android-36;google_apis;x86_64" --device "pixel_2"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" list avd -c
+          test -s "$ANDROID_AVD_HOME/fixora-qa.ini"
+          test -d "$ANDROID_AVD_HOME/fixora-qa.avd"
 
       - name: Boot Android emulator
         run: |
           set -Eeuo pipefail
+          export ANDROID_AVD_HOME="$HOME/.android/avd"
           ADB="$ANDROID_HOME/platform-tools/adb"
           EMULATOR="$ANDROID_HOME/emulator/emulator"
+          test -s "$ANDROID_AVD_HOME/fixora-qa.ini"
+          test -d "$ANDROID_AVD_HOME/fixora-qa.avd"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" list avd -c
           test -x "$ADB"
           test -x "$EMULATOR"
           "$EMULATOR" -avd fixora-qa -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -wipe-data -no-metrics -verbose -show-kernel > "$RUNNER_TEMP/fixora-emulator.log" 2>&1 &

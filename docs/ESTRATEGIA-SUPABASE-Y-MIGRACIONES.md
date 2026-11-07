@@ -273,3 +273,19 @@ Se verificó el proyecto Fixora Balance `emacfszktufyqtfgzunl` por el conector S
 - Asesores Security, Performance y Health: cero lints en el estado actual.
 
 La lectura confirma que el backend de negocio todavía no ha comenzado. Los cero lints no son una certificación de seguridad: al no existir tablas públicas, aún no se han ejercitado políticas RLS multiusuario. El proyecto remoto permanece sin cambios.
+
+
+## 16. Prueba Android CI: causa raíz y ruta AVD explícita — 7 de noviembre de 2026
+
+La ejecución `42413044893` compiló el APK Release y verificó el applicationId `com.fixoradynamics.balance`, pero falló antes de ADB. El log de Emulator muestra `Unknown AVD name [fixora-qa]` y ausencia de `$HOME/.android/avd/fixora-qa.ini`. No fue un fallo de compilación ni evidencia de un defecto de la app.
+
+En Ubuntu 24.04, el issue público `actions/runner-images #11482` describe que `avdmanager` puede crear el AVD bajo `~/.config/.android` mientras Emulator lo busca bajo `~/.android`. La documentación Android establece que `ANDROID_AVD_HOME` determina el directorio de archivos AVD y que Emulator consulta esa ruta primero.
+
+Se corrigió el workflow para exportar explícitamente `ANDROID_AVD_HOME=$HOME/.android/avd` tanto al crear como al arrancar el AVD, y verificar el archivo `fixora-qa.ini`, el directorio `fixora-qa.avd` y el listado del AVD antes de iniciar. También se amplió el filtro `push.paths` para ejecutar QA cuando cambie código o configuración relevante de la app, no solo el workflow.
+
+**Estado de validación:** corrección comprometida; pendiente de una nueva ejecución CI. Hasta que pase instalación, lanzamiento, PID y captura, Android QA sigue sin aprobarse.
+
+Fuentes:
+- https://developer.android.com/tools/variables
+- https://developer.android.com/tools/avdmanager
+- https://github.com/actions/runner-images/issues/11482
