@@ -121,6 +121,15 @@ jobs:
           print("EAS preview, iOS simulator, and production profiles are valid")
           PY
 
+      - name: Resolve Android preview build configuration
+        run: pnpm dlx eas-cli@27.5.0 config --platform android --profile preview --json
+
+      - name: Resolve iOS simulator build configuration
+        run: pnpm dlx eas-cli@27.5.0 config --platform ios --profile ios-simulator --json
+
+      - name: Resolve production build configuration
+        run: pnpm dlx eas-cli@27.5.0 config --platform android --profile production --json
+
       - name: TypeScript
         run: pnpm typecheck
 
