@@ -26,9 +26,9 @@ No marcar un caso como aprobado solo porque el código compila o porque el test 
 
 | ID | Verificación | Criterio de salida | Estado |
 |---|---|---|---|
-| BLD-01 | APK Android debug | Archivo no vacío, instalable y con applicationId esperado | Pendiente |
-| BLD-02 | App iOS Simulator | Bundle .app válido con bundle identifier esperado | Pendiente |
-| BLD-03 | Inicio iOS Simulator | La app se instala, abre y genera captura de pantalla | Pendiente |
+| BLD-01 | APK Android debug | Archivo no vacío, instalable y con applicationId esperado | **Pendiente** — intento inicial detenido por licencia SDK; workflow Android con aceptación autorizada preparado, falta evidencia de ejecución |
+| BLD-02 | App iOS Simulator | Bundle .app válido con bundle identifier esperado | **Aprobado** — run 42398660326; bundle ID `com.fixoradynamics.balance` verificado |
+| BLD-03 | Inicio iOS Simulator | La app se instala, abre y genera captura de pantalla | **En curso** — run 42398660326; paso de instalación/lanzamiento/captura aún activo |
 | BLD-04 | Integridad de artefactos | Descarga de artefactos desde GitHub Actions y hash registrado | Pendiente |
 
 ## 3. Pruebas funcionales del núcleo
