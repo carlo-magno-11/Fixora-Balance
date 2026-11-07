@@ -180,3 +180,15 @@ Cada cumplimiento usa la clave compuesta hábito + fecha local y una restricció
 **Motivo:** convertir el espacio de progreso en una vista útil y verificable sin fomentar comparación, culpa ni métricas fabricadas.
 
 **Validación:** run 42313449617 pasó instalación congelada, Expo Doctor 20/20, TypeScript, 27 pruebas Vitest, bundles JS Android/iOS y Supabase local/pgTAP. La persistencia del resultado se refresca después de confirmar el guardado SQLite. Falta E2E y prueba en dispositivos.
+
+
+## FB-041 — Cumplimiento de tiendas como puerta de producto
+
+**Fecha:** 6 de noviembre de 2026  
+**Estado:** documentado; ejecución pendiente.
+
+**Decisión:** Apple App Store y Google Play tendrán una matriz de cumplimiento obligatoria desde el MVP. Ninguna capacidad sensible (Screen Time, AccessibilityService, UsageStats, VPN/DNS o Family) se anuncia ni comercializa antes de validar API, entitlement, permisos, divulgación, política de tienda y pruebas físicas por plataforma.
+
+**Consecuencias:** preparar eliminación de cuenta/datos, política de privacidad, App Privacy/Data safety, metadatos, compras nativas cuando apliquen, demo para revisión, pruebas beta y notas de revisión. La aprobación pertenece a Apple/Google y no se garantiza.
+
+**Validación:** completar docs/MATRIZ-CUMPLIMIENTO-APP-STORE-PLAY.md antes de enviar una versión.
