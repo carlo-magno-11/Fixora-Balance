@@ -428,7 +428,7 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 
 ## 7 de noviembre de 2026 — Builds nativos, captura y corrección de arranque
 
-**Rama:** main. Último commit de workflow de QA: `6224fa6`; último commit documental de esta actualización: `d6dfb86`.
+**Rama:** main. Último commit de workflow de QA: `c8e700e`; último commit documental de esta actualización: `d6dfb86`.
 
 - CI integral de calidad/DB: run [42398660364](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660364), aprobado.
 - Run nativo [42398660326](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660326):
@@ -440,8 +440,9 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Corrección registrada en `.github/workflows/native-builds.yml`:
   - Aceptar licencias Android SDK solo en runner efímero, con autorización del responsable.
   - Generar APK Android Release para QA, comprobar archivo y applicationId.
+  - Preparar emulador Android API 36, instalar el APK, abrir la app, revisar logs de fallos y capturar la primera pantalla.
   - Generar app iOS Release para simulador, exigir `main.jsbundle` y volver a instalar/abrir/capturar.
-  - Los nuevos pasos aún necesitan un run ejecutado y artefactos verificados. No declarar corregido hasta revisar una nueva captura.
+  - Los nuevos pasos están comprometidos en `main`; la ejecución y los artefactos de estos flujos Release siguen pendientes de verificación. No declarar corregido hasta revisar una nueva captura funcional.
 - Se actualizó [Protocolo de primera ronda](PROTOCOLO-PRIMERA-RONDA.md): BLD-02 aprobado (bundle iOS válido), BLD-03 fallido en el primer intento y con corrección Release pendiente, BLD-04 integridad del ZIP verificada; APK Android pendiente.
 - No se aplicaron migraciones de negocio ni cambios de esquema a Supabase remoto. No se realizaron cargos, compras ni publicaciones en tiendas.
 - App Store y Google Play siguen siendo puertas independientes: compilación y simulador no equivalen a aprobación de tienda.
