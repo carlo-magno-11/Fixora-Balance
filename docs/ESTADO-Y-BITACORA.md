@@ -428,7 +428,7 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 
 ## 7 de noviembre de 2026 — Builds nativos, captura y corrección de arranque
 
-**Rama:** main. Último commit de workflow de QA: `c8e700e`; último commit documental de esta actualización: `d6dfb86`.
+**Rama:** main. Último commit de workflow de QA: `c8e700e`; último commit documental de esta actualización: `df8e809`.
 
 - CI integral de calidad/DB: run [42398660364](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660364), aprobado.
 - Run nativo [42398660326](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660326):
