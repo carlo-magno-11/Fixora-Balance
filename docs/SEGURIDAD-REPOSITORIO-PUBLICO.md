@@ -141,3 +141,31 @@ Auditoría de solo lectura del proyecto dedicado Fixora Balance `emacfszktufyqtf
 La configuración Auth local se endureció y se validó en CI: confirmación de email, cambios de correo con doble confirmación, cambio de contraseña seguro, mínimo 15 caracteres sin composición obligatoria, rotación de refresh tokens, JWT de una hora, acceso anónimo deshabilitado y callback móvil allow-listed. No equivale a Auth implementado ni configura el proyecto hosted.
 
 Run [42414804114](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42414804114) pasó ambos trabajos: calidad y Supabase local/pgTAP. La ejecución incluyó la prueba de configuración Auth, auditoría de dependencias, TypeScript, Vitest, SQLite DDL smoke tests y bundles Android/iOS.
+
+
+## 9. Hallazgos de auditoría de dependencias — 7 de noviembre de 2026
+
+La auditoría completa de pnpm ejecutada en CI 42417334552 encontró **2 advisories moderados, 0 altos y 0 críticos**:
+
+| Paquete instalado | Ruta | GHSA | Versión corregida |
+|---|---|---|---|
+| glob@13.0.7 | expo > @expo/cli > glob | GHSA-3g3m-2fjr-6pw4 | glob >=14.0.2 |
+| minimatch@10.2.6 | expo > @expo/cli > glob > minimatch | GHSA-g3hv-75wg-m249 | minimatch >=11.0.1 |
+
+**Contexto y decisión:** los avisos describen agotamiento de recursos en utilidades de recorrido/matching de patrones. El mantenedor de Expo indicó en el issue #52735 que, en las rutas de uso del tooling de Expo, no constituyen una vulnerabilidad de ejecución dentro de la app. También se identificó riesgo de incompatibilidad al forzar minimatch 11 en tooling que aún usa la API anterior. No se añadieron overrides a ciegas.
+
+Expo fusionó las sustituciones de glob y minimatch en #52796 y #52790. El PR de versionado SDK 58 #52911 prepara expo@58.0.24 y @expo/cli@58.1.20; al momento de esta revisión el paquete expo publicado seguía en 58.0.23. Se actualizará cuando la versión compatible esté publicada y se repetirá la auditoría, typecheck, tests y builds nativos.
+
+El workflow ahora imprime paquete, versión instalada, rutas de dependencia, GHSA y versión corregida. Mantiene bloqueo para High/Critical y deja los Moderate visibles para triage; no se silencian con excepciones.
+
+Fuentes:
+- https://github.com/advisories/GHSA-3g3m-2fjr-6pw4
+- https://github.com/advisories/GHSA-g3hv-75wg-m249
+- https://github.com/expo/expo/issues/52735
+- https://github.com/expo/expo/pull/52796
+- https://github.com/expo/expo/pull/52790
+- https://github.com/expo/expo/pull/52911
+
+## 10. Controles GitHub aún no verificados
+
+La consulta de rulesets del repositorio no devolvió reglas configuradas. La lectura del endpoint de branch protection clásico fue rechazada con HTTP 403 por permisos de la integración; por tanto, no se puede afirmar si hay protección clásica activa. Secret Scanning, Push Protection, Dependabot y CodeQL tampoco se han confirmado desde Settings. Mantener estos puntos como pendientes hasta una comprobación autorizada en la interfaz de GitHub.

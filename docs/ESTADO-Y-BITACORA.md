@@ -558,3 +558,12 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Se agregaron pruebas Vitest para ID vacío, retroceso del reloj y valor persistido fuera de rango.
 - La ejecución [42416788136](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42416788136) pasó los dos jobs de calidad en el commit anterior a estos cambios; este commit necesita su propia ejecución.
 - No se aplicaron cambios al proyecto Supabase remoto. No se afirma aún que Android QA haya instalado o abierto la app.
+
+
+### 2026-11-07 — Auditoría de dependencias y estado de seguridad local
+- Commit de workflow 38f8b82: la auditoría pnpm muestra todos los advisories con paquete, versión instalada, ruta, GHSA y versión corregida; High/Critical bloquean.
+- CI [42417334552](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42417334552): ambos jobs completados con éxito. TypeScript, Vitest, Expo Doctor 20/20, export Android/iOS y Supabase local/pgTAP pasaron.
+- La auditoría detectó 2 moderados (glob 13.0.7 y minimatch 10.2.6) y 0 High/Critical. Son dependencias de tooling de Expo, no código que se incorpora al bundle de la app según la evaluación del mantenedor de Expo. No se forzaron versiones mayores por riesgo de incompatibilidad; esperar parche oficial SDK 58 y volver a auditar.
+- Hallazgo pre-beta: SQLite local no usa SQLCipher actualmente. Los títulos de hábitos/objetivos pueden ser datos personales; antes de introducir datos reales se debe decidir cifrado, gestión de clave, restauración/backup y migración de DB existente.
+- Supabase remoto emacfszktufyqtfgzunl sigue sin cambios desde la auditoría read-only. No se aplicaron migraciones remotas ni se desplegaron funciones.
+- GitHub: rulesets no devolvió reglas; branch protection clásico no pudo leerse por 403 de permisos. Secret Scanning, Push Protection, Dependabot y CodeQL siguen sin verificación.

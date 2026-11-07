@@ -83,3 +83,10 @@ El dominio de sesiones limita el tiempo restante a la duración original cuando 
 **Qué prueba esto:** reglas puras del dominio y protección contra valores que podrían violar el CHECK de SQLite.
 
 **Qué no prueba:** la transacción real de Expo SQLite, persistencia tras reinicio, suspensión prolongada, cambios de zona horaria o funcionamiento en un teléfono físico. Esas verificaciones siguen pendientes.
+
+
+## Seguridad del almacenamiento local — pendiente antes de beta
+
+El prototipo usa SQLite estándar sin SQLCipher. Los nombres de hábitos y objetivos pueden contener información personal. Antes de beta se requiere decisión documentada sobre SQLCipher, clave aleatoria en SecureStore/Keychain/Keystore, verificación de que el binario realmente usa cipher, inicialización de todas las conexiones y migración de bases existentes. Expo advierte que SQLCipher no funciona en Expo Go ni web y que withExclusiveTransactionAsync abre una conexión separada que debe inicializarse con la clave.
+
+No se activa todavía: el manejo incorrecto de claves o backups puede volver irrecuperables los datos. Véase docs/THREAT-MODEL-INICIAL.md.

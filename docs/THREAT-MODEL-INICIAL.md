@@ -18,6 +18,7 @@ Límites: dispositivo/API, app/SO, backend/proveedor, cuenta/familia, repo/CI y 
 | Amenaza | Impacto | Control | Prueba |
 |---|---|---|---|
 | IDOR entre usuarios | Fuga de datos | RLS y autorización por objeto | Usuario A accede a IDs de B |
+| Exposición de SQLite local | Fuga de hábitos/objetivos si el sandbox o backup se compromete | Minimizar datos; evaluar SQLCipher con clave en Keychain/Keystore, verificación cipher_version, clave en cada conexión y plan de migración/backup | Extracción controlada, restore y pérdida de clave |
 | Escalada de rol/JWT | Administración ilegítima | Roles server-side, MFA, grants mínimos | JWT/rol manipulado |
 | Premium falso desde cliente | Pérdida de ingreso | Entitlements server-side y ledger | Alterar estado local/API |
 | Webhook falso/repetido | Derechos falsos/doble extensión | Firma, timestamp, event ID único e idempotencia | Firma inválida/replay |
@@ -76,3 +77,25 @@ Un usuario con control físico del dispositivo puede revocar permisos o desinsta
 ## 9. Criterio de cierre
 
 No cerrar este threat model hasta revisar arquitectura implementada, flujos, dependencias, permisos, datos e integraciones y demostrar pruebas. Cada riesgo debe tener dueño, severidad, mitigación y evidencia de cierre.
+
+
+## 10. Hallazgo de almacenamiento local — pendiente antes de beta
+
+El proyecto usa Expo SQLite estándar y no ha habilitado SQLCipher. Las tablas locales contienen historial de enfoque y texto libre de hábitos/objetivos, que puede revelar información personal. No se considera una vulnerabilidad explotable demostrada en el estado actual, pero sí un control de almacenamiento pendiente antes de introducir datos reales.
+
+La documentación de Expo SDK 58 confirma que SQLCipher es compatible con iOS y Android, no con Expo Go ni web. Para activarlo correctamente se requiere:
+1. Configurar useSQLCipher=true y generar builds nativos.
+2. Crear una clave aleatoria y guardarla en SecureStore (Keychain/Android Keystore); nunca hardcodearla ni registrarla.
+3. Verificar PRAGMA cipher_version y fallar de forma segura si el binario no contiene SQLCipher; PRAGMA key puede ser ignorado por SQLite estándar.
+4. Aplicar la clave a cada conexión, incluida la conexión separada creada por withExclusiveTransactionAsync.
+5. Diseñar migración explícita de bases de datos plaintext y comportamiento de backup/restore/pérdida de clave.
+6. Decidir la política web, porque SQLCipher no está disponible en web.
+
+No activar SQLCipher con un cambio aislado de config: sin clave, migración y pruebas puede bloquear o perder datos locales. El almacenamiento local actual se mantiene para prototipo y no se declara pre-beta aprobado.
+
+Fuentes:
+- https://mas.owasp.org/MASVS/05-MASVS-STORAGE/
+- https://mas.owasp.org/MASWE/MASVS-STORAGE/MASWE-0001/
+- https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
+- https://docs.expo.dev/versions/v58.0.0/sdk/securestore/
+- https://github.com/expo/expo/blob/main/packages/expo-sqlite/skills/expo-sqlite/references/web-and-config.md
