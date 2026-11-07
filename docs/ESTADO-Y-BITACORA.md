@@ -424,3 +424,16 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Primera prueba prevista: Fase B de la matriz, después de generar un build Android instalable y un build iOS de simulador/TestFlight con cuentas/firma disponibles. Recorreremos Hoy, Enfoque, Hábitos y Objetivos y verificaremos persistencia SQLite, background, cierre/reinicio, accesibilidad y estados de error.
 - CI puede cubrir TypeScript, unitarias, integración local, pgTAP, bundles, análisis y parte de E2E. Instalación nativa, batería, permisos, segundo plano, fabricantes, VoiceOver/TalkBack y compras Sandbox requieren dispositivos y cuentas reales. El equipo puede preparar y ejecutar parte del proceso, pero no sustituye al titular de las cuentas ni puede garantizar aprobación de Apple/Google.
 - Próxima prioridad: enlazar el proyecto con EAS cuando haya cuenta disponible, generar primero APK Android y build iOS de simulador; después ejecutar la primera ronda física antes de ampliar a Auth/sync o funciones nativas de protección.
+
+
+## 7 de noviembre de 2026 — Builds nativos y primera ronda QA
+
+**Rama:** main. Último commit documental inicial: `0b65d11` (protocolo de pruebas).
+
+- CI integral de calidad/DB: run [42398660364](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660364), aprobado.
+- Build nativo inicial: run [42398660326](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42398660326). Android falló antes de compilar por licencias del SDK Preview no aceptadas; no se generó APK en ese intento. iOS superó prebuild, CocoaPods y resolución del esquema de la app; la compilación de la app seguía en curso en la última inspección. No declarar artefacto iOS ni lanzamiento en simulador hasta verificar los pasos posteriores y el artefacto.
+- Se añadió `.github/workflows/android-qa.yml` (commit `2baf8e4`) para aceptar las licencias necesarias en el runner efímero y generar APK de QA en un flujo independiente. Resultado de este nuevo flujo pendiente de verificación.
+- Se añadió [Protocolo de primera ronda](PROTOCOLO-PRIMERA-RONDA.md), con casos funcionales, migraciones SQLite, accesibilidad, estabilidad y matriz de dispositivos. Todos los casos manuales permanecen pendientes hasta obtener evidencia.
+- No se aplicaron migraciones de negocio ni cambios de esquema a Supabase remoto. No se realizaron cargos, compras ni publicaciones en tiendas.
+
+**Siguiente paso:** cerrar el build iOS/simulador, verificar el nuevo build Android y actualizar esta bitácora con artefactos reales. Después comenzar las pruebas funcionales de enfoque, hábitos, objetivos y persistencia.
