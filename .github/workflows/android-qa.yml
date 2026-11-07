@@ -79,17 +79,38 @@ jobs:
 
       - name: Boot Android emulator
         run: |
+          set -Eeuo pipefail
           ADB="$ANDROID_HOME/platform-tools/adb"
+          EMULATOR="$ANDROID_HOME/emulator/emulator"
           test -x "$ADB"
-          "$ANDROID_HOME/emulator/emulator" -avd fixora-qa -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -wipe-data > "$RUNNER_TEMP/fixora-emulator.log" 2>&1 &
-          timeout 300 "$ADB" wait-for-device
-          for attempt in $(seq 1 90); do
-            if [ "$("$ADB" shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; then
+          test -x "$EMULATOR"
+          "$EMULATOR" -avd fixora-qa -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -wipe-data -no-metrics -verbose -show-kernel > "$RUNNER_TEMP/fixora-emulator.log" 2>&1 &
+          EMULATOR_PID=$!
+          if ! timeout 600 "$ADB" wait-for-device; then
+            echo "Android emulator did not expose an ADB device within 10 minutes."
+            echo "Emulator process status:"
+            ps -p "$EMULATOR_PID" -o pid=,stat=,etime=,cmd= || true
+            echo "ADB device list:"
+            "$ADB" devices -l || true
+            echo "Emulator startup log (last 500 lines):"
+            tail -n 500 "$RUNNER_TEMP/fixora-emulator.log" || true
+            exit 1
+          fi
+          for attempt in $(seq 1 120); do
+            BOOT_COMPLETED="$("$ADB" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
+            if [ "$BOOT_COMPLETED" = "1" ]; then
               break
             fi
             sleep 5
           done
-          test "$("$ADB" shell getprop sys.boot_completed | tr -d '\r')" = "1"
+          BOOT_COMPLETED="$("$ADB" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
+          if [ "$BOOT_COMPLETED" != "1" ]; then
+            echo "ADB connected but Android did not report sys.boot_completed=1."
+            "$ADB" devices -l || true
+            "$ADB" shell getprop || true
+            tail -n 500 "$RUNNER_TEMP/fixora-emulator.log" || true
+            exit 1
+          fi
           "$ADB" shell input keyevent 82
 
       - name: Install, launch, and capture Android app
@@ -111,6 +132,16 @@ jobs:
           "$ADB" shell screencap -p /sdcard/fixora-home-android.png
           "$ADB" pull /sdcard/fixora-home-android.png "$RUNNER_TEMP/fixora-home-android.png"
           test -s "$RUNNER_TEMP/fixora-home-android.png"
+
+      - name: Upload Android emulator diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: fixora-balance-android-emulator-diagnostics
+          path: |
+            ${{ runner.temp }}/fixora-emulator.log
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload Android QA APK and first screen
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
