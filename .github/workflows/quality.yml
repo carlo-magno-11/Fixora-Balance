@@ -126,8 +126,9 @@ jobs:
           pnpm exec expo config --type public --json > "$RUNNER_TEMP/expo-public-config.json"
           python3 - <<'PY'
           import json
+          import os
           from pathlib import Path
-          config = json.loads(Path("$RUNNER_TEMP/expo-public-config.json").read_text())
+          config = json.loads((Path(os.environ["RUNNER_TEMP"]) / "expo-public-config.json").read_text())
           assert config["slug"] == "fixora-balance"
           assert config["scheme"] == "fixorabal"
           assert config["ios"]["bundleIdentifier"] == "com.fixoradynamics.balance"
