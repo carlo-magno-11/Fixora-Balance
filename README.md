@@ -51,6 +51,7 @@ Consulta las implementaciones [etapa 1](docs/IMPLEMENTACION-ETAPA-1.md), [etapa 
 - La pantalla Hábitos permite crear hábitos diarios/semanales y registrar cumplimiento local.
 - La pantalla Objetivos permite medir metas semanales desde sesiones completadas y check-ins persistidos; no hay XP ni sincronización remota.
 - `pnpm-lock.yaml` está versionado y CI usa instalación frozen.
+- `eas.json` define perfiles de QA (APK Android e iOS Simulator) y producción; falta enlazar EAS y generar los builds nativos.
 - CI run `42308655770`: TypeScript, Vitest, bundles JavaScript Android/iOS y Supabase local/pgTAP pasaron.
 - El workflow local Supabase/pgTAP reconstruye la migración remota y prueba el event trigger hosted mediante fixtures; la ejecución más reciente para la etapa 1 pasó.
 - Proyecto Supabase dedicado: `emacfszktufyqtfgzunl`, organización Free `Fixora-Balance`, región `us-east-1`, PostgreSQL 17.11, estado `ACTIVE_HEALTHY`.
