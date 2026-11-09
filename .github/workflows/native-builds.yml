@@ -1,6 +1,15 @@
 name: Native QA Builds
 
 on:
+  pull_request:
+    paths:
+      - "app/**"
+      - "src/**"
+      - "app.json"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "eas.json"
+      - ".github/workflows/native-builds.yml"
   push:
     branches: [main]
     paths:
