@@ -1,8 +1,8 @@
 # Fixora Balance — Protocolo de primera ronda de pruebas
 
 **Versión:** 1.0  
-**Fecha:** 7 de noviembre de 2026  
-**Estado:** preparado; pruebas funcionales pendientes de artefactos nativos y ejecución en simuladores/dispositivos.  
+**Fecha:** 9 de noviembre de 2026  
+**Estado:** artefacto iOS Release para simulador compilado, instalado y lanzado en CI; APK Android Release en construcción al último chequeo. Las pruebas funcionales de flujos y persistencia siguen pendientes.  
 **Alcance:** núcleo local del MVP: Inicio/Hoy, Enfoque, Hábitos y Objetivos semanales.
 
 Este protocolo separa pruebas automatizadas, pruebas de simulador y pruebas en dispositivos físicos. Una compilación exitosa no equivale a una prueba funcional completa ni a aprobación de App Store o Google Play.
@@ -26,10 +26,10 @@ No marcar un caso como aprobado solo porque el código compila o porque el test 
 
 | ID | Verificación | Criterio de salida | Estado |
 |---|---|---|---|
-| BLD-01 | APK Android QA | APK Release no vacío, instalable y con applicationId esperado | **Parcial** — run 42402768006 generó APK Release no vacío y verificó applicationId `com.fixoradynamics.balance`; AVD creado, pero ADB no detectó dispositivo en 300 s. Instalación y lanzamiento pendientes |
-| BLD-02 | App iOS Simulator | Bundle .app válido con bundle identifier esperado | **Aprobado** — run 42400815021; compilación Release y bundle ID `com.fixoradynamics.balance` verificados |
-| BLD-03 | Inicio iOS Simulator | La app se instala, abre y genera captura de pantalla funcional | **Aprobado en CI** — run 42400815021 compiló Release, verificó el bundle, instaló, lanzó la app en iOS Simulator y generó la captura. La validación funcional completa de pantallas/acciones sigue pendiente |
-| BLD-04 | Integridad de artefactos | Descarga de artefactos desde GitHub Actions y hash registrado | **Aprobado para el artefacto iOS Debug** — ZIP descargado y SHA-256 local coincide con el digest publicado por GitHub (`11734f2256f29c299a346baff64861b8525e70052822c9850ff91978e55dec0d`). La captura se conserva como evidencia del fallo de arranque JS, no como aceptación funcional |
+| BLD-01 | APK Android QA | APK Release no vacío, instalable y con applicationId esperado | **En ejecución** — run 42564303502; generación Release en curso en el último chequeo. La validación anterior 42402768006 produjo APK, pero no logró conectar ADB con el AVD; no se usa como prueba de instalación |
+| BLD-02 | App iOS Simulator | Bundle .app válido con bundle identifier esperado | **Aprobado** — run 42564303502; compilación Release, bundle `.app`, `main.jsbundle` y bundle ID `com.fixoradynamics.balance` verificados |
+| BLD-03 | Inicio iOS Simulator | La app se instala, abre y genera captura de pantalla funcional | **Aprobado como smoke test** — run 42564303502 instaló y lanzó `com.fixoradynamics.balance` en iOS Simulator y capturó la pantalla de Inicio. La captura confirma la presentación inicial; no demuestra interacción completa, persistencia ni ausencia de errores en todas las rutas |
+| BLD-04 | Integridad de artefactos | Descarga de artefactos desde GitHub Actions y hash registrado | **Aprobado para iOS Simulator Release** — artefacto `fixora-balance-ios-simulator-qa`, ID `13650954561`, descargado; SHA-256 local coincide con el digest GitHub `b6de503f62f4a230bd0ddde7e767a76e144c2f8996ea9d03693ef239d9eb4f1f`. ZIP incluye `.app` y captura `fixora-home-ios.png`. Retención hasta 23-nov-2026 |
 
 ## 3. Pruebas funcionales del núcleo
 
@@ -101,3 +101,16 @@ La primera ronda se considera aprobada solo cuando:
 5. Se repiten pruebas críticas tras los commits correctivos.
 
 La prueba física, el TestFlight, Google Play Internal Testing y la revisión de tienda son puertas posteriores. Ninguna aprobación de CI debe presentarse como aprobación de Apple o Google.
+
+
+## 8. Evidencia de revisión visual — 9 de noviembre de 2026
+
+Artefacto: workflow run `42564303502`, commit `e0c3e868e3874f82819e6b88d009e98f9a80131b`, iOS Simulator Release.
+
+- Se descargó el artefacto de GitHub Actions y se verificó localmente el SHA-256 contra el digest publicado por GitHub.
+- La captura muestra la pantalla inicial: identidad Fixora Balance, fondo marfil, acento vino, verde para acción primaria, encabezado de bienvenida y tarjeta de Enfoque con 25 minutos seleccionados.
+- La jerarquía visual es legible en el tamaño capturado y el botón principal tiene una presencia clara. No se observa en esta única captura evidencia suficiente para evaluar scroll completo, tamaños dinámicos, VoiceOver, TalkBack, contraste medido o estados de error.
+- La parte inferior de la captura corta el comienzo de la siguiente sección porque la pantalla continúa desplazándose; no se registra como defecto por sí solo.
+- Esta revisión es visual, no funcional. No se marcaron como aprobados FOC/HAB/GOA/HOM ni DB-01 a DB-08.
+
+Evidencia binaria: artefacto `fixora-balance-ios-simulator-qa` (ID `13650954561`), captura `fixora-home-ios.png`.
