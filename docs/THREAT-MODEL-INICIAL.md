@@ -107,7 +107,7 @@ Se identificó una discrepancia entre la configuración y el aislamiento transac
 
 Corrección propuesta en rama de revisión: ejecutar las migraciones con `withTransactionAsync` sobre la conexión configurada. Es seguro durante el arranque actual porque `getLocalDatabase()` no entrega la conexión a repositorios hasta que la promesa de inicialización termina. Además, se rechazan versiones de esquema futuras o inválidas para evitar downgrade destructivo/incompatible.
 
-**Estado:** cambio sujeto a CI y revisión; no se considera cerrado hasta añadir una prueba SQLite de integración que verifique el rechazo efectivo de una referencia huérfana en Android/iOS.
+**Estado:** la rama implementa el uso de `withTransactionAsync` y ahora consulta `PRAGMA foreign_keys` al abrir la conexión; si SQLite no devuelve `1`, el arranque falla de forma explícita. Se añadieron pruebas unitarias del guard y una comprobación estática en CI. Esto detecta una configuración desactivada en la conexión real, pero no equivale a una prueba nativa de inserción huérfana dentro de transacción; esa evidencia sigue pendiente en Android/iOS.
 
 
 ## 12. Triage de advisories transitivos del tooling Expo — 9 de noviembre de 2026
@@ -125,3 +125,10 @@ Referencias:
 - https://github.com/advisories/GHSA-3g3m-2fjr-6pw4
 - https://github.com/advisories/GHSA-g3hv-75wg-m249
 - https://github.com/expo/expo/issues/52735
+
+
+## 13. Verificación fail-closed de foreign keys — 9 de noviembre de 2026
+
+La inicialización de SQLite ya no se limita a ejecutar `PRAGMA foreign_keys = ON`: consulta inmediatamente `PRAGMA foreign_keys` en la misma conexión y exige que el resultado sea exactamente `1`. Si el módulo nativo, la plataforma o una futura refactorización dejan la conexión sin enforcement, `getLocalDatabase()` rechaza la inicialización con `LocalDatabaseConfigurationError` en vez de continuar silenciosamente.
+
+Se añadieron pruebas unitarias para los valores habilitado, deshabilitado, ausente y fuera de rango. El script de smoke test verifica además que el guard se invoque desde el arranque. La limitación permanece explícita: hasta ejecutar una inserción huérfana en el runtime nativo, no se afirma que la prueba de integridad de transacción esté cerrada.
