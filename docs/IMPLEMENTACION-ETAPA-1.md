@@ -102,3 +102,10 @@ No se activa todavía: el manejo incorrecto de claves o backups puede volver irr
 **Límite:** estas pruebas no sustituyen una prueba de integración en SQLite nativo que intente insertar un check-in huérfano y confirme que la clave foránea lo rechaza. Esa prueba queda como siguiente mejora de QA.
 
 Referencia técnica: https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
+
+
+## Verificación de configuración de claves foráneas en runtime — 9 de noviembre de 2026
+
+Al inicializar SQLite se ejecuta `PRAGMA foreign_keys = ON` y se consulta inmediatamente `PRAGMA foreign_keys` en la conexión que se usará para repositorios y migraciones. La función `assertForeignKeyEnforcementEnabled` requiere el valor exacto `1`; si el valor falta o es distinto, el arranque falla con `LocalDatabaseConfigurationError`. Esto convierte una configuración no aplicada en un error visible, en vez de permitir escrituras sin enforcement de claves foráneas.
+
+Se añadieron pruebas unitarias para el guard y una comprobación del script SQLite de CI. **Límite:** la prueba unitaria verifica la regla del guard y el smoke test Python valida SQL en SQLite, pero no sustituyen una prueba de integración del módulo Expo SQLite nativo con una inserción huérfana dentro de una transacción. Esa prueba continúa pendiente.
