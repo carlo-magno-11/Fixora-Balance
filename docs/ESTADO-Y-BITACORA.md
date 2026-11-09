@@ -591,3 +591,14 @@ Referencia: https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
 - El job Supabase reconstruyó un stack local limpio, aplicó migraciones del repositorio y ejecutó pgTAP (4 pruebas); no se conectó al proyecto Supabase remoto.
 - La corrección de migraciones SQLite sigue necesitando una prueba de integración en SQLite nativo y pruebas de actualización/persistencia en simuladores y dispositivos. El smoke test Python no equivale a ejecutar el módulo Expo SQLite.
 - No se fusionó el PR y no se modificó `main`.
+
+
+### 2026-11-09 — Evidencia iOS Simulator y fail-closed SQLite
+
+- En Native QA run `42564303502`, el job iOS Simulator terminó correctamente: generó el `.app` Release, verificó `com.fixoradynamics.balance`, instaló y lanzó la app, y capturó Inicio.
+- Se descargó el artefacto `fixora-balance-ios-simulator-qa` (ID `13650954561`). SHA-256 local `b6de503f62f4a230bd0ddde7e767a76e144c2f8996ea9d03693ef239d9eb4f1f` coincide con el digest publicado por GitHub. La captura fue revisada visualmente; no se aprueban flujos funcionales a partir de una imagen.
+- Android en el mismo run seguía en `Build release QA APK` en el último chequeo; no se afirma APK disponible, instalación o arranque.
+- Refuerzo SQLite: después de activar `PRAGMA foreign_keys = ON`, el arranque consulta `PRAGMA foreign_keys` y falla cerrado salvo que el resultado sea exactamente `1`. Se añadieron `database-configuration.ts` y pruebas unitarias para valores 1, 0, ausente y fuera de rango; el smoke test Python exige que el guard se conecte al arranque.
+- Se actualizó `docs/PROTOCOLO-PRIMERA-RONDA.md` con evidencia y límites de BLD-01 a BLD-04 y una revisión visual inicial.
+- Los nuevos commits disparan una nueva ejecución de Quality y Native QA. El resultado de esos runs debe consultarse antes de declarar el HEAD validado.
+- No se fusionó el PR, no se modificó `main` y no se tocó Supabase remoto.
