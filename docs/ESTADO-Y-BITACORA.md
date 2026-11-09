@@ -613,3 +613,13 @@ Referencia: https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
 - Limitación de pruebas reafirmada: el smoke test Python usa SQLite del sistema y verifica el arranque de forma estática; Vitest prueba guards puros. Falta una integración que ejecute Expo SQLite nativo y pruebe una inserción huérfana y rollback en Android/iOS.
 - Próxima puerta: completar Native QA del HEAD estable, después diseñar y ejecutar integración nativa SQLite; luego validar flujos de enfoque, hábitos y objetivos en simuladores y dispositivos.
 - No se modificó Supabase remoto, no se desplegaron funciones ni se tocaron secretos. No se hizo merge.
+
+
+### 2026-11-09 — iOS Simulator aprobado, Android bloqueado por descarga y cache OSS
+
+- En Native QA run [42567673242](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42567673242), sobre HEAD `4b0977e85e3d844b8527555bf051477ac576fc17`, iOS Simulator terminó **success**: compilación Release, verificación del bundle ID, instalación, lanzamiento y captura de pantalla.
+- Artefacto iOS `fixora-balance-ios-simulator-qa`, ID `13653116425`, 22.8 MB; contiene la app, `main.jsbundle` y captura `fixora-home-ios.png` (1206×2622). La captura se descargó y revisó. Es evidencia de arranque en simulador, no de flujos completos ni de dispositivo físico.
+- Android terminó **failure** en `assembleRelease` al descargar Kotlin compiler 2.2.21 y 2.2.0, recibiendo HTTP 504 desde el endpoint de GitHub Releases/JetBrains. La generación del proyecto Android sí terminó. No hay APK ni prueba de instalación/arranque; el log apunta a dependencia remota inaccesible, no a un error de compilación de código demostrado.
+- Para reducir descargas repetidas, se añadió al job Android `gradle/actions/setup-gradle` v6.4.1, fijado al commit verificado `8da46b539cd8fe6ab27ca75128919a18d757604c`, con proveedor `basic` MIT. No se añadió un segundo mecanismo de cache Gradle ni se habilitó cache de Gradle en setup-java.
+- Nuevo HEAD: `648a5e3d9181916bd1bf89d68339f9a573b8402d`. Quality run `42570411701` y Native QA run `42570411709` están en curso; no se anticipan resultados.
+- Sigue pendiente la integración que ejecute Expo SQLite nativo (FK, rechazo de huérfanos, rollback, persistencia y migración v1→v3), además de las rondas funcionales y físicas. No se modificó Supabase remoto ni se fusionó el PR.
