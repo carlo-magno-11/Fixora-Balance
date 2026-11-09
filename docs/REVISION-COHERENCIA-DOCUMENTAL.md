@@ -109,3 +109,16 @@ El inventario actual de `docs/` contiene 21 archivos Markdown. La revisión base
 - El proyecto Supabase remoto permanece sin tablas de negocio; no se aplicaron migraciones ni se modificaron datos remotos.
 
 La distinción de estados queda fijada: build nativo iOS no equivale a prueba funcional completa; APK Android generado no equivale a instalación/arranque; CI local no equivale a Supabase remoto; simulador no equivale a dispositivo físico; ninguno equivale a aprobación de tienda.
+
+
+## 8. Revisión de evidencia CI — 9 de noviembre de 2026
+
+La evidencia de los runs previos debe leerse por commit y plataforma, no como una aprobación conjunta:
+
+- [Native QA 42567673242](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42567673242), HEAD `4b0977e85e3d844b8527555bf051477ac576fc17`: iOS Simulator Release compiló, verificó bundle ID, instaló, lanzó y capturó pantalla; el artefacto `13653116425` contiene app y PNG. Android no produjo APK porque falló al descargar dos versiones de Kotlin compiler con HTTP 504.
+- La causa observada en Android es una respuesta 504 al resolver artefactos de Kotlin desde Maven/JetBrains. No hay evidencia para clasificarlo como fallo de código; tampoco se puede contar como build Android aprobado.
+- Se añadió cache Gradle de código abierto (MIT) en el workflow Android, fijado al commit verificado de `gradle/actions/setup-gradle@v6.4.1`, proveedor `basic`. Se evita duplicar cache con setup-java.
+- HEAD actual al escribir esta nota: `648a5e3d9181916bd1bf89d68339f9a573b8402d`; Quality `42570411701` y Native QA `42570411709` están en curso. Actualizar esta sección con sus resultados antes de declarar validado el HEAD.
+- La captura de Inicio confirma jerarquía visual inicial únicamente; no certifica navegación completa, accesibilidad, flujos ni persistencia.
+
+El inventario actual sigue siendo 21 archivos Markdown. La cifra histórica de 18 corresponde al alcance de la revisión documental base y no al inventario actual.
