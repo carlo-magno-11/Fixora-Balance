@@ -99,3 +99,12 @@ Fuentes:
 - https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
 - https://docs.expo.dev/versions/v58.0.0/sdk/securestore/
 - https://github.com/expo/expo/blob/main/packages/expo-sqlite/skills/expo-sqlite/references/web-and-config.md
+
+
+## 11. Control de integridad SQLite — 8 de noviembre de 2026
+
+Se identificó una discrepancia entre la configuración y el aislamiento transaccional: el arranque habilitaba `PRAGMA foreign_keys = ON` en la conexión principal, pero las migraciones usaban `withExclusiveTransactionAsync`, que abre una conexión separada. Expo documenta que esa conexión no hereda la configuración de claves foráneas y que el pragma no puede activarse dentro de una transacción.
+
+Corrección propuesta en rama de revisión: ejecutar las migraciones con `withTransactionAsync` sobre la conexión configurada. Es seguro durante el arranque actual porque `getLocalDatabase()` no entrega la conexión a repositorios hasta que la promesa de inicialización termina. Además, se rechazan versiones de esquema futuras o inválidas para evitar downgrade destructivo/incompatible.
+
+**Estado:** cambio sujeto a CI y revisión; no se considera cerrado hasta añadir una prueba SQLite de integración que verifique el rechazo efectivo de una referencia huérfana en Android/iOS.
