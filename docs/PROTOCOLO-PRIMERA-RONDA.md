@@ -2,7 +2,7 @@
 
 **Versión:** 1.0  
 **Fecha:** 9 de noviembre de 2026  
-**Estado:** artefacto iOS Release para simulador compilado, instalado y lanzado en CI; APK Android Release en construcción al último chequeo. Las pruebas funcionales de flujos y persistencia siguen pendientes.  
+**Estado:** Quality del HEAD `fc96bf69b4d7e2ef8fe49392ad629234ec9d051e` aprobado; Native QA del mismo HEAD aún no está completo. iOS Simulator seguía compilando al último chequeo y Android falló al descargar Kotlin con HTTP 504. Las pruebas funcionales de flujos y persistencia siguen pendientes.  
 **Alcance:** núcleo local del MVP: Inicio/Hoy, Enfoque, Hábitos y Objetivos semanales.
 
 Este protocolo separa pruebas automatizadas, pruebas de simulador y pruebas en dispositivos físicos. Una compilación exitosa no equivale a una prueba funcional completa ni a aprobación de App Store o Google Play.
@@ -26,9 +26,9 @@ No marcar un caso como aprobado solo porque el código compila o porque el test 
 
 | ID | Verificación | Criterio de salida | Estado |
 |---|---|---|---|
-| BLD-01 | APK Android QA | APK Release no vacío, instalable y con applicationId esperado | **En ejecución** — run 42564303502; generación Release en curso en el último chequeo. La validación anterior 42402768006 produjo APK, pero no logró conectar ADB con el AVD; no se usa como prueba de instalación |
-| BLD-02 | App iOS Simulator | Bundle .app válido con bundle identifier esperado | **Aprobado** — run 42564303502; compilación Release, bundle `.app`, `main.jsbundle` y bundle ID `com.fixoradynamics.balance` verificados |
-| BLD-03 | Inicio iOS Simulator | La app se instala, abre y genera captura de pantalla funcional | **Aprobado como smoke test** — run 42564303502 instaló y lanzó `com.fixoradynamics.balance` en iOS Simulator y capturó la pantalla de Inicio. La captura confirma la presentación inicial; no demuestra interacción completa, persistencia ni ausencia de errores en todas las rutas |
+| BLD-01 | APK Android QA | APK Release no vacío, instalable y con applicationId esperado | **Bloqueado por infraestructura** — en Native QA run 42566420774, la descarga de `kotlin-compiler-embeddable:2.2.21` respondió HTTP 504. No se generó ni verificó APK para el HEAD actual. Reintento pendiente |
+| BLD-02 | App iOS Simulator | Bundle .app válido con bundle identifier esperado | **Pendiente en HEAD actual** — run 42566420774 seguía en `Build iOS Simulator app` al último chequeo. El run anterior 42564303502 sí produjo un `.app` válido para un commit anterior, pero no sustituye esta ejecución |
+| BLD-03 | Inicio iOS Simulator | La app se instala, abre y genera captura de pantalla funcional | **Pendiente en HEAD actual** — depende de que BLD-02 termine correctamente en run 42566420774. La evidencia anterior del run 42564303502 solo aplica a su commit histórico |
 | BLD-04 | Integridad de artefactos | Descarga de artefactos desde GitHub Actions y hash registrado | **Aprobado para iOS Simulator Release** — artefacto `fixora-balance-ios-simulator-qa`, ID `13650954561`, descargado; SHA-256 local coincide con el digest GitHub `b6de503f62f4a230bd0ddde7e767a76e144c2f8996ea9d03693ef239d9eb4f1f`. ZIP incluye `.app` y captura `fixora-home-ios.png`. Retención hasta 23-nov-2026 |
 
 ## 3. Pruebas funcionales del núcleo
@@ -114,3 +114,14 @@ Artefacto: workflow run `42564303502`, commit `e0c3e868e3874f82819e6b88d009e98f9
 - Esta revisión es visual, no funcional. No se marcaron como aprobados FOC/HAB/GOA/HOM ni DB-01 a DB-08.
 
 Evidencia binaria: artefacto `fixora-balance-ios-simulator-qa` (ID `13650954561`), captura `fixora-home-ios.png`.
+
+## 9. Actualización de la ronda nativa — 9 de noviembre de 2026
+
+Commit evaluado: `fc96bf69b4d7e2ef8fe49392ad629234ec9d051e`.
+
+- Quality run [42566420781](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42566420781): **success**. Pasaron TypeScript, pruebas de dominio, auditoría de dependencias, Expo Doctor, validación de configuración, smoke test SQLite, bundles Android/iOS y Supabase local/pgTAP.
+- Native QA run [42566420774](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42566420774): Android **failure** al descargar `kotlin-compiler-embeddable:2.2.21` por HTTP 504; el log no muestra un error de código de la app, pero no existe APK verificable para este commit. iOS seguía en compilación en el último chequeo; no se marca como aprobado.
+- La prueba SQLite de Python ejecuta el DDL en SQLite del sistema y verifica estáticamente el código de inicialización. No ejecuta el módulo nativo Expo SQLite. Las pruebas Vitest del guard validan la función pura, no el comportamiento de una conexión nativa.
+- No se aprobaron FOC/HAB/GOA/HOM ni DB-01 a DB-08 a partir de CI o de capturas históricas.
+
+Enlaces: [Quality](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42566420781) · [Native QA](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42566420774).
