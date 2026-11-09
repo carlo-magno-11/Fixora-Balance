@@ -1,8 +1,8 @@
 # Fixora Balance — Estado y bitácora del proyecto
 
-**Última actualización:** 7 de noviembre de 2026  
-**Rama:** main  
-**Fase:** núcleo local de enfoque, hábitos y objetivos implementado; CI integral aprobado; compilación y bundle iOS de simulador verificados, primer arranque Debug falló por falta de bundle JS; corrección Release comprometida y pendiente de nueva ejecución; APK Android compilado pero QA de emulador bloqueado por resolución del AVD; pruebas físicas pendientes.
+**Última actualización:** 9 de noviembre de 2026  
+**Rama principal:** `main`; **rama de revisión:** `fix/sqlite-migration-safety-20261108` (PR #1, borrador)  
+**Fase:** núcleo local de enfoque, hábitos y objetivos implementado. El PR #1 pasó Quality (run `42562740331`, commit `e2482ed791203f5f2ab40cb3ef40b54cda82c344`): TypeScript, pruebas de dominio, Expo Doctor, auditoría de dependencias sin hallazgos High/Critical, bundles Android/iOS, migraciones Supabase locales y pgTAP. La auditoría registró dos avisos Moderate transitivos del tooling Expo (glob/minimatch), triados como dependencias de desarrollo/build y no incluidas en el bundle JS de producción según la revisión de Expo; no se aplicaron overrides incompatibles. La prueba SQLite nativa de FK, pruebas funcionales en simuladores y dispositivos físicos siguen pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -580,3 +580,14 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - No se modificó Supabase remoto, no se ejecutaron migraciones remotas y no se tocaron otros repositorios.
 
 Referencia: https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
+
+
+### 2026-11-09 — CI del PR #1 y triage de dependencias transitivas
+
+- PR: [#1](https://github.com/carlo-magno-11/Fixora-Balance/pull/1), borrador abierto; rama `fix/sqlite-migration-safety-20261108`; commit probado `e2482ed791203f5f2ab40cb3ef40b54cda82c344`.
+- GitHub Actions Quality run `42562740331` terminó `success`: los dos jobs (TypeScript/domain tests y Supabase local/pgTAP) finalizaron correctamente. El CI prueba el commit del PR, no una integración en `main`.
+- El job de dependencias detectó dos advisories Moderate en dependencias transitivas del tooling Expo: `glob@13.0.7` (GHSA-3g3m-2fjr-6pw4) y `minimatch@10.2.6` (GHSA-g3hv-75wg-m249), con ruta `expo > @expo/cli > glob > minimatch`. No se encontraron advisories High ni Critical en ese informe.
+- Triage: la discusión oficial de Expo SDK 58 explica que esas dependencias pertenecen al tooling de desarrollo/build y que no se incorporan a la app de producción; el mantenedor indica que los CVE no representan una vulnerabilidad de las apps. Se evita forzar overrides de `glob`/ `minimatch`, ya que pueden romper consumidores que dependen de APIs o rangos anteriores. Se volverá a auditar al actualizar Expo SDK/CLI y antes de cada release.
+- El job Supabase reconstruyó un stack local limpio, aplicó migraciones del repositorio y ejecutó pgTAP (4 pruebas); no se conectó al proyecto Supabase remoto.
+- La corrección de migraciones SQLite sigue necesitando una prueba de integración en SQLite nativo y pruebas de actualización/persistencia en simuladores y dispositivos. El smoke test Python no equivale a ejecutar el módulo Expo SQLite.
+- No se fusionó el PR y no se modificó `main`.
