@@ -125,3 +125,16 @@ Commit evaluado: `fc96bf69b4d7e2ef8fe49392ad629234ec9d051e`.
 - No se aprobaron FOC/HAB/GOA/HOM ni DB-01 a DB-08 a partir de CI o de capturas históricas.
 
 Enlaces: [Quality](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42566420781) · [Native QA](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42566420774).
+
+
+## 10. Evidencia iOS y bloqueo Android — 9 de noviembre de 2026
+
+HEAD evaluado: `4b0977e85e3d844b8527555bf051477ac576fc17`.
+
+- [Native QA run 42567673242](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42567673242): iOS Simulator Release **aprobado como build + instalación + arranque + captura**. Artefacto `fixora-balance-ios-simulator-qa` (ID `13653116425`) contiene `.app` y `fixora-home-ios.png`.
+- Android Release QA **no aprobado**: `assembleRelease` no pudo resolver `kotlin-compiler-embeddable` 2.2.21 y 2.2.0 por HTTP 504. No se generó APK, por lo que no se ejecutan BLD Android de instalación/arranque.
+- El artefacto/captura iOS se inspeccionó: Inicio se muestra y el temporizador presenta 25:00. Esta inspección no marca FOC/HAB/GOA/HOM como aprobados.
+- El smoke test SQLite existente no equivale a integración Expo SQLite. DB-01 a DB-08 siguen pendientes de verificación nativa/funcional según corresponda.
+- Se añadió cache Gradle OSS al workflow; nuevo HEAD `648a5e3d9181916bd1bf89d68339f9a573b8402d`. Sus runs de Quality y Native QA están en curso y deben revisarse antes de actualizar estados.
+
+La ronda no se considera aprobada hasta obtener Android Release reproducible, completar integración SQLite nativa, recorrer los flujos críticos en ambos simuladores y validar dispositivos físicos disponibles.
