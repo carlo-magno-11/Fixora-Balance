@@ -90,3 +90,22 @@ El dominio de sesiones limita el tiempo restante a la duración original cuando 
 El prototipo usa SQLite estándar sin SQLCipher. Los nombres de hábitos y objetivos pueden contener información personal. Antes de beta se requiere decisión documentada sobre SQLCipher, clave aleatoria en SecureStore/Keychain/Keystore, verificación de que el binario realmente usa cipher, inicialización de todas las conexiones y migración de bases existentes. Expo advierte que SQLCipher no funciona en Expo Go ni web y que withExclusiveTransactionAsync abre una conexión separada que debe inicializarse con la clave.
 
 No se activa todavía: el manejo incorrecto de claves o backups puede volver irrecuperables los datos. Véase docs/THREAT-MODEL-INICIAL.md.
+
+
+## Integridad de migraciones SQLite — 8 de noviembre de 2026
+
+- La inicialización valida `PRAGMA user_version` antes de ejecutar migraciones. Una versión mayor que la soportada se rechaza de forma explícita; no se intenta abrir una base creada por una versión futura de la app.
+- Las versiones negativas, fraccionarias o no seguras también se rechazan.
+- Las migraciones usan `withTransactionAsync` sobre la conexión donde se habilitó `PRAGMA foreign_keys = ON`. La documentación de Expo SDK 58 indica que `withExclusiveTransactionAsync` abre otra conexión y no hereda esa configuración; además, `PRAGMA foreign_keys` no puede activarse dentro de una transacción. Durante la inicialización, la promesa compartida de la base no se resuelve hasta terminar la migración, por lo que los repositorios no pueden intercalar consultas en esa conexión.
+- Se añadieron pruebas unitarias para compatibilidad de versiones. El CI del PR debe confirmar TypeScript, Vitest y el resto de la suite.
+
+**Límite:** estas pruebas no sustituyen una prueba de integración en SQLite nativo que intente insertar un check-in huérfano y confirme que la clave foránea lo rechaza. Esa prueba queda como siguiente mejora de QA.
+
+Referencia técnica: https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
+
+
+## Verificación de configuración de claves foráneas en runtime — 9 de noviembre de 2026
+
+Al inicializar SQLite se ejecuta `PRAGMA foreign_keys = ON` y se consulta inmediatamente `PRAGMA foreign_keys` en la conexión que se usará para repositorios y migraciones. La función `assertForeignKeyEnforcementEnabled` requiere el valor exacto `1`; si el valor falta o es distinto, el arranque falla con `LocalDatabaseConfigurationError`. Esto convierte una configuración no aplicada en un error visible, en vez de permitir escrituras sin enforcement de claves foráneas.
+
+Se añadieron pruebas unitarias para el guard y una comprobación del script SQLite de CI. **Límite:** la prueba unitaria verifica la regla del guard y el smoke test Python valida SQL en SQLite, pero no sustituyen una prueba de integración del módulo Expo SQLite nativo con una inserción huérfana dentro de una transacción. Esa prueba continúa pendiente.

@@ -31,6 +31,19 @@ def expect_integrity_error(connection: sqlite3.Connection, sql: str, params: tup
 
 
 def main() -> None:
+    database_source = (ROOT / "src/infrastructure/local/database.ts").read_text(encoding="utf-8")
+    assert "PRAGMA foreign_keys = ON" in database_source, "La conexión local debe habilitar claves foráneas"
+    assert "withTransactionAsync" in database_source, "Las migraciones deben usar la conexión configurada"
+    assert "withExclusiveTransactionAsync" not in database_source, (
+        "La transacción exclusiva abre otra conexión y no hereda foreign_keys"
+    )
+    assert "assertSupportedLocalDatabaseVersion" in database_source, (
+        "El arranque debe rechazar versiones de esquema incompatibles"
+    )
+    assert "PRAGMA foreign_keys" in database_source and "assertForeignKeyEnforcementEnabled" in database_source, (
+        "El arranque debe verificar que SQLite realmente habilitó las claves foráneas"
+    )
+
     connection = sqlite3.connect(":memory:")
     connection.execute("PRAGMA foreign_keys = ON")
 

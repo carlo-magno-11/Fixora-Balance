@@ -99,3 +99,36 @@ Fuentes:
 - https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
 - https://docs.expo.dev/versions/v58.0.0/sdk/securestore/
 - https://github.com/expo/expo/blob/main/packages/expo-sqlite/skills/expo-sqlite/references/web-and-config.md
+
+
+## 11. Control de integridad SQLite — 8 de noviembre de 2026
+
+Se identificó una discrepancia entre la configuración y el aislamiento transaccional: el arranque habilitaba `PRAGMA foreign_keys = ON` en la conexión principal, pero las migraciones usaban `withExclusiveTransactionAsync`, que abre una conexión separada. Expo documenta que esa conexión no hereda la configuración de claves foráneas y que el pragma no puede activarse dentro de una transacción.
+
+Corrección propuesta en rama de revisión: ejecutar las migraciones con `withTransactionAsync` sobre la conexión configurada. Es seguro durante el arranque actual porque `getLocalDatabase()` no entrega la conexión a repositorios hasta que la promesa de inicialización termina. Además, se rechazan versiones de esquema futuras o inválidas para evitar downgrade destructivo/incompatible.
+
+**Estado:** la rama implementa el uso de `withTransactionAsync` y ahora consulta `PRAGMA foreign_keys` al abrir la conexión; si SQLite no devuelve `1`, el arranque falla de forma explícita. Se añadieron pruebas unitarias del guard y una comprobación estática en CI. Esto detecta una configuración desactivada en la conexión real, pero no equivale a una prueba nativa de inserción huérfana dentro de transacción; esa evidencia sigue pendiente en Android/iOS.
+
+
+## 12. Triage de advisories transitivos del tooling Expo — 9 de noviembre de 2026
+
+En el CI del PR #1 (run `42562740331`) `pnpm audit` informó dos advisories de severidad Moderate:
+
+- `glob@13.0.7`, GHSA-3g3m-2fjr-6pw4, corregido upstream en `14.0.2`.
+- `minimatch@10.2.6`, GHSA-g3hv-75wg-m249, corregido upstream en `11.0.1`.
+
+La ruta observada es `expo > @expo/cli > glob > minimatch`. El informe no mostró advisories High ni Critical. La investigación del issue oficial de Expo para SDK 58 señala que estos paquetes son usados por tooling de desarrollo/build, no se incorporan al bundle JS de producción, y que el mantenedor de Expo considera que los CVE no representan una vulnerabilidad en las aplicaciones resultantes. Por esa razón se registra como riesgo del entorno de desarrollo/build y no como vulnerabilidad explotable de la app publicada.
+
+**Decisión:** no forzar overrides de `glob` ni `minimatch` de forma aislada: los rangos y APIs consumidos por paquetes de Expo pueden no ser compatibles y los propios mantenedores advierten de posibles roturas. Mantener la auditoría CI, revisar las actualizaciones oficiales de Expo SDK/CLI y repetir el análisis antes de release. Reabrir el triage si los paquetes entran en el bundle runtime o cambia el alcance del advisory.
+
+Referencias:
+- https://github.com/advisories/GHSA-3g3m-2fjr-6pw4
+- https://github.com/advisories/GHSA-g3hv-75wg-m249
+- https://github.com/expo/expo/issues/52735
+
+
+## 13. Verificación fail-closed de foreign keys — 9 de noviembre de 2026
+
+La inicialización de SQLite ya no se limita a ejecutar `PRAGMA foreign_keys = ON`: consulta inmediatamente `PRAGMA foreign_keys` en la misma conexión y exige que el resultado sea exactamente `1`. Si el módulo nativo, la plataforma o una futura refactorización dejan la conexión sin enforcement, `getLocalDatabase()` rechaza la inicialización con `LocalDatabaseConfigurationError` en vez de continuar silenciosamente.
+
+Se añadieron pruebas unitarias para los valores habilitado, deshabilitado, ausente y fuera de rango. El script de smoke test verifica además que el guard se invoque desde el arranque. La limitación permanece explícita: hasta ejecutar una inserción huérfana en el runtime nativo, no se afirma que la prueba de integridad de transacción esté cerrada.

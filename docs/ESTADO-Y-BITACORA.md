@@ -1,8 +1,8 @@
 # Fixora Balance — Estado y bitácora del proyecto
 
-**Última actualización:** 7 de noviembre de 2026  
-**Rama:** main  
-**Fase:** núcleo local de enfoque, hábitos y objetivos implementado; CI integral aprobado; compilación y bundle iOS de simulador verificados, primer arranque Debug falló por falta de bundle JS; corrección Release comprometida y pendiente de nueva ejecución; APK Android compilado pero QA de emulador bloqueado por resolución del AVD; pruebas físicas pendientes.
+**Última actualización:** 9 de noviembre de 2026  
+**Rama principal:** `main`; **rama de revisión:** `fix/sqlite-migration-safety-20261108` (PR #1, borrador)  
+**Fase:** núcleo local de enfoque, hábitos y objetivos implementado. El PR #1 pasó Quality (run `42562740331`, commit `e2482ed791203f5f2ab40cb3ef40b54cda82c344`): TypeScript, pruebas de dominio, Expo Doctor, auditoría de dependencias sin hallazgos High/Critical, bundles Android/iOS, migraciones Supabase locales y pgTAP. La auditoría registró dos avisos Moderate transitivos del tooling Expo (glob/minimatch), triados como dependencias de desarrollo/build y no incluidas en el bundle JS de producción según la revisión de Expo; no se aplicaron overrides incompatibles. La prueba SQLite nativa de FK, pruebas funcionales en simuladores y dispositivos físicos siguen pendientes.
 
 Este archivo es la bitácora resumida para retomar el proyecto sin confundir planificación con trabajo implementado. Cada sesión debe actualizar fecha, estado, cambios documentales, decisiones y siguientes pasos.
 
@@ -567,3 +567,59 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Hallazgo pre-beta: SQLite local no usa SQLCipher actualmente. Los títulos de hábitos/objetivos pueden ser datos personales; antes de introducir datos reales se debe decidir cifrado, gestión de clave, restauración/backup y migración de DB existente.
 - Supabase remoto emacfszktufyqtfgzunl sigue sin cambios desde la auditoría read-only. No se aplicaron migraciones remotas ni se desplegaron funciones.
 - GitHub: rulesets no devolvió reglas; branch protection clásico no pudo leerse por 403 de permisos. Secret Scanning, Push Protection, Dependabot y CodeQL siguen sin verificación.
+
+
+### 2026-11-08 — Integridad de migraciones y compatibilidad de esquema SQLite
+
+- Rama de trabajo: `fix/sqlite-migration-safety-20261108`, creada desde `main`; no se modificó `main` directamente.
+- Hallazgo: `withExclusiveTransactionAsync` abre una conexión SQLite separada y no hereda `PRAGMA foreign_keys = ON` de la conexión original. La documentación oficial de Expo SDK 58 confirma además que el pragma no puede activarse dentro de una transacción.
+- Corrección propuesta: migraciones sobre `withTransactionAsync` en la conexión ya configurada. Durante la inicialización, la conexión no se expone hasta completar las migraciones, evitando consultas de repositorios concurrentes.
+- Añadido guard de versión: rechaza versiones futuras y marcadores inválidos de `PRAGMA user_version`, evitando abrir con una app antigua una base creada por una versión más reciente.
+- Añadidas pruebas unitarias de compatibilidad (versión nueva, actual, antigua migrable, futura e inválida).
+- Pendiente: CI del PR, prueba de integración SQLite nativa para FK, pruebas físicas y revisión de SQLCipher/migración de bases plaintext.
+- No se modificó Supabase remoto, no se ejecutaron migraciones remotas y no se tocaron otros repositorios.
+
+Referencia: https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
+
+
+### 2026-11-09 — CI del PR #1 y triage de dependencias transitivas
+
+- PR: [#1](https://github.com/carlo-magno-11/Fixora-Balance/pull/1), borrador abierto; rama `fix/sqlite-migration-safety-20261108`; commit probado `e2482ed791203f5f2ab40cb3ef40b54cda82c344`.
+- GitHub Actions Quality run `42562740331` terminó `success`: los dos jobs (TypeScript/domain tests y Supabase local/pgTAP) finalizaron correctamente. El CI prueba el commit del PR, no una integración en `main`.
+- El job de dependencias detectó dos advisories Moderate en dependencias transitivas del tooling Expo: `glob@13.0.7` (GHSA-3g3m-2fjr-6pw4) y `minimatch@10.2.6` (GHSA-g3hv-75wg-m249), con ruta `expo > @expo/cli > glob > minimatch`. No se encontraron advisories High ni Critical en ese informe.
+- Triage: la discusión oficial de Expo SDK 58 explica que esas dependencias pertenecen al tooling de desarrollo/build y que no se incorporan a la app de producción; el mantenedor indica que los CVE no representan una vulnerabilidad de las apps. Se evita forzar overrides de `glob`/ `minimatch`, ya que pueden romper consumidores que dependen de APIs o rangos anteriores. Se volverá a auditar al actualizar Expo SDK/CLI y antes de cada release.
+- El job Supabase reconstruyó un stack local limpio, aplicó migraciones del repositorio y ejecutó pgTAP (4 pruebas); no se conectó al proyecto Supabase remoto.
+- La corrección de migraciones SQLite sigue necesitando una prueba de integración en SQLite nativo y pruebas de actualización/persistencia en simuladores y dispositivos. El smoke test Python no equivale a ejecutar el módulo Expo SQLite.
+- No se fusionó el PR y no se modificó `main`.
+
+
+### 2026-11-09 — Evidencia iOS Simulator y fail-closed SQLite
+
+- En Native QA run `42564303502`, el job iOS Simulator terminó correctamente: generó el `.app` Release, verificó `com.fixoradynamics.balance`, instaló y lanzó la app, y capturó Inicio.
+- Se descargó el artefacto `fixora-balance-ios-simulator-qa` (ID `13650954561`). SHA-256 local `b6de503f62f4a230bd0ddde7e767a76e144c2f8996ea9d03693ef239d9eb4f1f` coincide con el digest publicado por GitHub. La captura fue revisada visualmente; no se aprueban flujos funcionales a partir de una imagen.
+- Android en el mismo run seguía en `Build release QA APK` en el último chequeo; no se afirma APK disponible, instalación o arranque.
+- Refuerzo SQLite: después de activar `PRAGMA foreign_keys = ON`, el arranque consulta `PRAGMA foreign_keys` y falla cerrado salvo que el resultado sea exactamente `1`. Se añadieron `database-configuration.ts` y pruebas unitarias para valores 1, 0, ausente y fuera de rango; el smoke test Python exige que el guard se conecte al arranque.
+- Se actualizó `docs/PROTOCOLO-PRIMERA-RONDA.md` con evidencia y límites de BLD-01 a BLD-04 y una revisión visual inicial.
+- Los nuevos commits disparan una nueva ejecución de Quality y Native QA. El resultado de esos runs debe consultarse antes de declarar el HEAD validado.
+- No se fusionó el PR, no se modificó `main` y no se tocó Supabase remoto.
+
+
+### 2026-11-09 — Validación del HEAD fc96bf6 y actualización de protocolo
+
+- Se volvió a consultar PR #1: abierto, en borrador, rama `fix/sqlite-migration-safety-20261108`, base `main`, HEAD `fc96bf69b4d7e2ef8fe49392ad629234ec9d051e`. No se fusionó.
+- Quality run `42566420781` terminó correctamente. Pasaron TypeScript, pruebas de dominio, auditoría, Expo Doctor, validación de configuración, smoke test SQLite, bundles JS Android/iOS y Supabase local/pgTAP.
+- Native QA run `42566420774`: Android terminó en fallo al descargar `kotlin-compiler-embeddable:2.2.21` por HTTP 504. El log no señala un fallo de compilación del código de la app; aun así, no se produjo un APK verificable para este HEAD. iOS seguía compilando al último chequeo; no se marca como aprobado.
+- Se actualizó `docs/PROTOCOLO-PRIMERA-RONDA.md` para distinguir evidencia histórica de la validación del HEAD actual, y `docs/PLAN-MAESTRO.md` para reflejar el estado real.
+- Limitación de pruebas reafirmada: el smoke test Python usa SQLite del sistema y verifica el arranque de forma estática; Vitest prueba guards puros. Falta una integración que ejecute Expo SQLite nativo y pruebe una inserción huérfana y rollback en Android/iOS.
+- Próxima puerta: completar Native QA del HEAD estable, después diseñar y ejecutar integración nativa SQLite; luego validar flujos de enfoque, hábitos y objetivos en simuladores y dispositivos.
+- No se modificó Supabase remoto, no se desplegaron funciones ni se tocaron secretos. No se hizo merge.
+
+
+### 2026-11-09 — iOS Simulator aprobado, Android bloqueado por descarga y cache OSS
+
+- En Native QA run [42567673242](https://github.com/carlo-magno-11/Fixora-Balance/actions/runs/42567673242), sobre HEAD `4b0977e85e3d844b8527555bf051477ac576fc17`, iOS Simulator terminó **success**: compilación Release, verificación del bundle ID, instalación, lanzamiento y captura de pantalla.
+- Artefacto iOS `fixora-balance-ios-simulator-qa`, ID `13653116425`, 22.8 MB; contiene la app, `main.jsbundle` y captura `fixora-home-ios.png` (1206×2622). La captura se descargó y revisó. Es evidencia de arranque en simulador, no de flujos completos ni de dispositivo físico.
+- Android terminó **failure** en `assembleRelease` al descargar Kotlin compiler 2.2.21 y 2.2.0, recibiendo HTTP 504 desde el endpoint de GitHub Releases/JetBrains. La generación del proyecto Android sí terminó. No hay APK ni prueba de instalación/arranque; el log apunta a dependencia remota inaccesible, no a un error de compilación de código demostrado.
+- Para reducir descargas repetidas, se añadió al job Android `gradle/actions/setup-gradle` v6.4.1, fijado al commit verificado `8da46b539cd8fe6ab27ca75128919a18d757604c`, con proveedor `basic` MIT. No se añadió un segundo mecanismo de cache Gradle ni se habilitó cache de Gradle en setup-java.
+- Nuevo HEAD: `648a5e3d9181916bd1bf89d68339f9a573b8402d`. Quality run `42570411701` y Native QA run `42570411709` están en curso; no se anticipan resultados.
+- Sigue pendiente la integración que ejecute Expo SQLite nativo (FK, rechazo de huérfanos, rollback, persistencia y migración v1→v3), además de las rondas funcionales y físicas. No se modificó Supabase remoto ni se fusionó el PR.

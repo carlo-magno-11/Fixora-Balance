@@ -1,6 +1,15 @@
 name: Native QA Builds
 
 on:
+  pull_request:
+    paths:
+      - "app/**"
+      - "src/**"
+      - "app.json"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "eas.json"
+      - ".github/workflows/native-builds.yml"
   push:
     branches: [main]
     paths:
@@ -48,6 +57,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+
+      - name: Configure Gradle dependency cache
+        uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c
+        with:
+          cache-provider: basic
 
       - name: Install JavaScript dependencies
         run: pnpm install --frozen-lockfile
