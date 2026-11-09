@@ -3,6 +3,7 @@ import { applyLocalMigration001 } from "./migrations/001_create_focus_sessions";
 import { applyLocalMigration002 } from "./migrations/002_create_habits";
 import { applyLocalMigration003 } from "./migrations/003_create_goals";
 import { assertSupportedLocalDatabaseVersion } from "./database-version";
+import { assertForeignKeyEnforcementEnabled } from "./database-configuration";
 
 const DATABASE_NAME = "fixora-balance.db";
 const LOCAL_DATABASE_VERSION = 3;
@@ -43,6 +44,10 @@ export async function getLocalDatabase(): Promise<SQLiteDatabase> {
     databasePromise = openDatabaseAsync(DATABASE_NAME)
       .then(async (db) => {
         await db.execAsync("PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;");
+        const foreignKeys = await db.getFirstAsync<{ foreign_keys: number }>(
+          "PRAGMA foreign_keys",
+        );
+        assertForeignKeyEnforcementEnabled(foreignKeys?.foreign_keys);
         await migrate(db);
         return db;
       })
