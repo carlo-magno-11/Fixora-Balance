@@ -602,3 +602,14 @@ Referencia: https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
 - Se actualizó `docs/PROTOCOLO-PRIMERA-RONDA.md` con evidencia y límites de BLD-01 a BLD-04 y una revisión visual inicial.
 - Los nuevos commits disparan una nueva ejecución de Quality y Native QA. El resultado de esos runs debe consultarse antes de declarar el HEAD validado.
 - No se fusionó el PR, no se modificó `main` y no se tocó Supabase remoto.
+
+
+### 2026-11-09 — Validación del HEAD fc96bf6 y actualización de protocolo
+
+- Se volvió a consultar PR #1: abierto, en borrador, rama `fix/sqlite-migration-safety-20261108`, base `main`, HEAD `fc96bf69b4d7e2ef8fe49392ad629234ec9d051e`. No se fusionó.
+- Quality run `42566420781` terminó correctamente. Pasaron TypeScript, pruebas de dominio, auditoría, Expo Doctor, validación de configuración, smoke test SQLite, bundles JS Android/iOS y Supabase local/pgTAP.
+- Native QA run `42566420774`: Android terminó en fallo al descargar `kotlin-compiler-embeddable:2.2.21` por HTTP 504. El log no señala un fallo de compilación del código de la app; aun así, no se produjo un APK verificable para este HEAD. iOS seguía compilando al último chequeo; no se marca como aprobado.
+- Se actualizó `docs/PROTOCOLO-PRIMERA-RONDA.md` para distinguir evidencia histórica de la validación del HEAD actual, y `docs/PLAN-MAESTRO.md` para reflejar el estado real.
+- Limitación de pruebas reafirmada: el smoke test Python usa SQLite del sistema y verifica el arranque de forma estática; Vitest prueba guards puros. Falta una integración que ejecute Expo SQLite nativo y pruebe una inserción huérfana y rollback en Android/iOS.
+- Próxima puerta: completar Native QA del HEAD estable, después diseñar y ejecutar integración nativa SQLite; luego validar flujos de enfoque, hábitos y objetivos en simuladores y dispositivos.
+- No se modificó Supabase remoto, no se desplegaron funciones ni se tocaron secretos. No se hizo merge.
