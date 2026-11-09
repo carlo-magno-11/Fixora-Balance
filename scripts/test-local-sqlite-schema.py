@@ -40,6 +40,9 @@ def main() -> None:
     assert "assertSupportedLocalDatabaseVersion" in database_source, (
         "El arranque debe rechazar versiones de esquema incompatibles"
     )
+    assert "PRAGMA foreign_keys" in database_source and "assertForeignKeyEnforcementEnabled" in database_source, (
+        "El arranque debe verificar que SQLite realmente habilitó las claves foráneas"
+    )
 
     connection = sqlite3.connect(":memory:")
     connection.execute("PRAGMA foreign_keys = ON")
