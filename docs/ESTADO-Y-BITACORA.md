@@ -567,3 +567,16 @@ No afirmar que algo está implementado solo porque está descrito. No modificar 
 - Hallazgo pre-beta: SQLite local no usa SQLCipher actualmente. Los títulos de hábitos/objetivos pueden ser datos personales; antes de introducir datos reales se debe decidir cifrado, gestión de clave, restauración/backup y migración de DB existente.
 - Supabase remoto emacfszktufyqtfgzunl sigue sin cambios desde la auditoría read-only. No se aplicaron migraciones remotas ni se desplegaron funciones.
 - GitHub: rulesets no devolvió reglas; branch protection clásico no pudo leerse por 403 de permisos. Secret Scanning, Push Protection, Dependabot y CodeQL siguen sin verificación.
+
+
+### 2026-11-08 — Integridad de migraciones y compatibilidad de esquema SQLite
+
+- Rama de trabajo: `fix/sqlite-migration-safety-20261108`, creada desde `main`; no se modificó `main` directamente.
+- Hallazgo: `withExclusiveTransactionAsync` abre una conexión SQLite separada y no hereda `PRAGMA foreign_keys = ON` de la conexión original. La documentación oficial de Expo SDK 58 confirma además que el pragma no puede activarse dentro de una transacción.
+- Corrección propuesta: migraciones sobre `withTransactionAsync` en la conexión ya configurada. Durante la inicialización, la conexión no se expone hasta completar las migraciones, evitando consultas de repositorios concurrentes.
+- Añadido guard de versión: rechaza versiones futuras y marcadores inválidos de `PRAGMA user_version`, evitando abrir con una app antigua una base creada por una versión más reciente.
+- Añadidas pruebas unitarias de compatibilidad (versión nueva, actual, antigua migrable, futura e inválida).
+- Pendiente: CI del PR, prueba de integración SQLite nativa para FK, pruebas físicas y revisión de SQLCipher/migración de bases plaintext.
+- No se modificó Supabase remoto, no se ejecutaron migraciones remotas y no se tocaron otros repositorios.
+
+Referencia: https://docs.expo.dev/versions/v58.0.0/sdk/sqlite/
